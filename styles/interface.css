@@ -21,26 +21,22 @@
 	left: 0px;
 	border-top-width: 0px;
 	border-left-width: 0px;
-	background-image: url('../images/portraits/knight_male_1.jpg');
 }
 #char2{
 	top: 30%;
 	left: 0px;
 	border-left-width: 0px;
-	background-image: url("../images/portraits/cleric_female_1.jpg");
 }
 #char3{
 	top: 0px;
 	right: 0px;
 	border-top-width: 0px;
 	border-right-width: 0px;
-	background-image: url("../images/portraits/rogue_male_1.jpg");
 }
 #char4 {
 	top: 30%;
 	right: 0px;
 	border-right-width: 0px;
-	background-image: url("../images/portraits/wizard_female_1.jpg");
 }
 
 #selector {

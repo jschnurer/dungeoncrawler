@@ -10,9 +10,6 @@ function navigator() {
 	var map;
 	var partyPosition = {x:0,y:0,facing:'S'};
 	
-	var bumpSound = new Audio("sound/bump.wav");
-	var stepSound = new Audio("sound/step.wav");
-	
 	this.backgrounds = [];
 	this.backgrounds[0] = new Image();
 	this.backgrounds[0].src = 'images/backgrounds/nightsky.png';
@@ -278,7 +275,6 @@ function navigator() {
 		if(!self.hardness[otherTile.tile]) {
 			partyPosition.y += yOffset;
 			partyPosition.x += xOffset;
-			stepSound.play();
 			
 			var evt = self.getEvent('touch', partyPosition.x, partyPosition.y);
 			if(evt != null) {
@@ -289,9 +285,6 @@ function navigator() {
 				partyPosition.y += yOffset;
 				partyPosition.x += xOffset;
 			}
-			
- 		} else {
-			bumpSound.play();
 		}
 		
 		console.log(partyPosition);

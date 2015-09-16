@@ -1,3 +1,10 @@
+"dungeoncrawler" is a first person, party based dungeon crawler that I'm tinkering with.
+
+
+===============
+Attributions
+===============
+
 First person dungeon crawl art pack courtesy of Clint Bellanger (http://clintbellanger.net http://heroinedusk.com)
 
 Hero portraits courtesy of Justin Nichol, Clint Bellanger and the Flare Project (http://flarerpg.org/)
