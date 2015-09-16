@@ -7,6 +7,10 @@ var KEY_TAB = 9;
 var KEY_B = 66;
 var KEY_F = 70;
 var KEY_C = 67;
+var KEY_1 = 49;
+var KEY_2 = 50;
+var KEY_3 = 51;
+var KEY_4 = 52;
 
 var GENDERS_MALE = 1;
 var GENDERS_FEMALE = 2;
@@ -59,6 +63,10 @@ var CLASS_DRUID = 7;
 var STATUS_OK = 1;
 var STATUS_UNCONSCIOUS = 2;
 var STATUS_DEAD = 3;
+var STATUS_PARALYZED = 4;
+var STATUS_ASLEEP = 5;
+
+var BG_NIGHTSKY = 1;
 
 function rand(min, max) {
 	return Math.floor((Math.random() * max) + min);
@@ -70,4 +78,20 @@ function rollStat(statValue) {
 
 function getRandomItem(items) {
 	return items[rand(0, items.length-1)];
+}
+
+function computeDamage(damage, resistance) {
+	var damageMult = 1;
+	var testNum = 1;
+	
+	while(true) {
+		if(rand(0, 100) <= (1.0 - 30.0 / (30.0 + resistance)) * 100) {
+			testNum = testNum / 2.0;
+		}
+		testNum++;
+		if(testNum == 4)
+			break;
+	}
+	
+	return Math.floor(damageMult * damage);
 }

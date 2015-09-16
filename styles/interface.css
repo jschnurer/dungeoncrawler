@@ -44,13 +44,12 @@ html {
 }
 
 #selector {
-	width: calc(100% - 24px);
-	height: calc(100% - 26px - 10%);
-	outline: 12px yellow solid;
+	width: 156px;
+	height: 156px;
+	outline: 12px #E0FFE0 solid;
 	position: absolute;
 	left: 12px;
 	top: 12px;
-	display: none;
 }
 
 .meter {
@@ -144,7 +143,7 @@ canvas {
 	margin: 15px auto;
 	top: 0px;
 	left: 197px;
-	width: 640px;
+	width: 641px;
 	height: 480px;
 	text-align: center;
 }
@@ -236,4 +235,8 @@ canvas {
 	text-align: right;
 	left: 190px;
 	background-image: url(../images/ui/gold.png);
+}
+
+#preload {
+	display: none;
 }

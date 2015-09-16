@@ -36,23 +36,9 @@ function inflictAttackOnMonster(attack, monster) {
 }
 
 function inflictDamageOnMonster(damage, monster) {		
-	var damageMult = 1;
-	var testNum = 1;
-	
-	while(true) {
-		if(rand(0, 100) <= (1.0 - 30.0 / (30.0 + monster.resistances[damage.element])) * 100) {
-			testNum = testNum / 2.0;
-		}
-		
-		testNum++;
-		
-		if(testNum == 4)
-			break;
-	}
-	
-	monster.life -= damageMult * damage.damage;
-	
-	return damageMult * damage.damage;
+	var damageTaken = computeDamage(damage.damage, monster.resistances[damage.type]);
+	monster.life -= damageTaken;
+	return damageTaken;
 }
 
 function getMonsterAttack(monster) {

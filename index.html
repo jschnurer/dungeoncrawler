@@ -55,12 +55,14 @@
 		</div>
 </div>
 <script>
-var nav = new navigator();
+var nav = null;
 
 $(function() {
 	$( document ).tooltip({
 		track: true
 	});
+	
+	nav = new navigator();
 	
 	party = new party([
 		new hero({num:1, name: 'Crag the Hack', gender: GENDERS_MALE, portrait: 'images/portraits/male_1.png'}),
@@ -74,5 +76,18 @@ $(function() {
 });
 
 </script>
+<div id="preload">
+	<img id="IMG_BG_1" src="images/backgrounds/nightsky.png" width="1" height="1" />
+	<img id="IMG_TILE_49" src = "images/tiles/dungeon_wall.png" width="1" height="1" />
+	<img id="IMG_TILE_80" src = "images/tiles/pillar_interior.png" width="1" height="1" />
+	<img id="IMG_TILE_53" src = "images/tiles/tree_evergreen.png" width="1" height="1" />
+	<img id="IMG_TILE_51" src = "images/tiles/dungeon_wall.png" width="1" height="1" />
+	<img id="IMG_TILE_50" src = "images/tiles/dungeon_door.png" width="1" height="1" />
+	<img id="IMG_TILE_52" src = "images/tiles/dungeon_door.png" width="1" height="1" />
+	<img id="IMG_TILE_55" src = "images/tiles/water.png" width="1" height="1" />
+	<img id="IMG_TILE_70" src = "images/tiles/dungeon_floor.png" width="1" height="1" />
+	<img id="IMG_TILE_67" src = "images/tiles/dungeon_ceiling.png" width="1" height="1" />
+	<img id="IMG_TILE_71" src = "images/tiles/grass.png" width="1" height="1" />
+</div>
 </body>
 </html>

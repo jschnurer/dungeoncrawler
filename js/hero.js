@@ -1,6 +1,7 @@
 function hero (values) {
 	var self = this;
 	self.num = values.num;
+	self.status = STATUS_OK;
 	
 	self.portraitBox = $('#char' + values.num);
 	
@@ -100,24 +101,8 @@ function hero (values) {
 		}
 	}
 	
-	this.takeDamage = function (damage) {		
-		var damageMult = 1;
-		var testNum = 1;
-		
-		while(true) {
-			if(rand(0, 100) <= (1.0 - 30.0 / (30.0 + self.resistances[damage.type])) * 100) {
-				damageMult = damageMult / 2.0;
-			} else {
-				break;
-			}
-			
-			testNum++;
-			
-			if(testNum == 4)
-				break;
-		}
-		
-		var damageTaken = Math.floor(damageMult * damage.damage);
+	this.takeDamage = function (damage) {
+		var damageTaken = computeDamage(damage.damage, self.resistances[damage.type]);
 		
 		self.life -= damageTaken;
 		updateBars();
@@ -130,7 +115,7 @@ function hero (values) {
 			self.setStatus(STATUS_DEAD);
 		}
 		
-		return damageMult * damage.damage;
+		return damageTaken;
 	}
 	
 	this.takeEffect = function (effect) {
@@ -168,17 +153,21 @@ function hero (values) {
 	this.setStatus = function (status) {
 		if(status == STATUS_DEAD) {
 			self.portraitBox.css("background-image", "url('images/portraits/dead.png'), url('" + self.portrait + "')");
-			self.portraitBox.css("background-position", "top center, center top");
 			
 			log(self.name + ' is killed!');
 		} else if(status == STATUS_UNCONSCIOUS) {
-			self.portraitBox.css("background-image", "url('images/portraits/asleep.png'), url('" + self.portrait + "')");
-			self.portraitBox.css("background-position", "top center, center top");
+			self.portraitBox.css("background-image", "url('images/portraits/unconscious.png'), url('" + self.portrait + "')");
 			
 			log(self.name + ' is knocked unconscious.');
 		} else {
 			self.portraitBox.css("background-image", "url('" + self.portrait + "')");
-			self.portraitBox.css("background-position", "center top");
 		}
+	}
+	
+	this.canAct = function () {
+		return !(self.status == STATUS_UNCONSCIOUS
+			|| self.status == STATUS_DEAD
+			|| self.status == STATUS_PARALYZED
+			|| self.status == STATUS_ASLEEP);
 	}
 }

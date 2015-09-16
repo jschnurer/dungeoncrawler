@@ -11,27 +11,20 @@ function navigator() {
 	var partyPosition = {x:0,y:0,facing:'S'};
 	
 	this.backgrounds = [];
-	this.backgrounds[0] = new Image();
-	this.backgrounds[0].src = 'images/backgrounds/nightsky.png';
+	this.backgrounds[0] = $('#IMG_BG_' + BG_NIGHTSKY)[0];
 		
 	this.tileSets = [];
-	this.tileSets[TILE_WALL] = 'dungeon_wall.png';
-	this.tileSets[TILE_PILLAR] = 'pillar_interior.png';
-	this.tileSets[TILE_FOREST] = 'tree_evergreen.png';
-	this.tileSets[TILE_FAKE_WALL] = 'dungeon_wall.png';
-	this.tileSets[TILE_DOOR] = 'dungeon_door.png';
-	this.tileSets[TILE_EVENT_DOOR] = 'dungeon_door.png';
-	this.tileSets[TILE_DOOR] = 'dungeon_door.png';
-	this.tileSets[TILE_WATER] = 'water.png';
-	this.tileSets[TILE_FLOOR] = 'dungeon_floor.png';
-	this.tileSets[TILE_CEILING] = 'dungeon_ceiling.png';
-	this.tileSets[TILE_GRASS] = 'grass.png';
-	
-	for(var key in this.tileSets) {
-		var img = new Image();
-		img.src = 'images/tiles/' + this.tileSets[key];
-		this.tileSets[key] = img;
-	}
+	this.tileSets[TILE_WALL] = $('#IMG_TILE_' + TILE_WALL)[0];
+	this.tileSets[TILE_PILLAR] = $('#IMG_TILE_' + TILE_PILLAR)[0];
+	this.tileSets[TILE_FOREST] = $('#IMG_TILE_' + TILE_FOREST)[0];
+	this.tileSets[TILE_FAKE_WALL] = $('#IMG_TILE_' + TILE_FAKE_WALL)[0];
+	this.tileSets[TILE_DOOR] = $('#IMG_TILE_' + TILE_DOOR)[0];
+	this.tileSets[TILE_EVENT_DOOR] = $('#IMG_TILE_' + TILE_EVENT_DOOR)[0];
+	this.tileSets[TILE_DOOR] = $('#IMG_TILE_' + TILE_DOOR)[0];
+	this.tileSets[TILE_WATER] = $('#IMG_TILE_' + TILE_WATER)[0];
+	this.tileSets[TILE_FLOOR] = $('#IMG_TILE_' + TILE_FLOOR)[0];
+	this.tileSets[TILE_CEILING] = $('#IMG_TILE_' + TILE_CEILING)[0];
+	this.tileSets[TILE_GRASS] = $('#IMG_TILE_' + TILE_GRASS)[0];
 	
 	var tileDestWidth = 80 * SCALE;
 	var tileDestHeight = 120 * SCALE;

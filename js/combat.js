@@ -61,6 +61,7 @@ function endCombat() {
 	showText('The party is victorious in glorious combat!');
 	log('The party is victorious in glorious combat!');
 	GAME_MODE = MODE_NAV;
+	selectHero(party.getFirstActingHero().num);
 }
 
 function takeTurn() {
@@ -71,12 +72,23 @@ function takeTurn() {
 	if(currCombatant.isHero) {
 		takeHeroTurn();
 	} else {
+		hideSelector();
 		takeMonsterTurn();
 	}
 }
 
 function takeHeroTurn() {
 	var currCombatant = combatants[currCombatantIx].combatant;
+	
+	if(!currCombatant.canAct()) {
+		combatAwaitingInput = false;
+		currCombatantIx++;
+		combatTimer = window.setTimeout(function () { takeTurn(); }, 500);
+		return;
+	}
+	
+	selectHero(currCombatant.num);
+	
 	heroBlockStatuses[currCombatant.num] = false;
 	
 	currKeyboardInputOptions.length = 0;
