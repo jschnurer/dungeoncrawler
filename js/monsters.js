@@ -23,8 +23,8 @@ function cloneMonster(monster) {
 	return newMonster;
 }
 
-function inflictAttackOnMonster(attack, monster) {
-	if(attack.dodgeable && attack.accuracy > rollStat(monster.dodge)) {
+function inflictAttackOnMonster(attack, monster) {	
+	if(attack.dodgeable && rollStat(monster.dodge) > attack.accuracy) {
 		return { dodged: true };
 	} else {
 		var totalDamageDealt = 0;

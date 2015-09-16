@@ -1,7 +1,7 @@
 function navigator() {
 	var self = this;
 	var canvas = document.getElementById('view');
-	var SCALE = 5;
+	var SCALE = 4;
 	
 	canvas.width = 160 * SCALE;
 	canvas.height = 120 * SCALE;

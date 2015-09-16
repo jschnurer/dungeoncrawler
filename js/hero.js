@@ -65,13 +65,13 @@ function hero (values) {
 			return {
 				dodgeable: true,
 				accuracy: acc,
-				damages: [{damage: 1, type: ELEM_PHYS}] + rollStat(might)
+				damages: [{damage: 1, type: ELEM_PHYS}] + Math.floor(rand(self.might*.15, self.might*.4))
 			};
 		} else {
 			return {
 				dodgeable: true,
 				accuracy: acc,
-				damages: [{damage: rand(self.meleeWeapon.minDamage, self.meleeWeapon.maxDamage), type: self.meleeWeapon.damageType}]
+				damages: [{damage: rand(self.meleeWeapon.minDamage, self.meleeWeapon.maxDamage) + Math.floor(rand(self.might*.15, self.might*.4)), type: self.meleeWeapon.damageType}]
 			};
 		}
 	}
@@ -105,8 +105,10 @@ function hero (values) {
 		var testNum = 1;
 		
 		while(true) {
-			if(rand(0, 100) <= (1.0 - 30.0 / (30.0 + self.resistances[damage.element])) * 100) {
-				testNum = testNum / 2.0;
+			if(rand(0, 100) <= (1.0 - 30.0 / (30.0 + self.resistances[damage.type])) * 100) {
+				damageMult = damageMult / 2.0;
+			} else {
+				break;
 			}
 			
 			testNum++;
@@ -115,10 +117,12 @@ function hero (values) {
 				break;
 		}
 		
-		self.life -= damageMult * damage.damage;
+		var damageTaken = Math.floor(damageMult * damage.damage);
+		
+		self.life -= damageTaken;
 		updateBars();
 		
-		log(self.name + ' suffers ' + (damageMult * damage.damage) + ' ' + ELEM_NAMES[damage.type] + ' damage.');
+		log(self.name + ' suffers ' + damageTaken + ' ' + ELEM_NAMES[damage.type] + ' damage.');
 		
 		if(self.life <= 0 && self.life > -(self.maxLife * .2)) {
 			self.setStatus(STATUS_UNCONSCIOUS);
@@ -164,17 +168,17 @@ function hero (values) {
 	this.setStatus = function (status) {
 		if(status == STATUS_DEAD) {
 			self.portraitBox.css("background-image", "url('images/portraits/dead.png'), url('" + self.portrait + "')");
-			self.portraitBox.css("background-position", "top center, center 65%");
+			self.portraitBox.css("background-position", "top center, center top");
 			
 			log(self.name + ' is killed!');
 		} else if(status == STATUS_UNCONSCIOUS) {
 			self.portraitBox.css("background-image", "url('images/portraits/asleep.png'), url('" + self.portrait + "')");
-			self.portraitBox.css("background-position", "top center, center 65%");
+			self.portraitBox.css("background-position", "top center, center top");
 			
 			log(self.name + ' is knocked unconscious.');
 		} else {
 			self.portraitBox.css("background-image", "url('" + self.portrait + "')");
-			self.portraitBox.css("background-position", "center 65%");
+			self.portraitBox.css("background-position", "center top");
 		}
 	}
 }

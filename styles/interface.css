@@ -1,15 +1,19 @@
+html {
+	background: #111;
+}
+
 .interface {
 	position: relative;
-	width: 1200px;
-	height: 900px;
+	width: 1035px;
 	border: 2px black solid;
 	background: #222;
+	margin: auto;
 }
 
 .charPanel {
 	position: absolute;
-	height: 30%;
-	width: 15%;
+	height: 210px;
+	width: 180px;
 	border: 2px black solid;
 	background-color: #222;
 	background-size: contain;
@@ -23,7 +27,7 @@
 	border-left-width: 0px;
 }
 #char2{
-	top: 30%;
+	top: 210px;
 	left: 0px;
 	border-left-width: 0px;
 }
@@ -34,7 +38,7 @@
 	border-right-width: 0px;
 }
 #char4 {
-	top: 30%;
+	top: 210px;
 	right: 0px;
 	border-right-width: 0px;
 }
@@ -52,7 +56,7 @@
 .meter {
 	width: calc(100% - 2px);
 	border: 1px #555 solid;
-	height: 5%;
+	height: 14px;
 	position: absolute;
 	background-color: #222;
 	font-size: .8em;
@@ -63,7 +67,7 @@
 }
 
 .life {
-	bottom: 5%;
+	bottom: 14px;
 	background-image: url('../images/green.png');
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
@@ -76,29 +80,28 @@
 
 #commandPanel {
 	position: absolute;
-	bottom: 0px;
+	top: 509px;
 	left: 0px;
 	right: 0px;
 	border-top: 2px black solid;
-	height: 30%;
-	background: #A9A8A6;
+	height: 200px;
+	background: #777;
 }
 
 #commandPanel a {
 	text-decoration: none;
+	color: black;
+	font-weight: bold;
 }
 
-#commandPanel > div {
-	position: absolute;
-	top: 10px;
-	left: 10px;
-	right: 250px;
-	bottom: 10px;
-	font-size: 1.33em;
+#commandPanel a:hover {
+	background-color: #666;
+	color: #111;
 }
 
 #commandPanel > #log {
-	left: calc(100% - 240px);
+	position: absolute;
+	width: 400px;
 	top: 0px;
 	right: 0px;
 	bottom: 0px;
@@ -112,11 +115,11 @@
 }
 
 .systemPanel {
-	height: calc(10% - 4px);
+	height: 85px;
 	position: absolute;
-	background: gray;
-	top: calc(60% + 4px);
-	width: 15%;
+	background: #444;
+	top: 424px;
+	width: 180px;
 }
 
 #sys1 {
@@ -138,10 +141,11 @@ canvas {
 	background: black;
 	display: none;
 	position: absolute;
-	top: 10px;
-	left: calc(15% + 10px);
-	right: calc(15% + 10px);
-	height: 610px;
+	margin: 15px auto;
+	top: 0px;
+	left: 197px;
+	width: 640px;
+	height: 480px;
 	text-align: center;
 }
 
@@ -204,12 +208,10 @@ canvas {
 	margin-left: 20px;
 }
 
-#essencePanel {
+.floatPanel {
 	display: block;
 	background-color: black;
-	background-image: url(../images/ui/essence.png);
 	background-repeat: no-repeat;
-	background-position: center left;
 	border: 2px #A9A8A6 solid;
 	color: #A9A8A6;
 	padding: 5px;
@@ -217,29 +219,21 @@ canvas {
 	height: 22px;
 	font-family: Georgia, serif;
 	font-size: 1.25em;
-	text-align: right;
 	position: absolute;
-	right: calc(15% + 10px);
-	top: 585px;
+	top: 470px;
 	z-index: 10;
 }
 
+#essencePanel {
+	background-position: center right;
+	text-align: left;
+	right: 190px;
+	background-image: url(../images/ui/essence.png);
+}
+
 #goldPanel {
-	display: block;
-	background-color: black;
-	background-image: url(../images/ui/gold.png);
-	background-repeat: no-repeat;
 	background-position: center left;
-	border: 2px #A9A8A6 solid;
-	color: #A9A8A6;
-	padding: 5px;
-	width: 115px;
-	height: 22px;
-	font-family: Georgia, serif;
-	font-size: 1.25em;
 	text-align: right;
-	position: absolute;
-	left: calc(15% + 10px);
-	top: 585px;
-	z-index: 10;
+	left: 190px;
+	background-image: url(../images/ui/gold.png);
 }
