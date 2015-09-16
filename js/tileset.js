@@ -1,0 +1,2 @@
+var tileset = {};
+tileset.tiles = [];

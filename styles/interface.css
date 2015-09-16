@@ -1,0 +1,249 @@
+.interface {
+	position: relative;
+	width: 1200px;
+	height: 900px;
+	border: 2px black solid;
+	background: #222;
+}
+
+.charPanel {
+	position: absolute;
+	height: 30%;
+	width: 15%;
+	border: 2px black solid;
+	background-color: silver;
+	background-size: cover;
+}
+
+#char1 {
+	top: 0px;
+	left: 0px;
+	border-top-width: 0px;
+	border-left-width: 0px;
+	background-image: url('../images/portraits/knight_male_1.jpg');
+	background-position: top left;
+}
+#char2{
+	top: 30%;
+	left: 0px;
+	border-left-width: 0px;
+	background-image: url("../images/portraits/cleric_female_1.jpg");
+}
+#char3{
+	top: 0px;
+	right: 0px;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	background-image: url("../images/portraits/rogue_male_1.jpg");
+}
+#char4 {
+	top: 30%;
+	right: 0px;
+	border-right-width: 0px;
+	background-image: url("../images/portraits/wizard_female_1.jpg");
+}
+
+#selector {
+	width: calc(100% - 24px);
+	height: calc(100% - 26px - 10%);
+	outline: 12px yellow solid;
+	position: absolute;
+	left: 12px;
+	top: 12px;
+	display: none;
+}
+
+.meter {
+	width: calc(100% - 2px);
+	border: 1px #555 solid;
+	height: 5%;
+	position: absolute;
+	background-color: #222;
+	font-size: .8em;
+	text-align: center;
+	line-height: calc(height);
+	color: white;
+	text-shadow:  1px 1px black, -1px -1px black, 1px -1px black, -1px 1px black;
+}
+
+.life {
+	bottom: 5%;
+	background-image: url('../images/green.png');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+.mana {
+	bottom: 0px;
+	background-image: url('../images/blue.png');
+}
+
+#commandPanel {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	border-top: 2px black solid;
+	height: 30%;
+	background: #A9A8A6;
+}
+
+#commandPanel a {
+	text-decoration: none;
+}
+
+#commandPanel > div {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	right: 250px;
+	bottom: 10px;
+	font-size: 1.33em;
+}
+
+#commandPanel > #log {
+	left: calc(100% - 240px);
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	border-left: 2px #91908F solid;
+	font-size: 1em;
+	overflow-y: scroll;
+}
+
+#log p {
+	margin: 10px 3px 10px 3px;
+}
+
+.systemPanel {
+	height: calc(10% - 4px);
+	position: absolute;
+	background: gray;
+	top: calc(60% + 4px);
+	width: 15%;
+}
+
+#sys1 {
+	left: 0px;
+	border-right: 2px black solid;
+}
+
+#sys2 {
+	right: 0px;
+	border-left: 2px black solid;
+}
+
+canvas {
+	display: block;
+	margin: 15px auto;
+}
+
+#combatView {
+	background: black;
+	display: none;
+	position: absolute;
+	top: 10px;
+	left: calc(15% + 10px);
+	right: calc(15% + 10px);
+	height: 610px;
+	text-align: center;
+}
+
+#combatView .monster {
+	margin: 15px;
+	float: left;
+	border: 1px white solid;
+	padding: 10px;
+	cursor: pointer;
+}
+
+#combatView .monster > span{
+	color: white;
+	display: block;
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+#monsterList {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	display: inline-block;
+}
+
+.systemPanel .uiButton {
+	width: 75px;
+	height: 75px;
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	display: inline-block;
+}
+
+.systemPanel .uiButton:hover {
+	background-position: -75px 0px;
+	cursor: pointer;
+}
+
+.systemPanel #inventory {
+	background-image: url('../images/ui/backpack.png');
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
+.systemPanel #spellbook {
+	background-image: url('../images/ui/spellbook.png');
+	margin-top: 5px;
+	margin-left: 20px;
+}
+
+.systemPanel #map {
+	background-image: url('../images/ui/map.png');
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
+.systemPanel #config {
+	background-image: url('../images/ui/config.png');
+	margin-top: 5px;
+	margin-left: 20px;
+}
+
+#essencePanel {
+	display: block;
+	background-color: black;
+	background-image: url(../images/ui/essence.png);
+	background-repeat: no-repeat;
+	background-position: center left;
+	border: 2px #A9A8A6 solid;
+	color: #A9A8A6;
+	padding: 5px;
+	width: 115px;
+	height: 22px;
+	font-family: Georgia, serif;
+	font-size: 1.25em;
+	text-align: right;
+	position: absolute;
+	right: calc(15% + 10px);
+	top: 585px;
+	z-index: 10;
+}
+
+#goldPanel {
+	display: block;
+	background-color: black;
+	background-image: url(../images/ui/gold.png);
+	background-repeat: no-repeat;
+	background-position: center left;
+	border: 2px #A9A8A6 solid;
+	color: #A9A8A6;
+	padding: 5px;
+	width: 115px;
+	height: 22px;
+	font-family: Georgia, serif;
+	font-size: 1.25em;
+	text-align: right;
+	position: absolute;
+	left: calc(15% + 10px);
+	top: 585px;
+	z-index: 10;
+}

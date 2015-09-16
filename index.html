@@ -1,0 +1,78 @@
+<html>
+<head>
+<link href="styles/interface.css" rel="stylesheet" type="text/css" />
+<link href="styles/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+<script src="js/const.js" language="javascript" type="text/javascript"></script>
+<script src="js/monsters.js" language="javascript" type="text/javascript"></script>
+<script src="js/items.js" language="javascript" type="text/javascript"></script>
+<script src="js/jquery-2.1.4.min.js" language="javascript" type="text/javascript"></script>
+<script src="js/jquery-ui.min.js" language="javascript" type="text/javascript"></script>
+<script src="js/hero.js" language="javascript" type="text/javascript"></script>
+<script src="js/atlas.js" language="javascript" type="text/javascript"></script>
+<script src="js/navigator.js" language="javascript" type="text/javascript"></script>
+<script src="js/input.js" language="javascript" type="text/javascript"></script>
+<script src="js/console.js" language="javascript" type="text/javascript"></script>
+<script src="js/combat.js" language="javascript" type="text/javascript"></script>
+<script src="js/party.js" language="javascript" type="text/javascript"></script>
+</head>
+<body>
+<div class="interface">
+	<div id="goldPanel" title="Gold">0</div>
+	<div id="essencePanel" title="Essence">0</div>
+	<canvas id="view"></canvas>
+	<div id="combatView">
+		<div id="monsterList"></div>
+	</div>
+
+	<div id="char1" class="charPanel">
+		<div id="selector"></div>
+		<div class="life meter" id="life1">20/20</div>
+		<div class="mana meter" id="mana1"></div>
+	</div>
+	<div id="char2" class="charPanel">
+		<div class="life meter" id="life2"></div>
+		<div class="mana meter" id="mana2"></div>
+	</div>
+	<div id="char3" class="charPanel">
+		<div class="life meter" id="life3"></div>
+		<div class="mana meter" id="mana3"></div>
+	</div>
+	<div id="char4" class="charPanel">
+		<div class="life meter" id="life4"></div>
+		<div class="mana meter" id="mana4"></div>
+	</div>
+	<div id="sys1" class="systemPanel">
+		<div class="uibutton" id="inventory" title="Inventory"></div>
+		<div class="uibutton" id="spellbook" title="Cast Spell"></div>
+	</div>
+	<div id="sys2" class="systemPanel">
+		<div class="uibutton" id="map" title="Map"></div>
+		<div class="uibutton" id="config" title="Options"></div>
+		</div>
+	<div id="commandPanel">
+		<div></div>
+		<div id="log"></div>
+		</div>
+</div>
+<script>
+var nav = new navigator();
+
+$(function() {
+	$( document ).tooltip({
+		track: true
+	});
+	
+	party = new party([
+		new hero({num:1, name: 'Crag the Hack', gender: GENDERS_MALE, portrait: 'images/portraits/knight_male_1.jpg'}),
+		new hero({num:2, name: 'Serena', gender: GENDERS_FEMALE, portrait: 'images/portraits/cleric_female_1.jpg'}),
+		new hero({num:3, name: 'Swifty Sarg', gender: GENDERS_MALE, portrait: 'images/portraits/rogue_male_1.jpg'}),
+		new hero({num:4, name: 'Wizz Bane', gender: GENDERS_FEMALE, portrait: 'images/portraits/wizard_female_1.jpg'})
+	]);
+
+	nav.setMap(atlas.maps[3]);
+	nav.teleportParty(1, 1, 'E');
+});
+
+</script>
+</body>
+</html>
