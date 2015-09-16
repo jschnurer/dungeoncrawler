@@ -11,8 +11,9 @@
 	height: 30%;
 	width: 15%;
 	border: 2px black solid;
-	background-color: silver;
-	background-size: cover;
+	background-color: #222;
+	background-size: contain;
+	background-repeat: no-repeat;
 }
 
 #char1 {
@@ -21,7 +22,6 @@
 	border-top-width: 0px;
 	border-left-width: 0px;
 	background-image: url('../images/portraits/knight_male_1.jpg');
-	background-position: top left;
 }
 #char2{
 	top: 30%;

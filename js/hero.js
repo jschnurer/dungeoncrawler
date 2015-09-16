@@ -164,17 +164,17 @@ function hero (values) {
 	this.setStatus = function (status) {
 		if(status == STATUS_DEAD) {
 			self.portraitBox.css("background-image", "url('images/portraits/dead.png'), url('" + self.portrait + "')");
-			self.portraitBox.css("background-position", "top center, top left");
+			self.portraitBox.css("background-position", "top center, center 65%");
 			
 			log(self.name + ' is killed!');
 		} else if(status == STATUS_UNCONSCIOUS) {
 			self.portraitBox.css("background-image", "url('images/portraits/asleep.png'), url('" + self.portrait + "')");
-			self.portraitBox.css("background-position", "top center, top left");
+			self.portraitBox.css("background-position", "top center, center 65%");
 			
 			log(self.name + ' is knocked unconscious.');
 		} else {
 			self.portraitBox.css("background-image", "url('" + self.portrait + "')");
-			self.portraitBox.css("background-position", "top left");
+			self.portraitBox.css("background-position", "center 65%");
 		}
 	}
 }

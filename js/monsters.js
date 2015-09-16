@@ -75,14 +75,14 @@ function getXMonsters(monster, count) {
 }
 
 MONSTERS[0] = {
-	name: 'Flesh Eater',
+	name: 'Skeleton',
 	accuracy: 3,
 	damage: {min: 1, max: 4, type: ELEM_PHYS},
 	attackIsDodgeable: true,
 	life: 5,
 	maxLife: 5,
 	randomLife: 8,
-	image: 'flesh_eater.png',
+	image: 'skeleton.png',
 	resistances: [0, 0, 0, 0, 0, 0, 0],
 	experience: 50,
 	dodge: 5,
