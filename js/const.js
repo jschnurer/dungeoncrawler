@@ -11,6 +11,10 @@ var KEY_1 = 49;
 var KEY_2 = 50;
 var KEY_3 = 51;
 var KEY_4 = 52;
+var KEY_UP_ARROW = 38;
+var KEY_DOWN_ARROW = 40
+var KEY_LEFT_ARROW = 37;
+var KEY_RIGHT_ARROW = 39;
 
 var GENDERS_MALE = 1;
 var GENDERS_FEMALE = 2;

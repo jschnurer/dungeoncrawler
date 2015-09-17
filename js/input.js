@@ -11,6 +11,17 @@ $(function() {
 $(document).keydown(function(e) {
 	console.log(e.which);
 	
+	if(GAME_MODE == MODE_CHOICE) {
+		if(e.which == KEY_1) {
+			// TODO: pick choice 1
+		} else if(e.which == KEY_2) {
+			// TODO: pick choice 2
+		}
+		
+		e.preventDefault();
+		return;
+	}
+	
 	if(GAME_MODE != MODE_COMBAT && e.which == KEY_TAB) {
 		SELECTED_HERO++;
 		if(SELECTED_HERO > 4) SELECTED_HERO = 1;

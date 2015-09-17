@@ -36,58 +36,8 @@ function navigator() {
 	this.hardness[TILE_FOREST] = true;
 	this.hardness[TILE_WATER] = true;
 	
-	this.events = [];
-	
 	this.setMap = function(map) {
 		this.map = map;
-		this.events.length = 0;
-		
-		if(map.events != undefined && map.events != null) {
-			var splitUpEvents = map.events.split('\n');
-			for(var i = 0; i < splitUpEvents.length; i++) {
-				var eventData = splitUpEvents[i].split(':');
-				var eventCoords = this.getCoordinatesByCode(eventData[0]);
-				if (eventCoords != null) {
-					this.parseAndSaveEvent(eventData[1], eventData[2], eventCoords);
-				}
-			}
-		}
-	}
-	
-	this.parseAndSaveEvent = function (trigger, data, coords) {
-		if(data.indexOf('teleport') == 0) {
-			var teleportData = data.split('|')[1].split(',');
-			var event = {
-				x: coords.x,
-				y: coords.y,
-				trigger: trigger,
-				method: function () {
-					self.teleportParty(parseInt(teleportData[0]),
-						parseInt(teleportData[1]),
-						teleportData[2]);
-				}
-			};
-			this.events.push(event);
-		}
-	}
-	
-	this.getEvent = function (trigger, x, y) {
-		for(var i = 0; i < this.events.length; i++) {
-			if (this.events[i].x == x && this.events[i].y == y && this.events[i].trigger == this.events[i].trigger) {
-				return this.events[i];
-			}
-		}
-	}
-	
-	this.getCoordinatesByCode = function (code) {
-		for(var y = 0; y < this.map.tiles.length; y++) {
-			for(var x = 0; x < this.map.tiles[y].length; x++) {
-				if(this.map.tiles[y][x].code == code)
-					return { x: x, y: y };
-			}
-		}
-		
-		return null;
 	}
 	
 	this.teleportParty = function (x, y, facing) {
@@ -96,6 +46,11 @@ function navigator() {
 		if(facing)
 			partyPosition.facing = facing;
 		this.draw();
+	}
+	
+	this.teleportToMap = function(mapId, x, y, facing) {
+		self.setMap(atlas[mapId]);
+		self.teleportParty(x, y, facing);
 	}
 	
 	this.faceParty = function (dir) {
@@ -223,16 +178,16 @@ function navigator() {
 	}
 	
 	this.handleInput = function (key) {
-		if (key == KEY_W) {
+	if (key == KEY_W || key == KEY_UP_ARROW) {
 			clearText();
 			move('F');
-		} else if (key == KEY_S) {
+		} else if (key == KEY_S || key == KEY_DOWN_ARROW) {
 			clearText();
 			move('B');
-		} else if (key == KEY_A) {
+		} else if (key == KEY_A || key == KEY_LEFT_ARROW) {
 			clearText();
 			turn('L');
-		} else if (key == KEY_D) {
+		} else if (key == KEY_D || key == KEY_RIGHT_ARROW) {
 			clearText();
 			turn('R');
 		}
@@ -269,9 +224,8 @@ function navigator() {
 			partyPosition.y += yOffset;
 			partyPosition.x += xOffset;
 			
-			var evt = self.getEvent('touch', partyPosition.x, partyPosition.y);
-			if(evt != null) {
-				evt.method();
+			if(otherTile.event != null && otherTile != undefined && otherTile.event.trigger == 'touch') {
+				eval(otherTile.event.script.replace(/\n/g, ''));
 			} else if(otherTile.tile == TILE_DOOR) {
 				// if the tile we just stepped onto is a normal door, move the party 1 more block in the direction they moved
 				// so that they move through the door
