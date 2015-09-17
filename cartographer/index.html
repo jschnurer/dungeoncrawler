@@ -4,7 +4,7 @@
 <script src="../js/jquery-2.1.4.min.js"></script>
 <style>
 #map { border-collapse: separate; border-spacing: 1px;}
-#map td { width: 25px; height: 25px; background-color:#EEE; text-align: center; background-position:center center; background-repeat: no-repeat; }
+#map td { width: 25px; height: 25px; background-color:#EEE; text-align: center; background-position:center center; background-repeat: no-repeat; color: red; font-size: 1.25em; font-weight: bolder; -webkit-text-fill-color: red; -webkit-text-stroke-width: 2px; -webkit-text-stroke-color: #A00;}
 .tile { display: inline-block; width: 25px; height: 25px; background-color:#EEE; text-align: center; background-position:center center; background-repeat: no-repeat; }
 .wall { background-image: url(wall.png); }
 .fake { background-image: url(fake.png); }
@@ -22,7 +22,7 @@
 
 .selectedCell { background-color: yellow !important; }
 
-#eventPopup { display: none; position: absolute; width: 550px; height: 280px; top: calc(50% - 140px); left: calc(50% - 160px); background: white; border: 1px black solid; padding: 0px 10px;}
+#eventPopup { display: none; position: absolute; width: 650px; top: 100px; left: 100px; background: white; border: 1px black solid; padding: 0px 10px;}
 </style>
 </head>
 <body>
@@ -84,7 +84,8 @@ $(function () {
 	$('#save').click(save);
 	$('#load').click(load);
 	$('#saveEvent').click(saveEvent);
-	$('#deleteEvent').click(deleteCancelEvent);
+	$('#deleteEvent').click(deleteEvent);
+	$('#cancelEvent').click(cancelEvent);
 	
 	// build a 32 x 32 grid
 	var tbl = $('#map');
@@ -206,7 +207,16 @@ function save() {
 	var map = {};
 	map.name = $('#name').val();
 	map.tiles = tiles;
-	map.notes = $('#notes').val();
+	
+	var encounterGroups = [];
+	var ec = $('#encounterGroups').val().split('\n');
+	for(var i = 0; i < ec.length; i++) {
+		var g = ec[i].replace(/\s+/g, '');
+		if(g != '') {
+			encounterGroups.push(g.split(','));
+		}
+	}
+	map.encounterGroups = encounterGroups;
 	
 	$('#saveTo').val(JSON.stringify(map));
 }
@@ -218,7 +228,6 @@ function load() {
 function loadMap(json) {
 	var map = JSON.parse(json);
 	$('#name').val(map.name);
-	$('#notes').val(map.notes);
 	
 	$('td').removeClass();
 	
@@ -246,6 +255,24 @@ function loadMap(json) {
 		}
 	}
 	
+	$('#encounterGroups').val('');
+	
+	if(map.encounterGroups != undefined && map.encounterGroups != null) {
+		for(var i = 0; i < map.encounterGroups.length; i++) {
+			var groupString = '';
+			for(var m = 0; m < map.encounterGroups[i].length; m++) {
+				groupString += ',' + map.encounterGroups[i][m];
+			}
+			if(groupString != '') {
+				if($('#encounterGroups').val() != '') {
+					$('#encounterGroups').val($('#encounterGroups').val() + '\n' + groupString.substr(1));
+				} else {
+					$('#encounterGroups').val(groupString.substr(1));
+				}
+			}
+		}
+	}
+	
 	currentCell.x = 0;
 	currentCell.y = 0;
 	moveCursor(0, 0);
@@ -259,6 +286,7 @@ function handleEventPopup() {
 	eventPopupOpen = true;
 	
 	$('#eventTrigger').val('touch');
+	$('#eventFacing').val('*');
 	$('#eventScript').val('');
 	
 	var cell = getCurrentCell()[0];
@@ -267,6 +295,7 @@ function handleEventPopup() {
 	
 	if(existingEvent != undefined && existingEvent != null) {
 		$('#eventTrigger').val(existingEvent.trigger);
+		$('#eventFacing').val(existingEvent.facing);
 		$('#eventScript').val(existingEvent.script);
 	}
 	
@@ -285,6 +314,7 @@ function saveEvent() {
 	existingEvent.x = currentEventX;
 	existingEvent.y = currentEventY;
 	existingEvent.trigger = $('#eventTrigger').val();
+	existingEvent.facing = $('#eventFacing').val();
 	existingEvent.script = $('#eventScript').val();
 	
 	jQuery.data(cell, 'event', existingEvent);
@@ -292,7 +322,11 @@ function saveEvent() {
 	$('#eventPopup').hide();
 }
 
-function deleteCancelEvent() {
+function cancelEvent() {
+	$('#eventPopup').hide();
+}
+
+function deleteEvent() {
 	var cell = $('#map tr:nth-child(' + (currentEventY + 1) + ') td:nth-child(' + (currentEventX + 1) + ')')[0];
 	jQuery.removeData(cell, 'event');
 	$('#eventPopup').hide();
@@ -303,43 +337,50 @@ function deleteCancelEvent() {
 		<tr>
 			<td>
 				<ul>
-					<li>ARROWS - Move cursor
-					<li>1 - <span class="tile wall"></span>
-					<li>2 - <span class="tile door"></span>
-					<li>3 - <span class="tile fake"></span>
-					<li>4 - <span class="tile house"></span>
-					<li>5 - <span class="tile forest"></span>
-					<li>6 - <span class="tile mountain"></span>
-					<li>7 - <span class="tile water"></span>
+					<li>1 - <span class="tile wall"></span> (wall)</li>
+					<li>2 - <span class="tile door"></span> (door)</li>
+					<li>3 - <span class="tile fake"></span> (fake wall)</li>
+					<li>4 - <span class="tile house"></span> (event door)</li>
+					<li>5 - <span class="tile forest"></span> (forest)</li>
+					<li>6 - <span class="tile mountain"></span> (mountain)</li>
+					<li>7 - <span class="tile water"></span> (water)</li>
 				</ul>
 			</td>
 			<td>
 				<ul>
-					<li>P - <span class="tile pillar"></span>
-					<li>F - <span class="tile floor"></span>
-					<li>C - <span class="tile ceiling"></span>
-					<li>B - <span class="tile floor_ceiling"></span>
-					<li>G - <span class="tile grass"></span>
+					<li>P - <span class="tile pillar"></span> (pillar)</li>
+					<li>F - <span class="tile floor"></span> (floor)</li>
+					<li>C - <span class="tile ceiling"></span> (ceiling)</li>
+					<li>B - <span class="tile floor_ceiling"></span> (floor+ceiling)</li>
+					<li>G - <span class="tile grass"></span> (grass)</li>
 					<li>X - 100% Monster Encounter</li>
 					<li>Z - 10% Monster Encounter</li>
-					<li>ALT - Type letter into cell
+					<li>ALT - Type letter into cell</li>
+					<li>Arrows - Move cursor</li>
 				</ul>
 			</td>
 		</tr>
 	</table>
-	<p>Name: <input type="text" id="name" /></p>
-	<p>Notes: <textarea rows="5" cols="40" id="notes"></textarea></p>	
-	<p><button id="load">Load</button> <button id="save">Save</button></p>
-	<p>Load From: <input type="text" id="loadFrom" /></p>
-	<p>Save To: <input type="text" id="saveTo" /></p>
+	<p>Map Name: <input type="text" id="name" /></p>
+	<p>Encounter Groups<br />(1 comma-delimited list of monster Ids per line):<br /><textarea id="encounterGroups" cols="50" rows="10"></textarea></p>
+	<p>&nbsp;</p>
+	<p>Load JSON: <input type="text" id="loadFrom" /> <button id="load">Load</button></p>
+	<p><button id="save">Save</button> Saved JSON: <input type="text" id="saveTo" /></p>
 </div>
 <table id="map">
 </table>
 <span id="currCellDisplay"></span>
 <div id="eventPopup">
 <p>Event Trigger: <select id="eventTrigger"><option value="touch">Touch</option><option value="activate">Activate</option></select></p>
+<p>Requires Facing: <select id="eventFacing">
+	<option value="*">Any</option>
+	<option value="N">North</option>
+	<option value="N">South</option>
+	<option value="E">East</option>
+	<option value="W">West</option>
+	</select></p>
 <p>Script: <textarea rows="12" cols="60" id="eventScript"></textarea></p>
-<p><button id="saveEvent">Save</button> <button id="deleteEvent">Delete/Cancel</button></p>
+<p><button id="saveEvent">Save</button> <button id="cancelEvent">Cancel</button> <button id="deleteEvent">Delete</button></p>
 </div>
 </body>
 </html>

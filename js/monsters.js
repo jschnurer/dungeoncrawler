@@ -63,7 +63,7 @@ function getXMonsters(monster, count) {
 MONSTERS[0] = {
 	name: 'Skeleton',
 	accuracy: 3,
-	damage: {min: 1, max: 4, type: ELEM_PHYS},
+	damage: {min: 1, max: 2, type: ELEM_PHYS},
 	attackIsDodgeable: true,
 	life: 5,
 	maxLife: 5,
@@ -71,8 +71,8 @@ MONSTERS[0] = {
 	image: 'skeleton.png',
 	resistances: [0, 0, 0, 0, 0, 0, 0],
 	experience: 50,
-	dodge: 5,
+	dodge: 2,
 	treasureClass: 2,
-	speed: 5,
+	speed: 3,
 	initBonus: 0
 };

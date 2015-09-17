@@ -38,6 +38,9 @@ function navigator() {
 	
 	this.setMap = function(map) {
 		this.map = map;
+		for(var i = 0; i < this.map.tiles.length; i++) {
+			this.map.tiles[i].eventComplete = false;
+		}
 	}
 	
 	this.teleportParty = function (x, y, facing) {
@@ -224,24 +227,57 @@ function navigator() {
 			else if(dir == 'L') yOffset = 1;
 		}
 		
-		var otherTile = self.map.tiles[partyPosition.y + yOffset][partyPosition.x + xOffset]
+		var otherTile = self.map.tiles[partyPosition.y + yOffset][partyPosition.x + xOffset];
 		if(!self.hardness[otherTile.tile]) {
 			partyPosition.y += yOffset;
 			partyPosition.x += xOffset;
 			
-			if(otherTile.event != null && otherTile != undefined && otherTile.event.trigger == 'touch') {
-				eval(otherTile.event.script.replace(/\n/g, ''));
+			if(doTouchEventAtTile(partyPosition.x, partyPosition.y, 'touch')) {
+				// if it returned true that just means we do the event there.
+				// this only matters if the tile is a door.
+				// because a door with an event on it usually means that we teleport to a new map
 			} else if(otherTile.tile == TILE_DOOR) {
 				// if the tile we just stepped onto is a normal door, move the party 1 more block in the direction they moved
 				// so that they move through the door
 				partyPosition.y += yOffset;
 				partyPosition.x += xOffset;
+				// now that the party moved through the door, encounter the tile they ended up on instead
+				doTouchEventAtTile(partyPosition.x, partyPosition.y, 'touch');
 			}
+		} else {
+			// encounter the event on the current tile since the party didn't move
+			doTouchEventAtTile(partyPosition.x, partyPosition.y, 'touch');
 		}
 		
 		console.log(partyPosition);
 		
 		self.draw();
+	}
+	
+	function doTouchEventAtTile(tileX, tileY, trigger) {
+		var tile = self.map.tiles[tileY][tileX];
+		if(tile.eventComplete) {
+			return false;
+		} else if(tile.event != null
+			&& tile != undefined
+			&& tile.event.trigger == trigger
+			&& !tile.eventComplete
+			&& (tile.facing == '*' || tile.facing == partyPosition.facing)) {
+			eval(tile.event.script.replace(/\n/g, ''));
+			return true;
+		} else if(tile.code == 'Z' && self.map.encounterGroups.length > 0) { // shortcut for a 10% fight
+			if(rand(1, 10) == 5) { // why 5? why not?
+				loadEncounterGroupAndBeginCombat(getRandomItem(self.map.encounterGroups));
+				tile.eventComplete = true;
+			}
+			return true;
+		} else if(tile.code == 'X' && self.map.encounterGroups.length > 0) { // shortcut for a 100% fight
+			loadEncounterGroupAndBeginCombat(getRandomItem(self.map.encounterGroups));
+			tile.eventComplete = true;
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	function turn(dir) {		
@@ -258,6 +294,8 @@ function navigator() {
 			if(dir == 'R') partyPosition.facing = 'N';
 			else if(dir == 'L') partyPosition.facing = 'S';
 		}
+		
+		doTouchEventAtTile(partyPosition.x, partyPosition.y, 'touch');
 		
 		console.log(partyPosition);
 		

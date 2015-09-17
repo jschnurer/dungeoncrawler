@@ -12,6 +12,13 @@ $(function () {
 	$combatView = $('#combatView');
 });
 
+function loadEncounterGroupAndBeginCombat(encounterGroup) {
+	var monsters = [];
+	for(var i = 0; i < encounterGroup.length; i++)
+		monsters.push(cloneMonster(MONSTERS[parseInt(encounterGroup[i])]));
+	beginCombat(monsters);
+}
+
 function beginCombat(monsters) {
 	combatAwaitingInput = false;
 	combatants.length = [];
@@ -112,6 +119,9 @@ function takeHeroTurn() {
 			callback: dodgeCall
 		}
 	]);
+	
+	// showing choices automatically changes the game mode to choices but we want to revert back to combat
+	GAME_MODE = MODE_COMBAT;
 	
 	combatAwaitingInput = true;
 }
