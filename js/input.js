@@ -11,6 +11,11 @@ $(function() {
 $(document).keydown(function(e) {
 	console.log(e.which);
 	
+	if(GAME_MODE == MODE_CONTINUE) {
+		handleContinueInput(e);
+		return;
+	}
+	
 	if(GAME_MODE == MODE_CHOICE) {
 		var choiceNum = 0;
 		
@@ -41,6 +46,7 @@ $(document).keydown(function(e) {
 		updateSelector();
 		
 		e.preventDefault();
+		return;
 	}
 	
 	if(GAME_MODE != MODE_COMBAT && [KEY_1, KEY_2, KEY_3, KEY_4].indexOf(e.which) != -1) {
@@ -52,6 +58,7 @@ $(document).keydown(function(e) {
 		updateSelector();
 		
 		e.preventDefault();
+		return;
 	}
 	
 	if(GAME_MODE == MODE_NAV) {	

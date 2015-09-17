@@ -83,14 +83,34 @@ html {
 	left: 0px;
 	right: 0px;
 	border-top: 2px black solid;
-	height: 200px;
-	background: #777;
+	height: 300px;
+	background: #555;
+	color: white;
+	padding-right: 415px;
+}
+
+#commandPanel > div {
+	padding: 15px;
+	overflow-y: auto;
+	height: 270px;
+	font-size: 1.1em;
+}
+
+#commandPanel p {
+	margin: 3px;
+}
+
+#commandPanel a.spaceToContinue {
+	display: block;
+	text-align: center;
+	margin-top: 20px;
 }
 
 #commandPanel a {
 	text-decoration: none;
-	color: black;
+	color: white;
 	font-weight: bold;
+	cursor: pointer;
 }
 
 #commandPanel a:hover {
@@ -231,6 +251,7 @@ canvas {
 }
 
 #goldPanel {
+	display: none;
 	background-position: center left;
 	text-align: right;
 	left: 190px;

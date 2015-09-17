@@ -35,8 +35,20 @@ function continueMessageQueue() {
 	}
 }
 
-function showText(message) {
-	getCommandPanel().html(message);
+function showText(message, resumeGameMode) {
+	getCommandPanel().html('<p>' + message.replace(/\[br\]/g, '<br />') + '</p>');
+	var continueLink = $('<a class="spaceToContinue" data-resume-game-mode="'+(resumeGameMode == undefined ? MODE_NAV : resumeGameMode)+'">Press [SPACE] to continue</a>');
+	continueLink.click(function () { 
+		var resumeMode = $(this).attr('data-resume-game-mode');
+		
+		if(resumeMode != undefined) {
+			GAME_MODE = resumeMode;
+		}
+		
+		clearText();
+	});
+	getCommandPanel().append(continueLink);
+	GAME_MODE = MODE_CONTINUE;
 }
 
 function showChoices(message, choices) {
@@ -44,10 +56,10 @@ function showChoices(message, choices) {
 	
 	GAME_MODE = MODE_CHOICE;
 	
-	var list = getCommandPanel().append('<p>' + message + '</p>').append('<ol></ol>').find('ol');
+	var list = getCommandPanel().append('<p>' + message.replace(/\[br\]/g, '<br />') + '</p>').append('<ol></ol>').find('ol');
 	
 	for(var i = 0; i < choices.length; i++) {
-		var link = $('<a id="choice' + (i+1) + '" href="#">' + choices[i].text + '</a>');
+		var link = $('<a id="choice' + (i+1) + '">' + choices[i].text + '</a>');
 		link.click(choices[i].callback);
 		list.append('<li></li>');
 		
@@ -58,13 +70,21 @@ function showChoices(message, choices) {
 function finishChoice(message) {
 	if(message == undefined || message == null || message == '') {
 		clearText();
+		GAME_MODE = MODE_NAV;
 	} else {
 		showText(message);
 	}
-	
-	GAME_MODE = MODE_NAV;
 }
 
 function clearText() {
+	getCommandPanel().children('a').remove();
 	getCommandPanel().html('');
+}
+
+function handleContinueInput(e) {
+	if(e.which == KEY_SPACE) {
+		getCommandPanel().children('a.spaceToContinue').click();
+		e.preventDefault();
+		return;
+	}
 }

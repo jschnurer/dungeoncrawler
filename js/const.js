@@ -25,6 +25,7 @@ var MODE_NAV = 1;
 var MODE_COMBAT = 2;
 var MODE_MENUS = 3;
 var MODE_CHOICE = 4;
+var MODE_CONTINUE = 5;
 
 var ELEM_PHYS = 0;
 var ELEM_FIRE = 1;
