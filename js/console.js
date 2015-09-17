@@ -42,15 +42,27 @@ function showText(message) {
 function showChoices(message, choices) {
 	clearText();
 	
+	GAME_MODE = MODE_CHOICE;
+	
 	var list = getCommandPanel().append('<p>' + message + '</p>').append('<ol></ol>').find('ol');
 	
 	for(var i = 0; i < choices.length; i++) {
-		var link = $('<a href="#">' + choices[i].text + '</a>');
+		var link = $('<a id="choice' + (i+1) + '" href="#">' + choices[i].text + '</a>');
 		link.click(choices[i].callback);
 		list.append('<li></li>');
 		
 		$(list.children()[i]).append(link);
 	}
+}
+
+function finishChoice(message) {
+	if(message == undefined || message == null || message == '') {
+		clearText();
+	} else {
+		showText(message);
+	}
+	
+	GAME_MODE = MODE_NAV;
 }
 
 function clearText() {

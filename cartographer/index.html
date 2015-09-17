@@ -3,8 +3,8 @@
 <title>Cartographer</title>
 <script src="../js/jquery-2.1.4.min.js"></script>
 <style>
-table { border-collapse: separate; border-spacing: 1px;}
-td { width: 25px; height: 25px; background-color:#EEE; text-align: center; background-position:center center; background-repeat: no-repeat; }
+#map { border-collapse: separate; border-spacing: 1px;}
+#map td { width: 25px; height: 25px; background-color:#EEE; text-align: center; background-position:center center; background-repeat: no-repeat; }
 .tile { display: inline-block; width: 25px; height: 25px; background-color:#EEE; text-align: center; background-position:center center; background-repeat: no-repeat; }
 .wall { background-image: url(wall.png); }
 .fake { background-image: url(fake.png); }
@@ -20,9 +20,9 @@ td { width: 25px; height: 25px; background-color:#EEE; text-align: center; backg
 .grass { background-image: url(grass.png); }
 .eventCell { outline: 1px black dashed; }
 
-.selectedCell { background-color: yellow; }
+.selectedCell { background-color: yellow !important; }
 
-#eventPopup { display: none; position: absolute; width: 320px; height: 280px; top: calc(50% - 140px); left: calc(50% - 160px); background: white; border: 1px black solid; padding: 0px 10px;}
+#eventPopup { display: none; position: absolute; width: 550px; height: 280px; top: calc(50% - 140px); left: calc(50% - 160px); background: white; border: 1px black solid; padding: 0px 10px;}
 </style>
 </head>
 <body>
@@ -86,8 +86,8 @@ $(function () {
 	$('#saveEvent').click(saveEvent);
 	$('#deleteEvent').click(deleteCancelEvent);
 	
-	// build a 32 x 32 table
-	var tbl = $('table');
+	// build a 32 x 32 grid
+	var tbl = $('#map');
 	for(var i = 0; i < mapHeight; i++) {
 		var $row = $('<tr>');
 		for(var j = 0; j < mapWidth; j++) {
@@ -177,12 +177,12 @@ function moveCursor(x, y) {
 }
 
 function getCurrentCell() {
-	return $('table tr:nth-child(' + (currentCell.y + 1) + ') td:nth-child(' + (currentCell.x + 1) + ')');
+	return $('#map tr:nth-child(' + (currentCell.y + 1) + ') td:nth-child(' + (currentCell.x + 1) + ')');
 }
 
 function save() {
-	var rowCount = $('table tr').length;
-	var cellCount = $('table tr:first td').length;
+	var rowCount = $('#map tr').length;
+	var cellCount = $('#map tr:first td').length;
 	
 	var tiles = [];
 	
@@ -191,7 +191,7 @@ function save() {
 		tiles.push(row);
 		
 		for(var x = 0; x < cellCount; x++) {
-			var tcell = $('table tr:nth-child(' + (y+1) + ') td:nth-child(' + (x+1) + ')');
+			var tcell = $('#map tr:nth-child(' + (y+1) + ') td:nth-child(' + (x+1) + ')');
 			
 			var cell = {};
 			
@@ -222,12 +222,12 @@ function loadMap(json) {
 	
 	$('td').removeClass();
 	
-	var rowCount = $('table tr').length;
-	var cellCount = $('table tr:first td').length;
+	var rowCount = $('#map tr').length;
+	var cellCount = $('#map tr:first td').length;
 		
 	for(var y = 0; y < rowCount; y++) {		
 		for(var x = 0; x < cellCount; x++) {
-			var tcell = $('table tr:nth-child(' + (y+1) + ') td:nth-child(' + (x+1) + ')');
+			var tcell = $('#map tr:nth-child(' + (y+1) + ') td:nth-child(' + (x+1) + ')');
 			tcell.removeClass();
 			
 			var cell = map.tiles[y][x];
@@ -275,7 +275,7 @@ function handleEventPopup() {
 }
 
 function saveEvent() {	
-	var cell = $('table tr:nth-child(' + (currentEventY + 1) + ') td:nth-child(' + (currentEventX + 1) + ')')[0];
+	var cell = $('#map tr:nth-child(' + (currentEventY + 1) + ') td:nth-child(' + (currentEventX + 1) + ')')[0];
 	var existingEvent = jQuery.data(cell, 'event');
 	
 	if(existingEvent == null || existingEvent == undefined) {
@@ -293,43 +293,52 @@ function saveEvent() {
 }
 
 function deleteCancelEvent() {
-	var cell = $('table tr:nth-child(' + (currentEventY + 1) + ') td:nth-child(' + (currentEventX + 1) + ')')[0];
+	var cell = $('#map tr:nth-child(' + (currentEventY + 1) + ') td:nth-child(' + (currentEventX + 1) + ')')[0];
 	jQuery.removeData(cell, 'event');
 	$('#eventPopup').hide();
 }
 </script>
 <div style="float: right;">
-	<ul>
-	<li>ARROWS - Move cursor
-	<li>1 - <span class="tile wall"></span>
-	<li>2 - <span class="tile door"></span>
-	<li>3 - <span class="tile fake"></span>
-	<li>4 - <span class="tile house"></span>
-	<li>5 - <span class="tile forest"></span>
-	<li>6 - <span class="tile mountain"></span>
-	<li>7 - <span class="tile water"></span>
-	<li>P - <span class="tile pillar"></span>
-	<li>F - <span class="tile floor"></span>
-	<li>C - <span class="tile ceiling"></span>
-	<li>B - <span class="tile floor_ceiling"></span>
-	<li>G - <span class="tile grass"></span>
-	<li>X - 100% Monster Encounter</li>
-	<li>Z - 10% Monster Encounter</li>
-	<li>ALT - Type letter into cell
-	</ul>
-	
+	<table>
+		<tr>
+			<td>
+				<ul>
+					<li>ARROWS - Move cursor
+					<li>1 - <span class="tile wall"></span>
+					<li>2 - <span class="tile door"></span>
+					<li>3 - <span class="tile fake"></span>
+					<li>4 - <span class="tile house"></span>
+					<li>5 - <span class="tile forest"></span>
+					<li>6 - <span class="tile mountain"></span>
+					<li>7 - <span class="tile water"></span>
+				</ul>
+			</td>
+			<td>
+				<ul>
+					<li>P - <span class="tile pillar"></span>
+					<li>F - <span class="tile floor"></span>
+					<li>C - <span class="tile ceiling"></span>
+					<li>B - <span class="tile floor_ceiling"></span>
+					<li>G - <span class="tile grass"></span>
+					<li>X - 100% Monster Encounter</li>
+					<li>Z - 10% Monster Encounter</li>
+					<li>ALT - Type letter into cell
+				</ul>
+			</td>
+		</tr>
+	</table>
 	<p>Name: <input type="text" id="name" /></p>
 	<p>Notes: <textarea rows="5" cols="40" id="notes"></textarea></p>	
 	<p><button id="load">Load</button> <button id="save">Save</button></p>
 	<p>Load From: <input type="text" id="loadFrom" /></p>
 	<p>Save To: <input type="text" id="saveTo" /></p>
 </div>
-	<table>
-	</table>
+<table id="map">
+</table>
 <span id="currCellDisplay"></span>
 <div id="eventPopup">
 <p>Event Trigger: <select id="eventTrigger"><option value="touch">Touch</option><option value="activate">Activate</option></select></p>
-<p>Script: <textarea rows="8" cols="30" id="eventScript"></textarea></p>
+<p>Script: <textarea rows="12" cols="60" id="eventScript"></textarea></p>
 <p><button id="saveEvent">Save</button> <button id="deleteEvent">Delete/Cancel</button></p>
 </div>
 </body>

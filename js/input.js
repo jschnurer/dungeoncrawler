@@ -12,11 +12,24 @@ $(document).keydown(function(e) {
 	console.log(e.which);
 	
 	if(GAME_MODE == MODE_CHOICE) {
-		if(e.which == KEY_1) {
-			// TODO: pick choice 1
+		var choiceNum = 0;
+		
+		if(e.which == KEY_1 || e.which == KEY_SPACE) {
+			choiceNum = 1;
 		} else if(e.which == KEY_2) {
-			// TODO: pick choice 2
+			choiceNum = 2;
+		} else if(e.which == KEY_3) {
+			choiceNum = 3;
+		} else if(e.which == KEY_4) {
+			choiceNum = 4;
+		} else if(e.which == KEY_5) {
+			choiceNum = 5;
 		}
+		
+		if(choiceNum == 0) 
+			return;
+		
+		$('#choice' + choiceNum).click();
 		
 		e.preventDefault();
 		return;

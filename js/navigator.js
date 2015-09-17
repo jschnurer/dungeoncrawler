@@ -75,6 +75,11 @@ function navigator() {
 			ctx.drawImage(self.tileSets[TILE_CEILING], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
 			ctx.drawImage(self.tileSets[TILE_FLOOR], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
 		} else {
+			if(mapY == 0 && mapX == 0 && mapTile.tile == TILE_FAKE_WALL) {
+				ctx.drawImage(self.tileSets[TILE_CEILING], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
+				ctx.drawImage(self.tileSets[TILE_FLOOR], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);				
+			}
+			
 			var tileSet = self.tileSets[mapTile.tile];
 		
 			if(tileSet != undefined)
