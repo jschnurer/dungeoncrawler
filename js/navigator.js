@@ -258,11 +258,11 @@ function navigator() {
 		var tile = self.map.tiles[tileY][tileX];
 		if(tile.eventComplete) {
 			return false;
-		} else if(tile.event != null
-			&& tile != undefined
+		} else if(tile != undefined
+			&& tile.event != null
 			&& tile.event.trigger == trigger
 			&& !tile.eventComplete
-			&& (tile.facing == '*' || tile.facing == partyPosition.facing)) {
+			&& (tile.event.facing == '*' || tile.event.facing == partyPosition.facing)) {
 			eval(tile.event.script.replace(/\n/g, ''));
 			return true;
 		} else if(tile.code == 'Z' && self.map.encounterGroups.length > 0) { // shortcut for a 10% fight
