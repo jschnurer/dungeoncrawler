@@ -136,13 +136,13 @@ function hero (values) {
 			return {
 				dodgeable: true,
 				accuracy: acc,
-				damages: [{damage: 1, type: ELEM_PHYS}] + Math.floor(rand(self.might*mightMinDamageBonusRatio, self.might*mightMaxDamageBonusRatio))
+				damages: [{damage: 1, type: ELEM_PHYS}] + Math.floor(rand(self.might*self.mightMinDamageBonusRatio, self.might*self.mightMaxDamageBonusRatio))
 			};
 		} else {
 			return {
 				dodgeable: true,
 				accuracy: acc,
-				damages: [{damage: rand(self.meleeWeapon.minDamage, self.meleeWeapon.maxDamage) + Math.floor(rand(self.might*mightMinDamageBonusRatio, self.might*mightMaxDamageBonusRatio)), type: self.meleeWeapon.damageType}]
+				damages: [{damage: rand(self.meleeWeapon.minDamage, self.meleeWeapon.maxDamage) + Math.floor(rand(self.might*self.mightMinDamageBonusRatio, self.might*self.mightMaxDamageBonusRatio)), type: self.meleeWeapon.damageType}]
 			};
 		}
 	}

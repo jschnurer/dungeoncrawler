@@ -69,7 +69,7 @@ $(document).keydown(function(e) {
 	if(GAME_MODE == MODE_NAV) {	
 		nav.handleInput(e.which);
 	} else if(GAME_MODE == MODE_COMBAT) {
-		handleCombatInput(e.which);
+		combat.handleCombatInput(e.which);
 	}
 });
 

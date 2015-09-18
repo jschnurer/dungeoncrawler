@@ -309,19 +309,19 @@ function navigator() {
 			&& tile.code == 'P') {
 				return 'handlePlaceOfPower()';
 		} else if(trigger == 'touch'
-			&& tile.eventComplete == false
+			&& !tile.eventComplete
 			&& tile.code == 'Z'
 			&& self.map.encounterGroups.length > 0) { // shortcut for a 10% fight
 			if(rand(1, 10) == 5) { // why 5? why not?
-				loadEncounterGroupAndBeginCombat(getRandomItem(self.map.encounterGroups));
+				combat.loadEncounterGroupAndBeginCombat(getRandomItem(self.map.encounterGroups));
 				tile.eventComplete = true;
 			}
 			return true;
 		} else if(trigger == 'touch'
-			&& tile.eventComplete == false
+			&& !tile.eventComplete
 			&& tile.code == 'X'
 			&& self.map.encounterGroups.length > 0) { // shortcut for a 100% fight
-			loadEncounterGroupAndBeginCombat(getRandomItem(self.map.encounterGroups));
+			combat.loadEncounterGroupAndBeginCombat(getRandomItem(self.map.encounterGroups));
 			tile.eventComplete = true;
 			return true;
 		}

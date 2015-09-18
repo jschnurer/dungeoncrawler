@@ -77,6 +77,8 @@ var STATUS_ASLEEP = 5;
 
 var BG_NIGHTSKY = 1;
 
+var TARGET_RANDOM_HERO = 1;
+
 var tghToLife = [];
 tghToLife[CLASS_KNIGHT] = 5;
 tghToLife[CLASS_THIEF] = 4;
@@ -113,7 +115,7 @@ function rollStat(statValue) {
 }
 
 function getRandomItem(items) {
-	return items[rand(0, items.length-1)];
+	return items[rand(1, items.length)-1];
 }
 
 function computeDamage(damage, resistance) {
@@ -122,7 +124,7 @@ function computeDamage(damage, resistance) {
 	
 	while(true) {
 		if(rand(0, 100) <= (1.0 - 30.0 / (30.0 + resistance)) * 100) {
-			testNum = testNum / 2.0;
+			damageMult = damageMult / 2.0;
 		}
 		testNum++;
 		if(testNum == 4)
