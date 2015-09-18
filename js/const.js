@@ -26,6 +26,7 @@ var MODE_COMBAT = 2;
 var MODE_MENUS = 3;
 var MODE_CHOICE = 4;
 var MODE_CONTINUE = 5;
+var MODE_LEVEL_UP = 6;
 
 var ELEM_PHYS = 0;
 var ELEM_FIRE = 1;
@@ -58,6 +59,7 @@ var TILE_FLOOR = 70;
 var TILE_CEILING = 67;
 var TILE_CEILING_FLOOR = 66;
 var TILE_GRASS = 71;
+var TILE_PLACE_OF_POWER = 1;
 
 var CLASS_KNIGHT = 1;
 var CLASS_THIEF = 2;
@@ -74,6 +76,33 @@ var STATUS_PARALYZED = 4;
 var STATUS_ASLEEP = 5;
 
 var BG_NIGHTSKY = 1;
+
+var tghToLife = [];
+tghToLife[CLASS_KNIGHT] = 5;
+tghToLife[CLASS_THIEF] = 4;
+tghToLife[CLASS_SORCERER] = 3;
+tghToLife[CLASS_CLERIC] = 4;
+tghToLife[CLASS_ARCHER] = 4;
+tghToLife[CLASS_PALADIN] = 5;
+tghToLife[CLASS_DRUID] = 3;
+
+var cogToMana = [];
+cogToMana[CLASS_KNIGHT] = 2;
+cogToMana[CLASS_THIEF] = 3;
+cogToMana[CLASS_SORCERER] = 5;
+cogToMana[CLASS_CLERIC] = 5;
+cogToMana[CLASS_ARCHER] = 3;
+cogToMana[CLASS_PALADIN] = 3;
+cogToMana[CLASS_DRUID] = 4;
+
+var pieIntToMana = [];
+pieIntToMana[CLASS_KNIGHT] = 1;
+pieIntToMana[CLASS_THIEF] = 1;
+pieIntToMana[CLASS_SORCERER] = 1;
+pieIntToMana[CLASS_CLERIC] = 1;
+pieIntToMana[CLASS_ARCHER] = 1;
+pieIntToMana[CLASS_PALADIN] = 1;
+pieIntToMana[CLASS_DRUID] = 1;
 
 function rand(min, max) {
 	return Math.floor((Math.random() * max) + min);

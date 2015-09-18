@@ -50,6 +50,7 @@ html {
 	position: absolute;
 	left: 12px;
 	top: 12px;
+	display: none;
 }
 
 .meter {
@@ -84,7 +85,7 @@ html {
 	right: 0px;
 	border-top: 2px black solid;
 	height: 300px;
-	background: #555;
+	background: #000;
 	color: white;
 	padding-right: 415px;
 }
@@ -260,4 +261,141 @@ canvas {
 
 #preload {
 	display: none;
+}
+
+#levelUpPanel {
+	position: absolute;
+	top: 100%;
+	left: 0px;
+	height: 301px;
+	right: 0px;
+	background: black;
+	z-index: 1000;
+	color: white;
+	font-size: 1.1em;
+	display: none;
+}
+
+#levelUpPanel #levelUpHeroName {
+	margin: 5px;
+	margin-left: 10px;
+	display: block;
+	font-size: 1.2em;
+}
+
+#levelUpPanel #levelUpHeroStats {
+	background: black;
+	border-left: 3px gray double;
+	position: absolute;
+	width: calc(80% - 3px);
+	top: 0%;
+	left: 20%;
+	bottom: 0%;
+}
+
+#levelUpPanel ul {
+	list-style: none;
+	font-size: 1.1em;
+	margin-left: 20px;
+	padding: 0px;
+}
+
+#levelUpHeroStats a {
+	font-size: .9em;
+	display: block;
+	width: 230px;
+	margin-left: 10px;
+	margin-right: 10px;
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+#levelUpStats {
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+
+#levelUpPanel ul > li {
+	margin: 5px;
+}
+
+#levelUpPanel ul > li > span {
+	display: inline-block;
+	width: 25px;
+	font-weight: bold;
+	text-align: right;
+	margin-right: 15px;
+}
+
+#levelUpPanel ul > li > label {
+	display: inline-block;
+	width: 100px;
+	color: silver;
+}
+
+#levelUpPanel a {
+	text-decoration: none;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+#levelUpPanel a:hover {
+	background-color: #666;
+	color: #111;
+}
+
+#levelUpDerivedStats {
+	border-left: 1px gray solid;
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 250px;
+	right: 0px;
+}
+
+#levelUpDerivedStats > ul {
+	font-size: 1em;
+}
+
+#levelUpDerivedStats > ul  > li{
+	margin: 4px;
+}
+
+#levelUpDerivedStats ul > li > label {
+	width: 180px;
+}
+
+#levelUpDerivedStats ul > li > span {
+	width: 70px;
+	margin-left: 0px;
+	text-align: right;
+}
+
+#levelUpDerivedStats1 {
+	position: absolute;
+	top: 18px;
+	left: 0px;
+}
+
+#levelUpDerivedStats2 {
+	position: absolute;
+	top: 18px;
+	right: 0px;
+}
+
+#levelUpLevel {
+	font-size: 1.2em;
+	position: absolute;
+	top: 5px;
+	left: 15px;
+	text-align: left;
+}
+
+#levelUpCost {
+	font-size: 1.2em;
+	position: absolute;
+	top: 5px;
+	right: 15px;
+	text-align: right;
 }

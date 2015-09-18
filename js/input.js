@@ -11,6 +11,11 @@ $(function() {
 $(document).keydown(function(e) {
 	console.log(e.which);
 	
+	if(GAME_MODE == MODE_LEVEL_UP) {
+		handleLevelUpInput(e);
+		return;
+	}
+	
 	if(GAME_MODE == MODE_CONTINUE) {
 		handleContinueInput(e);
 		return;

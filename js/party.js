@@ -21,4 +21,10 @@ function party(heroes) {
 		
 		return self.heroes[i];
 	}
+	
+	self.fullHeal = function () {
+		self.heroes.forEach(function(hero) {
+			hero.fullHeal();
+		});
+	}
 }

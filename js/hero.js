@@ -12,15 +12,81 @@ function hero (values) {
 	self.name = values.name;
 	self.gender = values.gender;
 	self.charClass = CLASS_KNIGHT;
-	self.life = 20;
-	self.maxLife = 20;
-	self.mana = 10;
-	self.maxMana = 10;
-	self.defense = 0;
-	self.dodge = 0;
-	self.accuracy = 6;
-	self.speed = 5;
-	self.might = 4;
+	
+	// stat block
+	self.level = values.level || 1;
+	self.might = values.might;
+	self.dexterity = values.dexterity;
+	self.toughness = values.toughness;
+	self.accuracy = values.accuracy;
+	self.speed = values.speed;
+	self.cognition = values.cognition;
+	self.piety = values.piety;
+	self.intellect = values.intellect;
+	
+	self.getAdvancementCost = function () {
+		var l = self.level + 1;
+		return (l*l + l*l*14)+100;
+	};
+	
+	// derived stat block	
+	self.mana = values.mana;
+	self.maxMana = values.maxMana;
+	if(values.mana == undefined) {
+		self.mana = values.cognition * cogToMana[values.charClass]
+					+ values.piety * pieIntToMana[values.charClass]
+					+ values.intellect * pieIntToMana[values.charClass];
+		self.maxMana = self.mana;
+	}
+	
+	self.life = values.life;
+	self.maxLife = values.maxLife;
+	if(values.life == undefined) {
+		self.life = values.life != undefined ? values.life : values.toughness * tghToLife[values.charClass];
+		self.maxLife = self.life;
+	}
+	
+	self.mightMinDamageBonusRatio = .15;
+	self.mightMaxDamageBonusRatio = .4;
+	self.getMightDamageBonusString = function () { return Math.round(self.might * self.mightMinDamageBonusRatio) + ' - ' + Math.round(self.might * self.mightMaxDamageBonusRatio); };
+	
+	self.dexMinDamageBonusRatio = .15;
+	self.dexMaxDamageBonusRatio = .4;
+	self.getDexDamageBonusString = function () { return Math.round(self.dexterity * self.dexMinDamageBonusRatio) + ' - ' + Math.round(self.dexterity * self.dexMaxDamageBonusRatio); };
+		
+	self.dodge = values.dodge;
+	if(values.dodge == undefined) {
+		self.dodge = Math.round(self.speed / 3);
+	}
+	
+	self.turnsPerRound = values.turnsPerRound;	
+	if(values.turnsPerRound == undefined) {
+		self.turnsPerRound = 1 + Math.floor(self.speed / 30);
+	}
+	
+	self.spellMinDamageBonusRatio = .15;
+	self.spellMaxDamageBonusRatio = .4;
+	self.getSpellDamageBonusString = function () { return Math.round(self.intellect * self.spellMinDamageBonusRatio) + ' - ' + Math.round(self.intellect * self.spellMaxDamageBonusRatio); };
+	
+	self.portentMinDamageBonusRatio = .15;
+	self.portentMaxDamageBonusRatio = .4;
+	self.getPortentDamageBonusString = function () { return Math.round(self.piety * self.portentMinDamageBonusRatio) + ' - ' + Math.round(self.piety * self.portentMaxDamageBonusRatio); };
+	
+	// P,F,W,E,A,B,M,S
+	self.resistances = values.resistances;
+	if(values.resistances == undefined) {
+		self.resistances = [0,0,0,0,0,0,0,0];
+		
+		self.resistances[ELEM_PHYS] = Math.floor(self.toughness / 3);
+		
+		for(var i = 1; i < self.resistances.length; i++) {
+			self.resistances[i] = Math.round(self.intellect / 2 + self.piety / 2);
+		}
+	}
+	
+	self.getResistance = function (type) {
+		return self.resistances[type];
+	}
 	
 	if(values.gender == GENDERS_MALE) {
 		this.pronoun = 'he';
@@ -31,15 +97,19 @@ function hero (values) {
 		this.ownershipPronouns = 'her';
 	}
 	
-	// P,F,W,E,A,B,M,S
-	self.resistances = [0,0,0,0,0,0,0,0];
-	
 	self.meleeWeapon = ITEMS[0];
 	
 	updateBars();
 	
 	this.getInitiative = function () {
 		return rollStat(self.speed);
+	}
+	
+	this.fullHeal = function () {
+		self.life = self.maxLife;
+		self.mana = self.maxMana;
+		updateBars();
+		self.setStatus(STATUS_OK);
 	}
 	
 	this.heal = function (amount, breakMax) {
@@ -66,13 +136,13 @@ function hero (values) {
 			return {
 				dodgeable: true,
 				accuracy: acc,
-				damages: [{damage: 1, type: ELEM_PHYS}] + Math.floor(rand(self.might*.15, self.might*.4))
+				damages: [{damage: 1, type: ELEM_PHYS}] + Math.floor(rand(self.might*mightMinDamageBonusRatio, self.might*mightMaxDamageBonusRatio))
 			};
 		} else {
 			return {
 				dodgeable: true,
 				accuracy: acc,
-				damages: [{damage: rand(self.meleeWeapon.minDamage, self.meleeWeapon.maxDamage) + Math.floor(rand(self.might*.15, self.might*.4)), type: self.meleeWeapon.damageType}]
+				damages: [{damage: rand(self.meleeWeapon.minDamage, self.meleeWeapon.maxDamage) + Math.floor(rand(self.might*mightMinDamageBonusRatio, self.might*mightMaxDamageBonusRatio)), type: self.meleeWeapon.damageType}]
 			};
 		}
 	}
