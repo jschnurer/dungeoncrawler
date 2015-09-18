@@ -23,7 +23,7 @@ function COMBAT() {
 		var monsters = [];
 		for(var i = 0; i < encounterGroup.length; i++)
 			monsters.push(cloneMonster(MONSTERS[parseInt(encounterGroup[i])]));
-		beginCombat(monsters);
+		self.beginCombat(monsters);
 	}
 
 	this.beginCombat = function(monsters) {
