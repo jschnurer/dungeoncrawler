@@ -16,6 +16,7 @@ function navigator() {
 	this.tileSets = [];
 	this.tileSets[TILE_WALL] = $('#IMG_TILE_' + TILE_WALL)[0];
 	this.tileSets[TILE_PILLAR] = $('#IMG_TILE_' + TILE_PILLAR)[0];
+	this.tileSets[TILE_PILLAR_BUTTON] = $('#IMG_TILE_' + TILE_PILLAR_BUTTON)[0];
 	this.tileSets[TILE_FOREST] = $('#IMG_TILE_' + TILE_FOREST)[0];
 	this.tileSets[TILE_FAKE_WALL] = $('#IMG_TILE_' + TILE_FAKE_WALL)[0];
 	this.tileSets[TILE_DOOR] = $('#IMG_TILE_' + TILE_DOOR)[0];
@@ -40,8 +41,14 @@ function navigator() {
 	
 	this.setMap = function(map) {
 		this.map = map;
-		for(var i = 0; i < this.map.tiles.length; i++) {
-			this.map.tiles[i].eventComplete = false;
+		this.setCombatTiles(false);
+	}
+	
+	this.setCombatTiles = function(combatComplete) {
+		for(var y = 0; y < this.map.tiles.length; y++) {
+			for(var x = 0; x < this.map.tiles[y].length; x++) {
+				this.map.tiles[y][x].combatComplete = combatComplete;
+			}
 		}
 	}
 	
@@ -66,7 +73,7 @@ function navigator() {
 		var y = mapY + partyPosition.y;
 		var x = mapX + partyPosition.x;
 		
-		if(y < 0 || x < 0 || y > self.map.tiles.length || x > self.map.tiles[0].length)
+		if(y < 0 || x < 0 || y > self.map.tiles.length - 1 || x > self.map.tiles[0].length - 1)
 			return;
 		
 		var mapTile = self.map.tiles[y][x];
@@ -237,7 +244,11 @@ function navigator() {
 		}
 		
 		var otherTile = self.map.tiles[partyPosition.y + yOffset][partyPosition.x + xOffset];
-		if(!self.hardness[otherTile.tile] && (otherTile.code != undefined && !self.hardness[otherTile.code])) {
+		var otherTileEventHardness = getEventHardness(partyPosition.x + xOffset, partyPosition.y + yOffset);
+		
+		if(!self.hardness[otherTile.tile]
+			&& (otherTile.code != undefined && !self.hardness[otherTile.code])
+			&& !otherTileEventHardness) {
 			partyPosition.y += yOffset;
 			partyPosition.x += xOffset;
 			
@@ -295,34 +306,44 @@ function navigator() {
 		self.draw();
 	}
 	
+	function getEventHardness(x, y) {
+		var tile = self.map.tiles[y][x];
+		if(tile != undefined
+			&& tile.event != null
+			&& tile.event.hardnessScript != ''
+			&& tile.event.hardnessScript != undefined) {
+			return eval(tile.event.hardnessScript);
+		} else {
+			return false;
+		}
+	}
+	
 	function getEventScriptAtTile(x, y, trigger) {
 		var tile = self.map.tiles[y][x];
 		if(tile != undefined
-			&& !tile.eventComplete
 			&& tile.event != null
 			&& tile.event != undefined
 			&& tile.event.trigger == trigger
-			&& !tile.eventComplete
 			&& (tile.event.facing == '*' || tile.event.facing == partyPosition.facing)) {
 			return tile.event.script.replace(/\n/g, '');
 		} else if(trigger == 'activate'
 			&& tile.code == 'P') {
 				return 'handlePlaceOfPower()';
 		} else if(trigger == 'touch'
-			&& !tile.eventComplete
+			&& !tile.combatComplete
 			&& tile.code == 'Z'
 			&& self.map.encounterGroups.length > 0) { // shortcut for a 10% fight
 			if(rand(1, 10) == 5) { // why 5? why not?
 				combat.loadEncounterGroupAndBeginCombat(getRandomItem(self.map.encounterGroups));
-				tile.eventComplete = true;
+				tile.combatComplete = true;
 			}
 			return true;
 		} else if(trigger == 'touch'
-			&& !tile.eventComplete
+			&& !tile.combatComplete
 			&& tile.code == 'X'
 			&& self.map.encounterGroups.length > 0) { // shortcut for a 100% fight
 			combat.loadEncounterGroupAndBeginCombat(getRandomItem(self.map.encounterGroups));
-			tile.eventComplete = true;
+			tile.combatComplete = true;
 			return true;
 		}
 		

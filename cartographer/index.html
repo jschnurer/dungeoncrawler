@@ -18,6 +18,8 @@
 .floor_ceiling { background-image: url(floor_ceiling.png); }
 .ceiling { background-image: url(ceiling.png); }
 .grass { background-image: url(grass.png); }
+.pillar_button { background-image: url(pillar_button.png); }
+
 .eventCell { outline: 1px black dashed; }
 
 .selectedCell { background-color: yellow !important; }
@@ -51,6 +53,7 @@ var KEY_6 = 54;
 var KEY_7 = 55;
 var KEY_8 = 56;
 var KEY_9 = 57;
+var KEY_O = 79;
 var KEY_P = 80;
 var KEY_TILDE = 192;
 var KEY_F = 70;
@@ -70,6 +73,7 @@ tileKeys[KEY_5] = 'forest';
 tileKeys[KEY_6] = 'mountain';
 tileKeys[KEY_7] = 'water';
 tileKeys[KEY_P] = 'pillar';
+tileKeys[KEY_O] = 'pillar_button';
 tileKeys[KEY_F] = 'floor';
 tileKeys[KEY_C] = 'ceiling';
 tileKeys[KEY_B] = 'floor_ceiling';
@@ -288,6 +292,7 @@ function handleEventPopup() {
 	$('#eventTrigger').val('touch');
 	$('#eventFacing').val('*');
 	$('#eventScript').val('');
+	$('#eventHardnessScript').val('');
 	
 	var cell = getCurrentCell()[0];
 	
@@ -297,6 +302,7 @@ function handleEventPopup() {
 		$('#eventTrigger').val(existingEvent.trigger);
 		$('#eventFacing').val(existingEvent.facing);
 		$('#eventScript').val(existingEvent.script);
+		$('#eventHardnessScript').val(existingEvent.hardnessScript);
 	}
 	
 	currentEventX = currentCell.x;
@@ -316,6 +322,7 @@ function saveEvent() {
 	existingEvent.trigger = $('#eventTrigger').val();
 	existingEvent.facing = $('#eventFacing').val();
 	existingEvent.script = $('#eventScript').val();
+	existingEvent.hardnessScript = $('#eventHardnessScript').val();
 	
 	jQuery.data(cell, 'event', existingEvent);
 	$(cell).addClass('eventCell');
@@ -335,7 +342,7 @@ function deleteEvent() {
 <div style="float: right;">
 	<table>
 		<tr>
-			<td>
+			<td valign="top">
 				<ul>
 					<li>1 - <span class="tile wall"></span> (wall)</li>
 					<li>2 - <span class="tile door"></span> (door)</li>
@@ -344,11 +351,13 @@ function deleteEvent() {
 					<li>5 - <span class="tile forest"></span> (forest)</li>
 					<li>6 - <span class="tile mountain"></span> (mountain)</li>
 					<li>7 - <span class="tile water"></span> (water)</li>
+					<li>P - <span class="tile pillar"></span> (pillar)</li>
+					<li>O - <span class="tile pillar_button"></span> (pillar w/ button)</li>
 				</ul>
 			</td>
-			<td>
+			<td valign="top">
 				<ul>
-					<li>P - <span class="tile pillar"></span> (pillar)</li>
+					
 					<li>F - <span class="tile floor"></span> (floor)</li>
 					<li>C - <span class="tile ceiling"></span> (ceiling)</li>
 					<li>B - <span class="tile floor_ceiling"></span> (floor+ceiling)</li>
@@ -379,7 +388,9 @@ function deleteEvent() {
 	<option value="N">South</option>
 	<option value="E">East</option>
 	<option value="W">West</option>
-	</select></p>
+	</select>
+</p>
+<p>Hardness: <b>return <input type="text" id="eventHardnessScript" />
 <p>Script: <textarea rows="12" cols="60" id="eventScript"></textarea></p>
 <p><button id="saveEvent">Save</button> <button id="cancelEvent">Cancel</button> <button id="deleteEvent">Delete</button></p>
 </div>

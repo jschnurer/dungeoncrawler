@@ -300,7 +300,7 @@ canvas {
 	padding: 0px;
 }
 
-#levelUpHeroStats a {
+#levelUpHeroStats > a {
 	font-size: .9em;
 	display: block;
 	width: 230px;
@@ -398,4 +398,15 @@ canvas {
 	top: 5px;
 	right: 15px;
 	text-align: right;
+}
+
+.levelUpDown {
+	display: inline-block;
+}
+
+.levelUpMinus {
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	width: auto;
 }

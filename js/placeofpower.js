@@ -39,6 +39,8 @@ var levelUpChooseHero2Callback = function () { levelUpChooseHero(1); };
 var levelUpChooseHero3Callback = function () { levelUpChooseHero(2); };
 var levelUpChooseHero4Callback = function () { levelUpChooseHero(3); };
 
+var currLevelUpHero = null;
+
 $(function() {
 	$levelUpPanel = $('#levelUpPanel');
 	$lChar1 = $('#levelChar1');
@@ -84,12 +86,52 @@ $(function() {
 	$levelUpResistBody = $('#levelUpResistBody span');
 	$levelUpResistMind = $('#levelUpResistMind span');
 	$levelUpResistSpirit = $('#levelUpResistSpirit span');
+	
+	$('.levelUpPlus').click(levelUpPlusClick);
+	$('.levelUpMinus').click(levelUpMinusClick);	
 });
+
+function levelUpPlusClick() {
+	var advCost = currLevelUpHero.getAdvancementCost();
+	var paidOk = party.loseExperience(advCost);
+	
+	if(!paidOk)
+		return;
+	
+	var parent = $(this).parent().parent();
+	var currStatVal = parent.children('span').html();
+	
+	parent.children('span').html(parseInt(currStatVal) + 1);
+	parent.children('span').css('color', 'cyan');
+	
+	currLevelUpHero.level++;
+	
+	var parentName = parent.attr('id');
+	
+	if(parentName == 'levelUpMight') currLevelUpHero.might++;
+	else if(parentName == 'levelUpDexterity') currLevelUpHero.dexterity++;
+	else if(parentName == 'levelUpToughness') currLevelUpHero.toughness++;
+	else if(parentName == 'levelUpAccuracy') currLevelUpHero.accuracy++;
+	else if(parentName == 'levelUpSpeed') currLevelUpHero.speed++;
+	else if(parentName == 'levelUpCognition') currLevelUpHero.cognition++;
+	else if(parentName == 'levelUpPiety') currLevelUpHero.piety++;
+	else if(parentName == 'levelUpIntellect') currLevelUpHero.intellect++;
+	
+	$levelUpCost.html(currLevelUpHero.getAdvancementCost());
+	$levelUpLevel.html(currLevelUpHero.level);
+	updateDerivedStats(currLevelUpHero);
+}
+
+function levelUpMinusClick() {
+}
 
 function handlePlaceOfPower() {
 	party.fullHeal();
 	
-	showChoices('You commune with this place of power. Your life is restored and your magical reserves replenished.', [ {
+	// reset all combat encounters
+	nav.setCombatTiles(false);
+	
+	showChoices('You commune with this place of power. Your life and magical reserves are replenished but danger surrounds you once more.', [ {
 		text: 'Level up',
 		callback: function() {
 			showLevelUpPanel();
@@ -140,6 +182,7 @@ function levelUpChooseHero(heroIx) {
 	$levelUpHeroStats.show();
 	
 	var h = party.heroes[heroIx];
+	currLevelUpHero = h;
 	
 	$levelUpHeroName.html(h.name);
     $levelUpMight.html(h.might);
@@ -151,8 +194,22 @@ function levelUpChooseHero(heroIx) {
     $levelUpPiety.html(h.piety);
     $levelUpIntellect.html(h.intellect);
 	
+	$levelUpMight.data('starting', h.might);
+    $levelUpDexterity.data('starting', h.dexterity);
+    $levelUpToughness.data('starting', h.toughness);
+    $levelUpAccuracy.data('starting', h.accuracy);
+    $levelUpSpeed.data('starting', h.speed);
+    $levelUpCognition.data('starting', h.cognition);
+    $levelUpPiety.data('starting', h.piety);
+    $levelUpIntellect.data('starting', h.intellect);
+	
 	$levelUpLevel.html(h.level);
 	$levelUpCost.html(h.getAdvancementCost());
+	
+	updateDerivedStats(h);
+}
+
+function updateDerivedStats(h) {
 	$levelUpLife.html(h.maxLife);
 	$levelUpMana.html(h.maxMana);
 	$levelUpMightDamageBonus.html(h.getMightDamageBonusString());

@@ -24,6 +24,7 @@ function cloneMonster(monster) {
 	newMonster.charged = monster.charged;
 	newMonster.chargeAt = monster.chargeAt;
 	newMonster.tactics = monster.tactics;
+	newMonster.onDeath = monster.onDeath;
 	
 	return newMonster;
 }
@@ -90,10 +91,10 @@ MONSTERS[1] = {
 	damage: {min: 5, max: 11, type: ELEM_PHYS},
 	target: TARGET_RANDOM_HERO,
 	attackIsDodgeable: true,
-	life: 40,
-	maxLife: 40,
+	life: 50,
+	maxLife: 50,
 	randomLife: 30,
-	image: 'skeleton.png',
+	image: 'gnasher_nest.png',
 	resistances: [0, 0, 0, 0, 0, 0, 0],
 	experience: 1200,
 	dodge: 4,
@@ -121,5 +122,8 @@ MONSTERS[1] = {
 		} else {
 			combat.monsterAttacks(this, TARGET_RANDOM_HERO);
 		}
+	},
+	onDeath: function() {
+		setGameVar(SORPIGAL_DUNGEON_QUEST, 2);
 	}
 };

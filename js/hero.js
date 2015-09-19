@@ -25,8 +25,8 @@ function hero (values) {
 	self.intellect = values.intellect;
 	
 	self.getAdvancementCost = function () {
-		var l = self.level + 1;
-		return (l*l + l*l*14)+100;
+		var lv = self.level + 1;
+		return 150 + (lv*lv + lv*lv*16) + (self.level*self.level + self.level*self.level*16);
 	};
 	
 	// derived stat block	
@@ -46,12 +46,12 @@ function hero (values) {
 		self.maxLife = self.life;
 	}
 	
-	self.mightMinDamageBonusRatio = .15;
-	self.mightMaxDamageBonusRatio = .4;
+	self.mightMinDamageBonusRatio = .25;
+	self.mightMaxDamageBonusRatio = 1;
 	self.getMightDamageBonusString = function () { return Math.round(self.might * self.mightMinDamageBonusRatio) + ' - ' + Math.round(self.might * self.mightMaxDamageBonusRatio); };
 	
-	self.dexMinDamageBonusRatio = .15;
-	self.dexMaxDamageBonusRatio = .4;
+	self.dexMinDamageBonusRatio = .25;
+	self.dexMaxDamageBonusRatio = .1;
 	self.getDexDamageBonusString = function () { return Math.round(self.dexterity * self.dexMinDamageBonusRatio) + ' - ' + Math.round(self.dexterity * self.dexMaxDamageBonusRatio); };
 		
 	self.dodge = values.dodge;
@@ -64,12 +64,12 @@ function hero (values) {
 		self.turnsPerRound = 1 + Math.floor(self.speed / 30);
 	}
 	
-	self.spellMinDamageBonusRatio = .15;
-	self.spellMaxDamageBonusRatio = .4;
+	self.spellMinDamageBonusRatio = .25;
+	self.spellMaxDamageBonusRatio = 1;
 	self.getSpellDamageBonusString = function () { return Math.round(self.intellect * self.spellMinDamageBonusRatio) + ' - ' + Math.round(self.intellect * self.spellMaxDamageBonusRatio); };
 	
-	self.portentMinDamageBonusRatio = .15;
-	self.portentMaxDamageBonusRatio = .4;
+	self.portentMinDamageBonusRatio = .25;
+	self.portentMaxDamageBonusRatio = 1;
 	self.getPortentDamageBonusString = function () { return Math.round(self.piety * self.portentMinDamageBonusRatio) + ' - ' + Math.round(self.piety * self.portentMaxDamageBonusRatio); };
 	
 	// P,F,W,E,A,B,M,S

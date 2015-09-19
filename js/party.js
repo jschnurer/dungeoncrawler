@@ -13,6 +13,16 @@ function party(heroes) {
 		$('#essencePanel').html(self.experience);
 	}
 	
+	self.loseExperience = function (amount) {
+		if(self.experience < amount) {
+			return false;
+		}
+		
+		self.experience -= amount;
+		$('#essencePanel').html(self.experience);
+		return true;
+	}
+	
 	self.getFirstActingHero = function () {
 		for(var i = 0; i < self.heroes.length; i++) {
 			if(self.heroes[i].canAct())

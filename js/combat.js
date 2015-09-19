@@ -29,7 +29,7 @@ function COMBAT() {
 	this.beginCombat = function(monsters) {
 		
 		combatAwaitingInput = false;
-		combatants.length = [];
+		combatants.length = 0;
 		GAME_MODE = MODE_COMBAT;
 		clearText();
 		
@@ -188,6 +188,10 @@ function COMBAT() {
 				log(hero.name + ' attacks and deals ' + atkResult.totalDamageDealt + ' damage, slaying the ' + monster.name + '!');
 				log('The party gains ' + monster.experience + ' essence.');
 				party.gainExperience(monster.experience);
+				
+				if(monster.onDeath != undefined && monster.onDeath != null)
+					monster.onDeath();
+				
 				if(!self.removeMonsterFromCombat(monsterNum))
 					return;
 			} else {
