@@ -101,6 +101,17 @@ function hero (values) {
 	self.equipment[ITEM_RANGED] = null;
 	self.equipment[ITEM_ACCESSORY] = null;
 	
+	this.updateForEquipBonuses = function (item, equipping) {
+		var bonusMod = equipping ? 1 : -1;
+		
+		if(item.maxLifeBonus) {
+			self.maxLife += bonusMod * item.maxLifeBonus;
+			updateBars();			
+		}
+		
+		// TODO: handle other possible bonuses
+	}
+	
 	this.getEquipmentResistance = function (item, resistanceType) {
 		if(item == null)
 			return 0;
@@ -115,6 +126,8 @@ function hero (values) {
 	
 	this.equipItem = function (item) {		
 		self.equipment[item.type] = item;
+		self.updateForEquipBonuses(item, true);
+		
 		return true;
 	}
 	
@@ -135,6 +148,7 @@ function hero (values) {
 		
 		var theItem = self.getEquipment(itemType);
 		self.equipment[itemType] = null;
+		self.updateForEquipBonuses(theItem, false);
 		return theItem;
 	}
 	

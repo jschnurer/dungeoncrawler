@@ -11,6 +11,8 @@ function item (data) {
 	this.reqs = data.reqs;
 	this.dodge = data.dodge;
 	this.resistances = data.resistances;
+	this.statBonuses = data.statBonuses;
+	this.maxLifeBonus = data.maxLifeBonus;
 }
 
 item.prototype.clone = function() {
@@ -43,18 +45,36 @@ item.prototype.getTooltip = function() {
 		}
 	}
 	
-	var reqString = 'Requires: ';
-	var anyReqs = false;
-	
-	for(var i = 0; i < this.reqs.length; i++) {
-		if(this.reqs[i] > 0) {
-			reqString += this.reqs[i] + ' ' + STAT_NAMES[i] + ', ';
-			anyReqs = true;
-		}
+	if(this.maxLifeBonus != undefined) {
+		tooltip += '<br />' + this.maxLifeBonus + ' life';
 	}
 	
-	if(anyReqs) {
-		tooltip += '<br /><br />' + reqString.substr(0, reqString.length - 2);
+	if(this.statBonuses != undefined) {
+		var statString = '';
+		
+		for(var i = 0; i < this.statBonuses.length; i++) {
+			if(this.statBonuses[i] != 0) {
+				statString += '<br />' + this.statBonuses[i] + ' ' + STAT_NAMES[i];
+			}
+		}
+		
+		tooltip += statString;
+	}	
+	
+	if(this.reqs != undefined) {
+		var reqString = 'Requires: ';
+		var anyReqs = false;
+		
+		for(var i = 0; i < this.reqs.length; i++) {
+			if(this.reqs[i] > 0) {
+				reqString += this.reqs[i] + ' ' + STAT_NAMES[i] + ', ';
+				anyReqs = true;
+			}
+		}
+		
+		if(anyReqs) {
+			tooltip += '<br /><br />' + reqString.substr(0, reqString.length - 2);
+		}
 	}
 	
 	return tooltip;
@@ -123,4 +143,20 @@ ITEMS[3] = new item ({
 	damageType: ELEM_PHYS,
 	accBonus: 1,
 	reqs: [1, 5, 0, 0, 0, 0, 0, 0]
+});
+
+ITEMS[4] = new item ({
+	id: 4,
+	name: 'Fang Necklace',
+	icon: 'fang_necklace.png',
+	type: ITEM_ACCESSORY,
+	statBonuses: [2, 1, 0, 0, 0, 0, 0, 0]
+});
+
+ITEMS[5] = new item ({
+	id: 5,
+	name: 'Gemstone Broach',
+	icon: 'gemstone_broach.png',
+	type: ITEM_ACCESSORY,
+	maxLifeBonus: 12
 });

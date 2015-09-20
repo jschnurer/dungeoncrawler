@@ -374,8 +374,8 @@ function navigator() {
 		
 		var thisTilesEventScript = getEventScriptAtTile(x, y, 'activate');
 		if(thisTilesEventScript != null) {
-			eval(thisTilesEventScript);
-			return;
+			if(!eval(thisTilesEventScript))
+				return;
 		}
 				
 		var nextTilesEventScript = null;
