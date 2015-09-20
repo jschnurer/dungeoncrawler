@@ -86,8 +86,11 @@ function hero (values) {
 		}
 	}
 	
-	self.getResistance = function (type) {
-		return self.resistances[type];
+	this.getResistance = function (type) {
+		var resistanceVal = self.resistances[type];
+		for(var i = 0; i < self.equipment.length; i++)
+			resistanceVal += self.getEquipmentResistance(self.equipment[i], type);
+		return resistanceVal;
 	}
 	
 	// Equipment
@@ -97,6 +100,14 @@ function hero (values) {
 	self.equipment[ITEM_ARMOR] = ITEMS[1].clone();
 	self.equipment[ITEM_RANGED] = null;
 	self.equipment[ITEM_ACCESSORY] = null;
+	
+	this.getEquipmentResistance = function (item, resistanceType) {
+		if(item == null)
+			return 0;
+		if(item.resistances == undefined)
+			return 0;
+		return item.resistances[resistanceType] || 0;
+	}
 	
 	this.getEquipment = function (itemType) {
 		return self.equipment[itemType];

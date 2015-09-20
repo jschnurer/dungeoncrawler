@@ -185,23 +185,23 @@ function levelUpChooseHero(heroIx) {
 	currLevelUpHero = h;
 	
 	$levelUpHeroName.html(h.name);
-    $levelUpMight.html(h.might);
-    $levelUpDexterity.html(h.dexterity);
-    $levelUpToughness.html(h.toughness);
-    $levelUpAccuracy.html(h.accuracy);
-    $levelUpSpeed.html(h.speed);
-    $levelUpCognition.html(h.cognition);
-    $levelUpPiety.html(h.piety);
-    $levelUpIntellect.html(h.intellect);
+    $levelUpMight.html(h.getStat(STAT_MGHT));
+    $levelUpDexterity.html(h.getStat(STAT_DEX));
+    $levelUpToughness.html(h.getStat(STAT_TGH));
+    $levelUpAccuracy.html(h.getStat(STAT_ACC));
+    $levelUpSpeed.html(h.getStat(STAT_SPD));
+    $levelUpCognition.html(h.getStat(STAT_COG));
+    $levelUpPiety.html(h.getStat(STAT_PIE));
+    $levelUpIntellect.html(h.getStat(STAT_INT));
 	
-	$levelUpMight.data('starting', h.might);
-    $levelUpDexterity.data('starting', h.dexterity);
-    $levelUpToughness.data('starting', h.toughness);
-    $levelUpAccuracy.data('starting', h.accuracy);
-    $levelUpSpeed.data('starting', h.speed);
-    $levelUpCognition.data('starting', h.cognition);
-    $levelUpPiety.data('starting', h.piety);
-    $levelUpIntellect.data('starting', h.intellect);
+	$levelUpMight.data('starting', h.getStat(STAT_MGHT));
+    $levelUpDexterity.data('starting', h.getStat(STAT_DEX));
+    $levelUpToughness.data('starting', h.getStat(STAT_TGH));
+    $levelUpAccuracy.data('starting', h.getStat(STAT_ACC));
+    $levelUpSpeed.data('starting', h.getStat(STAT_SPD));
+    $levelUpCognition.data('starting', h.getStat(STAT_COG));
+    $levelUpPiety.data('starting', h.getStat(STAT_PIE));
+    $levelUpIntellect.data('starting', h.getStat(STAT_INT));
 	
 	$levelUpLevel.html(h.level);
 	$levelUpCost.html(h.getAdvancementCost());
