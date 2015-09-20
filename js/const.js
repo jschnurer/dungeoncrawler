@@ -64,6 +64,7 @@ var TILE_CEILING = 67;
 var TILE_CEILING_FLOOR = 66;
 var TILE_GRASS = 71;
 var TILE_PLACE_OF_POWER = 1;
+var TILE_CHEST = 84;
 
 var CLASS_KNIGHT = 1;
 var CLASS_THIEF = 2;
@@ -142,17 +143,10 @@ function getRandomItem(items) {
 }
 
 function computeDamage(damage, resistance) {
-	var damageMult = 1;
-	var testNum = 1;
-	
-	while(true) {
-		if(rand(0, 100) <= (1.0 - 30.0 / (30.0 + resistance)) * 100) {
-			damageMult = damageMult / 2.0;
-		}
-		testNum++;
-		if(testNum == 4)
-			break;
-	}
-	
-	return Math.floor(damageMult * damage);
+	if(resistance == 100)
+		return 0;
+	else if(resistance > 100)
+		return Math.floor(damage * ((100 - resistance)/100.0));
+	else
+		return Math.floor(damage * (100 - resistance)/100.0);
 }

@@ -24,35 +24,37 @@ item.prototype.getTooltip = function() {
 		tooltip += WEAPON_WEIGHT_NAMES[this.weight] + ' ' + ITEM_TYPE_NAMES[this.type] + '<br /><br />';
 		
 		tooltip += this.minDamage + ' to ' + this.maxDamage + ' ' + ELEM_NAMES[this.damageType] + ' damage';
-		
-		var reqString = 'Requires: ';
-		var anyReqs = false;
-		
-		for(var i = 0; i < this.reqs.length; i++) {
-			if(this.reqs[i] > 0) {
-				reqString += this.reqs[i] + ' ' + STAT_NAMES[i] + ', ';
-				anyReqs = true;
-			}
-		}
-		
-		if(anyReqs) {
-			tooltip += '<br /><br />' + reqString.substr(0, reqString.length - 2);
-		}
 	} else {
 		tooltip += ITEM_TYPE_NAMES[this.type] + '<br />';
-		
-		if(this.type == ITEM_ARMOR) {
-			if(this.dodge != undefined && this.dodge != 0) {
-				tooltip += '<br />' + this.dodge + ' dodge';
-			}
-			if(this.resistances != undefined) {
-				for(var i = 0; i < this.resistances.length; i++) {
-					if(this.resistances[i] != 0) {
-						tooltip += '<br />' + this.resistances[i] + ' ' + ELEM_NAMES[i] + ' resistance';
-					}
-				}
+	}
+	
+	if(this.accBonus) {
+		tooltip += '<br />' + this.accBonus + ' to hit';
+	}
+	
+	if(this.dodge != undefined && this.dodge != 0) {
+		tooltip += '<br />' + this.dodge + ' dodge';
+	}
+	if(this.resistances != undefined) {
+		for(var i = 0; i < this.resistances.length; i++) {
+			if(this.resistances[i] != 0) {
+				tooltip += '<br />' + this.resistances[i] + ' ' + ELEM_NAMES[i] + ' resistance';
 			}
 		}
+	}
+	
+	var reqString = 'Requires: ';
+	var anyReqs = false;
+	
+	for(var i = 0; i < this.reqs.length; i++) {
+		if(this.reqs[i] > 0) {
+			reqString += this.reqs[i] + ' ' + STAT_NAMES[i] + ', ';
+			anyReqs = true;
+		}
+	}
+	
+	if(anyReqs) {
+		tooltip += '<br /><br />' + reqString.substr(0, reqString.length - 2);
 	}
 	
 	return tooltip;
@@ -99,4 +101,26 @@ ITEMS[1] = new item ({
 	icon: 'clothes.png',
 	type: ITEM_ARMOR,
 	dodge: 1
+});
+
+ITEMS[2] = new item ({
+	id: 2,
+	name: 'Leather Armor',
+	icon: 'leather.png',
+	type: ITEM_ARMOR,
+	dodge: 2,
+	resistances: [2, 0, 0, 0, 0, 0, 0, 0]
+});
+
+ITEMS[3] = new item ({
+	id: 3,
+	name: 'Dagger',
+	icon: 'dagger.png',
+	type: ITEM_MELEE,
+	weight: WEAPON_LIGHT,
+	minDamage: 1,
+	maxDamage: 4,
+	damageType: ELEM_PHYS,
+	accBonus: 1,
+	reqs: [1, 5, 0, 0, 0, 0, 0, 0]
 });

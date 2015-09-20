@@ -8,10 +8,18 @@ inventory.prototype.handleInput = function (e) {
 inventory.prototype.maxLength = 45;
 inventory.prototype.items = [];
 inventory.prototype.gainItem = function (item, cloneItem) {
-	if(cloneItem)
-		this.items.push(item.clone());
-	else
-		this.items.push(item);
+	for(var i = 0; i < this.maxLength; i++) {
+		if(this.items[i] == undefined || this.items[i] == null) {
+			if(cloneItem)
+				this.items.push(item.clone());
+			else
+				this.items.push(item);
+			
+			return true;
+		}
+	}
+	
+	return false;
 }
 inventory.prototype.putItemInPosition = function (item, pos) {
 	this.items[pos] = item;

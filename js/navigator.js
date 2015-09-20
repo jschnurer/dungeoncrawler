@@ -27,6 +27,7 @@ function navigator() {
 	this.tileSets[TILE_CEILING] = $('#IMG_TILE_' + TILE_CEILING)[0];
 	this.tileSets[TILE_GRASS] = $('#IMG_TILE_' + TILE_GRASS)[0];
 	this.tileSets[TILE_PLACE_OF_POWER] = $('#IMG_TILE_' + TILE_PLACE_OF_POWER)[0];
+	this.tileSets[TILE_CHEST] = $('#IMG_TILE_' + TILE_CHEST)[0];
 	
 	var tileDestWidth = 80 * SCALE;
 	var tileDestHeight = 120 * SCALE;
@@ -100,6 +101,9 @@ function navigator() {
 		
 		if(mapTile.code == 'P') {
 			ctx.drawImage(self.tileSets[TILE_PLACE_OF_POWER], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
+		}
+		if(getEventShowChest(x, y)) {
+			ctx.drawImage(self.tileSets[TILE_CHEST], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
 		}
 	}
 	
@@ -315,6 +319,18 @@ function navigator() {
 			&& tile.event.hardnessScript != ''
 			&& tile.event.hardnessScript != undefined) {
 			return eval(tile.event.hardnessScript);
+		} else {
+			return false;
+		}
+	}
+	
+	function getEventShowChest(x, y) {
+		var tile = self.map.tiles[y][x];
+		if(tile != undefined
+			&& tile.event != null
+			&& tile.event.showChestScript != ''
+			&& tile.event.showChestScript != undefined) {
+			return eval(tile.event.showChestScript);
 		} else {
 			return false;
 		}

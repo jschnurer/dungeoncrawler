@@ -75,7 +75,7 @@ MONSTERS[0] = {
 	life: 8,
 	maxLife: 8,
 	randomLife: 8,
-	image: 'skeleton.png',
+	image: 'gnasher.png',
 	resistances: [0, 0, 0, 0, 0, 0, 0],
 	experience: 50,
 	dodge: 7,

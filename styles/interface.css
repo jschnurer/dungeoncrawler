@@ -158,7 +158,6 @@ canvas {
 }
 
 #combatView {
-	background: black;
 	display: none;
 	position: absolute;
 	margin: 15px auto;
@@ -175,6 +174,7 @@ canvas {
 	border: 1px white solid;
 	padding: 10px;
 	cursor: pointer;
+	background: black;
 }
 
 #combatView .monster > span{

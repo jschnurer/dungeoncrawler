@@ -35,20 +35,22 @@ function continueMessageQueue() {
 	}
 }
 
-function showText(message, resumeGameMode) {
+function showText(message, resumeGameMode, blocking) {
 	getCommandPanel().html('<p>' + message.replace(/\[br\]/g, '<br />') + '</p>');
-	var continueLink = $('<a class="spaceToContinue" data-resume-game-mode="'+(resumeGameMode == undefined ? MODE_NAV : resumeGameMode)+'">Press [SPACE] to continue</a>');
-	continueLink.click(function () { 
-		var resumeMode = $(this).attr('data-resume-game-mode');
-		
-		if(resumeMode != undefined) {
-			GAME_MODE = resumeMode;
-		}
-		
-		clearText();
-	});
-	getCommandPanel().append(continueLink);
-	GAME_MODE = MODE_CONTINUE;
+	if(blocking == undefined || blocking == true) {
+		var continueLink = $('<a class="spaceToContinue" data-resume-game-mode="'+(resumeGameMode == undefined ? MODE_NAV : resumeGameMode)+'">Press [SPACE] to continue</a>');
+		continueLink.click(function () { 
+			var resumeMode = $(this).attr('data-resume-game-mode');
+			
+			if(resumeMode != undefined) {
+				GAME_MODE = resumeMode;
+			}
+			
+			clearText();
+		});
+		getCommandPanel().append(continueLink);
+		GAME_MODE = MODE_CONTINUE;
+	}
 }
 
 function showChoices(message, choices) {

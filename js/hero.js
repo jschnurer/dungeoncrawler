@@ -186,7 +186,7 @@ function hero (values) {
 			return {
 				dodgeable: true,
 				accuracy: acc,
-				damages: [{damage: 1, type: ELEM_PHYS}] + Math.floor(rand(self.getStat(STAT_MIGHT)*self.mightMinDamageBonusRatio, self.getStat(STAT_MIGHT)*self.mightMaxDamageBonusRatio))
+				damages: [{damage: 1, type: ELEM_PHYS}] + Math.floor(rand(self.getStat(STAT_MGHT)*self.mightMinDamageBonusRatio, self.getStat(STAT_MGHT)*self.mightMaxDamageBonusRatio))
 			};
 		} else {
 			return {
@@ -194,7 +194,7 @@ function hero (values) {
 				accuracy: acc,
 				damages: [{
 					damage: rand(meleeWeapon.minDamage, meleeWeapon.maxDamage)
-						+ Math.floor(rand(self.getStat(STAT_MIGHT)*self.mightMinDamageBonusRatio, self.getStat(STAT_MIGHT)*self.mightMaxDamageBonusRatio)),
+						+ Math.floor(rand(self.getStat(STAT_MGHT)*self.mightMinDamageBonusRatio, self.getStat(STAT_MGHT)*self.mightMaxDamageBonusRatio)),
 					type: meleeWeapon.damageType
 				}]
 			};
@@ -227,6 +227,16 @@ function hero (values) {
 	
 	this.takeDamage = function (damage) {
 		var damageTaken = computeDamage(damage.damage, self.resistances[damage.type]);
+		
+		if(damageTaken < 0) {
+			if(self.life < self.maxLife) {
+				self.life += damageTaken;
+				if(self.life > self.maxLife)
+					self.life = self.maxLife;
+			}
+			log(self.name + ' absorbs ' + damageTaken + ' ' + ELEM_NAMES[damage.type] + ' damage.');
+			return damageTaken;
+		}
 		
 		self.life -= damageTaken;
 		updateBars();

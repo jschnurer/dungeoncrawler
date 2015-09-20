@@ -262,6 +262,7 @@ function handleEventPopup() {
 	$('#eventFacing').val('*');
 	$('#eventScript').val('');
 	$('#eventHardnessScript').val('');
+	$('#eventShowChestScript').val('');
 	
 	var cell = getCurrentCell()[0];
 	
@@ -272,6 +273,7 @@ function handleEventPopup() {
 		$('#eventFacing').val(existingEvent.facing);
 		$('#eventScript').val(existingEvent.script);
 		$('#eventHardnessScript').val(existingEvent.hardnessScript);
+		$('#eventShowChestScript').val(existingEvent.showChestScript);
 	}
 	
 	currentEventX = currentCell.x;
@@ -292,6 +294,7 @@ function saveEvent() {
 	existingEvent.facing = $('#eventFacing').val();
 	existingEvent.script = $('#eventScript').val();
 	existingEvent.hardnessScript = $('#eventHardnessScript').val();
+	existingEvent.showChestScript = $('#eventShowChestScript').val();
 	
 	jQuery.data(cell, 'event', existingEvent);
 	$(cell).addClass('eventCell');
@@ -304,6 +307,7 @@ function cancelEvent() {
 
 function deleteEvent() {
 	var cell = $('#map tr:nth-child(' + (currentEventY + 1) + ') td:nth-child(' + (currentEventX + 1) + ')')[0];
+	$(cell).removeClass('eventCell');
 	jQuery.removeData(cell, 'event');
 	$('#eventPopup').hide();
 }
