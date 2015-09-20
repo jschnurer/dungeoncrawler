@@ -15,14 +15,16 @@ function hero (values) {
 	
 	// stat block
 	self.level = values.level || 1;
-	self.might = values.might;
-	self.dexterity = values.dexterity;
-	self.toughness = values.toughness;
-	self.accuracy = values.accuracy;
-	self.speed = values.speed;
-	self.cognition = values.cognition;
-	self.piety = values.piety;
-	self.intellect = values.intellect;
+	self.stats = values.stats;
+	
+	this.getStat = function(statId) {
+		return self.stats[statId];
+	}
+	
+	this.levelUpStat = function(statId) {
+		self.stats[statId]++;
+		// TODO: update derived stats
+	}
 	
 	self.getAdvancementCost = function () {
 		var lv = self.level + 1;
@@ -33,59 +35,96 @@ function hero (values) {
 	self.mana = values.mana;
 	self.maxMana = values.maxMana;
 	if(values.mana == undefined) {
-		self.mana = values.cognition * cogToMana[values.charClass]
-					+ values.piety * pieIntToMana[values.charClass]
-					+ values.intellect * pieIntToMana[values.charClass];
+		self.mana = self.getStat(STAT_COG) * cogToMana[values.charClass]
+					+ self.getStat(STAT_PIE) * pieIntToMana[values.charClass]
+					+ self.getStat(STAT_INT) * pieIntToMana[values.charClass];
 		self.maxMana = self.mana;
 	}
 	
 	self.life = values.life;
 	self.maxLife = values.maxLife;
 	if(values.life == undefined) {
-		self.life = values.life != undefined ? values.life : values.toughness * tghToLife[values.charClass];
+		self.life = values.life != undefined ? values.life : self.getStat(STAT_TGH) * tghToLife[values.charClass];
 		self.maxLife = self.life;
 	}
 	
 	self.mightMinDamageBonusRatio = .25;
 	self.mightMaxDamageBonusRatio = 1;
-	self.getMightDamageBonusString = function () { return Math.round(self.might * self.mightMinDamageBonusRatio) + ' - ' + Math.round(self.might * self.mightMaxDamageBonusRatio); };
+	self.getMightDamageBonusString = function () { return Math.round(self.getStat(STAT_MGHT) * self.mightMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_MGHT) * self.mightMaxDamageBonusRatio); };
 	
 	self.dexMinDamageBonusRatio = .25;
 	self.dexMaxDamageBonusRatio = .1;
-	self.getDexDamageBonusString = function () { return Math.round(self.dexterity * self.dexMinDamageBonusRatio) + ' - ' + Math.round(self.dexterity * self.dexMaxDamageBonusRatio); };
+	self.getDexDamageBonusString = function () { return Math.round(self.getStat(STAT_DEX) * self.dexMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_DEX) * self.dexMaxDamageBonusRatio); };
 		
 	self.dodge = values.dodge;
 	if(values.dodge == undefined) {
-		self.dodge = Math.round(self.speed / 3);
+		self.dodge = Math.round(self.getStat(STAT_SPD) / 3);
 	}
 	
 	self.turnsPerRound = values.turnsPerRound;	
 	if(values.turnsPerRound == undefined) {
-		self.turnsPerRound = 1 + Math.floor(self.speed / 30);
+		self.turnsPerRound = 1 + Math.floor(self.getStat(STAT_SPD) / 30);
 	}
 	
 	self.spellMinDamageBonusRatio = .25;
 	self.spellMaxDamageBonusRatio = 1;
-	self.getSpellDamageBonusString = function () { return Math.round(self.intellect * self.spellMinDamageBonusRatio) + ' - ' + Math.round(self.intellect * self.spellMaxDamageBonusRatio); };
+	self.getSpellDamageBonusString = function () { return Math.round(self.getStat(STAT_INT) * self.spellMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_INT) * self.spellMaxDamageBonusRatio); };
 	
 	self.portentMinDamageBonusRatio = .25;
 	self.portentMaxDamageBonusRatio = 1;
-	self.getPortentDamageBonusString = function () { return Math.round(self.piety * self.portentMinDamageBonusRatio) + ' - ' + Math.round(self.piety * self.portentMaxDamageBonusRatio); };
+	self.getPortentDamageBonusString = function () { return Math.round(self.getStat(STAT_PIE) * self.portentMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_PIE) * self.portentMaxDamageBonusRatio); };
 	
 	// P,F,W,E,A,B,M,S
 	self.resistances = values.resistances;
 	if(values.resistances == undefined) {
 		self.resistances = [0,0,0,0,0,0,0,0];
 		
-		self.resistances[ELEM_PHYS] = Math.floor(self.toughness / 3);
+		self.resistances[ELEM_PHYS] = Math.floor(self.getStat(STAT_TGH) / 3);
 		
 		for(var i = 1; i < self.resistances.length; i++) {
-			self.resistances[i] = Math.round(self.intellect / 2 + self.piety / 2);
+			self.resistances[i] = Math.round(self.getStat(STAT_INT) / 2 + self.getStat(STAT_PIE) / 2);
 		}
 	}
 	
 	self.getResistance = function (type) {
 		return self.resistances[type];
+	}
+	
+	// Equipment
+	self.equipment = [];
+	self.equipment[ITEM_MELEE] = ITEMS[0].clone();
+	self.equipment[ITEM_SHIELD] = null;
+	self.equipment[ITEM_ARMOR] = ITEMS[1].clone();
+	self.equipment[ITEM_RANGED] = null;
+	self.equipment[ITEM_ACCESSORY] = null;
+	
+	this.getEquipment = function (itemType) {
+		return self.equipment[itemType];
+	}
+	
+	this.equipItem = function (item) {		
+		self.equipment[item.type] = item;
+		return true;
+	}
+	
+	this.canEquip = function (item) {
+		if(item.reqs != undefined) {
+			for(var i = 0; i < item.reqs.length; i++) {
+				if (item.reqs[i] > self.stats[i])
+					return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	this.removeEquipment = function (itemType) {
+		if(self.equipment[itemType] == null)
+			return null;
+		
+		var theItem = self.getEquipment(itemType);
+		self.equipment[itemType] = null;
+		return theItem;
 	}
 	
 	if(values.gender == GENDERS_MALE) {
@@ -97,12 +136,10 @@ function hero (values) {
 		this.ownershipPronouns = 'her';
 	}
 	
-	self.meleeWeapon = ITEMS[0];
-	
 	updateBars();
 	
 	this.getInitiative = function () {
-		return rollStat(self.speed);
+		return rollStat(self.getStat(STAT_SPD));
 	}
 	
 	this.fullHeal = function () {
@@ -130,19 +167,25 @@ function hero (values) {
 	}
 	
 	this.getMeleeAttack = function () {
-		var acc = rollStat(self.accuracy + (self.meleeWeapon == null ? 0 : self.meleeWeapon.accBonus));
+		var meleeWeapon = self.getEquipment(ITEM_MELEE);
 		
-		if(self.meleeWeapon == null) {
+		var acc = rollStat(self.getStat(STAT_ACC) + (meleeWeapon == null ? 0 : meleeWeapon.accBonus));
+		
+		if(meleeWeapon == null) {
 			return {
 				dodgeable: true,
 				accuracy: acc,
-				damages: [{damage: 1, type: ELEM_PHYS}] + Math.floor(rand(self.might*self.mightMinDamageBonusRatio, self.might*self.mightMaxDamageBonusRatio))
+				damages: [{damage: 1, type: ELEM_PHYS}] + Math.floor(rand(self.getStat(STAT_MIGHT)*self.mightMinDamageBonusRatio, self.getStat(STAT_MIGHT)*self.mightMaxDamageBonusRatio))
 			};
 		} else {
 			return {
 				dodgeable: true,
 				accuracy: acc,
-				damages: [{damage: rand(self.meleeWeapon.minDamage, self.meleeWeapon.maxDamage) + Math.floor(rand(self.might*self.mightMinDamageBonusRatio, self.might*self.mightMaxDamageBonusRatio)), type: self.meleeWeapon.damageType}]
+				damages: [{
+					damage: rand(meleeWeapon.minDamage, meleeWeapon.maxDamage)
+						+ Math.floor(rand(self.getStat(STAT_MIGHT)*self.mightMinDamageBonusRatio, self.getStat(STAT_MIGHT)*self.mightMaxDamageBonusRatio)),
+					type: meleeWeapon.damageType
+				}]
 			};
 		}
 	}

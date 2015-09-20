@@ -214,6 +214,8 @@ function navigator() {
 		} else if(key == KEY_SPACE) {
 			clearText();
 			doActivate();
+		} else if(key == KEY_I) {
+			INVENTORY.open(0);
 		}
 	}
 	

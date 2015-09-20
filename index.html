@@ -1,6 +1,7 @@
 <html>
 <head>
 <link href="styles/interface.css" rel="stylesheet" type="text/css" />
+<link href="styles/inventory.css" rel="stylesheet" type="text/css" />
 <link href="styles/jquery-ui.min.css" rel="stylesheet" type="text/css" />
 <script src="js/const.js" language="javascript" type="text/javascript"></script>
 <script src="js/gamevars.js" language="javascript" type="text/javascript"></script>
@@ -16,6 +17,7 @@
 <script src="js/combat.js" language="javascript" type="text/javascript"></script>
 <script src="js/party.js" language="javascript" type="text/javascript"></script>
 <script src="js/placeofpower.js" language="javascript" type="text/javascript"></script>
+<script src="js/inventory.js" language="javascript" type="text/javascript"></script>
 </head>
 <body>
 <div class="interface">
@@ -26,6 +28,63 @@
 		<div id="monsterList"></div>
 	</div>
 
+	<div id="partyInventory">
+		<div id="invCurrHero">
+			<span id="invHeroName">&nbsp;</span>
+			<div><label id="heroMelee" title="Melee Weapon" data-equipSlot="1"></label></div>
+			<div><label id="heroShield" title="Shield" data-equipSlot="4"></label></div>
+			<div><label id="heroArmor" title="Armor" data-equipSlot="2"></label></div>
+			<div><label id="heroAccessory" title="Accessory" data-equipSlot="3"></label></div>
+		</div>
+		<div id="invItems">
+			<label data-pos="0"></label>
+			<label data-pos="1"></label>
+			<label data-pos="2"></label>
+			<label data-pos="3"></label>
+			<label data-pos="4"></label>
+			<label data-pos="5"></label>
+			<label data-pos="6"></label>
+			<label data-pos="7"></label>
+			<label data-pos="8"></label>
+			<label data-pos="9"></label>
+			<label data-pos="10"></label>
+			<label data-pos="11"></label>
+			<label data-pos="12"></label>
+			<label data-pos="13"></label>
+			<label data-pos="14"></label>
+			<label data-pos="15"></label>
+			<label data-pos="16"></label>
+			<label data-pos="17"></label>
+			<label data-pos="18"></label>
+			<label data-pos="19"></label>
+			<label data-pos="20"></label>
+			<label data-pos="21"></label>
+			<label data-pos="22"></label>
+			<label data-pos="23"></label>
+			<label data-pos="24"></label>
+			<label data-pos="25"></label>
+			<label data-pos="26"></label>
+			<label data-pos="27"></label>
+			<label data-pos="28"></label>
+			<label data-pos="29"></label>
+			<label data-pos="30"></label>
+			<label data-pos="31"></label>
+			<label data-pos="32"></label>
+			<label data-pos="33"></label>
+			<label data-pos="34"></label>
+			<label data-pos="35"></label>
+			<label data-pos="36"></label>
+			<label data-pos="37"></label>
+			<label data-pos="38"></label>
+			<label data-pos="39"></label>
+			<label data-pos="40"></label>
+			<label data-pos="41"></label>
+			<label data-pos="42"></label>
+			<label data-pos="43"></label>
+			<label data-pos="44"></label>
+		</div>
+	</div>
+	
 	<div id="char1" class="charPanel">
 		<div id="selector"></div>
 		<div class="life meter" id="life1">20/20</div>
@@ -64,17 +123,17 @@
 			<li><a id="levelNone">Done</a></li>
 		</ol>
 		<div id="levelUpHeroStats">
-			<span id="levelUpHeroName">Crag the Hack</span>
+			<span id="levelUpHeroName"></span>
 			
 			<ul id="levelUpStats">
-				<li id="levelUpMight"><span>8</span><label title="Might is the measure of a hero's physical strength. It increases the damage dealt with heavier melee weapons.">Might</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
-				<li id="levelUpDexterity"><span>8</span><label title="Dexterity is the measure of a hero's deftness of arms. It increases the damage dealt with light melee and ranged weapons.">Dexterity</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
-				<li id="levelUpToughness"><span>8</span><label title="Toughness is the measure of a hero's physical fortitude. It increases a hero's life force and their resistances slightly.">Toughness</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
-				<li id="levelUpAccuracy"><span>8</span><label title="Accuracy is the measure of a hero's hand-eye coordination. It increases a hero's chance to successfully strike an enemy with a melee or ranged attack.">Accuracy</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
-				<li id="levelUpSpeed"><span>8</span><label title="Speed is the measure of a hero's alacrity. It determines a hero's order in combat, number of turns per round, ability to dodge attacks and aids in the party's ability to flee from combat encounters.">Speed</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
-				<li id="levelUpCognition"><span>8</span><label title="Cognition is the measure of a hero's ability to obtain and remember information. It increases a hero's mana pool and slightly increases portent and spell effectiveness.">Cognition</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
-				<li id="levelUpPiety"><span>8</span><label title="Piety is a measure of a hero's faith in their gods. It increases a hero's mana pool slightly, increases the effectiveness of portents, and increases resistances slightly.">Piety</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
-				<li id="levelUpIntellect"><span>8</span><label title="Intellect is a measure of a hero's cleverness and ability to solve complex problems. It increases a hero's mana pool slightly, increases the effectiveness of spells, and increases resistances slightly.">Intellect</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
+				<li id="levelUpMight"><span/span><label title="Might is the measure of a hero's physical strength. It increases the damage dealt with heavier melee weapons.">Might</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
+				<li id="levelUpDexterity"><span/span><label title="Dexterity is the measure of a hero's deftness of arms. It increases the damage dealt with light melee weapons.">Dexterity</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
+				<li id="levelUpToughness"><span/span><label title="Toughness is the measure of a hero's physical fortitude. It increases a hero's life force and their resistances slightly.">Toughness</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
+				<li id="levelUpAccuracy"><span/span><label title="Accuracy is the measure of a hero's hand-eye coordination. It increases a hero's chance to successfully strike an enemy with a melee attack.">Accuracy</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
+				<li id="levelUpSpeed"><span/span><label title="Speed is the measure of a hero's alacrity. It determines a hero's order in combat, number of turns per round, ability to dodge attacks and aids in the party's ability to flee from combat encounters.">Speed</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
+				<li id="levelUpCognition"><span/span><label title="Cognition is the measure of a hero's ability to obtain and remember information. It increases a hero's mana pool and slightly increases portent and spell effectiveness.">Cognition</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
+				<li id="levelUpPiety"><span/span><label title="Piety is a measure of a hero's faith in their gods. It increases a hero's mana pool slightly, increases the effectiveness of portents, and increases resistances slightly.">Piety</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
+				<li id="levelUpIntellect"><span/span><label title="Intellect is a measure of a hero's cleverness and ability to solve complex problems. It increases a hero's mana pool slightly, increases the effectiveness of spells, and increases resistances slightly.">Intellect</label><div class="levelUpDown">[<a class="levelUpMinus">-</a> | <a class="levelUpPlus">+</a>]</div></li>
 			</ul>
 			
 			<a id="levelUpConfirm">Confirm (Space)</a>
@@ -84,24 +143,24 @@
 				<span id="levelUpLevel">Lv. <span></span></span>
 				<span id="levelUpCost">Advancement Cost: <span></span></span>
 				<ul id="levelUpDerivedStats1">
-					<li id="levelUpLife"><label title="Life is the measure of a hero's total physical reserves. When it reaches 0, the hero is knocked unconcious. When it reaches -20% of the maximum, the hero is killed.">Life</label><span>8</span></li>
-					<li id="levelUpMana"><label title="Mana is the measure of a hero's total magical reserves. It is spent to cast portents and spells.">Mana</label><span>8</span></li>
-					<li id="levelUpMightDamageBonus"><label title="Might damage bonus is the measure of the damage added to attacks made with heavy melee weapons.">Might Damage Bonus</label><span>0 - 5</span></li>
-					<li id="levelUpDexterityDamageBonus"><label title="Dexterity damage bonus is the measure of the damage added to attacks made with light melee and ranged weapons.">Dexterity Damage Bonus</label><span>0 - 2</span></li>
-					<li id="levelUpDodge"><label title="Dodge is the measure of a hero's ability to dodge incoming attacks.">Dodge</label><span>8</span></li>
-					<li id="levelUpTurnsPerRound"><label title="Turns per round is the number of actions a hero is allowed to make during one round of combat.">Turns Per Round</label><span>1</span></li>
-					<li id="levelUpPortentDamageBonus"><label title="Portent Damage Bonus is the bonus damage that is added when dealing damage with portents.">Portent Damage Bonus</label><span>0 - 0</span></li>
-					<li id="levelUpSpellDamageBonus"><label title="Spell Damage Bonus is the bonus damage that is added when dealing damage with spells.">Spell Damage Bonus</label><span>0 - 0</span></li>
+					<li id="levelUpLife"><label title="Life is the measure of a hero's total physical reserves. When it reaches 0, the hero is knocked unconcious. When it reaches -20% of the maximum, the hero is killed.">Life</label><span/span></li>
+					<li id="levelUpMana"><label title="Mana is the measure of a hero's total magical reserves. It is spent to cast portents and spells.">Mana</label><span/span></li>
+					<li id="levelUpMightDamageBonus"><label title="Might damage bonus is the measure of the damage added to attacks made with heavy melee weapons.">Might Damage Bonus</label><span></span></li>
+					<li id="levelUpDexterityDamageBonus"><label title="Dexterity damage bonus is the measure of the damage added to attacks made with light melee weapons.">Dexterity Damage Bonus</label><span></span></li>
+					<li id="levelUpDodge"><label title="Dodge is the measure of a hero's ability to dodge incoming attacks.">Dodge</label><span/span></li>
+					<li id="levelUpTurnsPerRound"><label title="Turns per round is the number of actions a hero is allowed to make during one round of combat.">Turns Per Round</label><span></span></li>
+					<li id="levelUpPortentDamageBonus"><label title="Portent Damage Bonus is the bonus damage that is added when dealing damage with portents.">Portent Damage Bonus</label><span></span></li>
+					<li id="levelUpSpellDamageBonus"><label title="Spell Damage Bonus is the bonus damage that is added when dealing damage with spells.">Spell Damage Bonus</label><span></span></li>
 				</ul>
 				<ul id="levelUpDerivedStats2">
-					<li id="levelUpResistPhysical"><label title="Physical Resist gives the chance of reducing incoming physical damage.">Physical Resistance</label><span>0</span></li>
-					<li id="levelUpResistFire"><label title="Fire Resist gives the chance of reducing incoming fire damage.">Fire Resistance</label><span>0</span></li>
-					<li id="levelUpResistWater"><label title="Water Resist gives the chance of reducing incoming water damage.">Water Resistance</label><span>0</span></li>
-					<li id="levelUpResistEarth"><label title="Earth Resist gives the chance of reducing incoming earth damage.">Earth Resistance</label><span>0</span></li>
-					<li id="levelUpResistAir"><label title="Air Resist gives the chance of reducing incoming air damage.">Air Resistance</label><span>0</span></li>
-					<li id="levelUpResistBody"><label title="Body Resist gives the chance of reducing incoming body damage.">Body Resistance</label><span>0</span></li>
-					<li id="levelUpResistMind"><label title="Mind Resist gives the chance of reducing incoming mind damage.">Mind Resistance</label><span>0</span></li>
-					<li id="levelUpResistSpirit"><label title="Spirit Resist gives the chance of reducing incoming spirit damage.">Spirit Resistance</label><span>0</span></li>
+					<li id="levelUpResistPhysical"><label title="Physical Resist gives the chance of reducing incoming physical damage.">Physical Resistance</label><span></span></li>
+					<li id="levelUpResistFire"><label title="Fire Resist gives the chance of reducing incoming fire damage.">Fire Resistance</label><span></span></li>
+					<li id="levelUpResistWater"><label title="Water Resist gives the chance of reducing incoming water damage.">Water Resistance</label><span></span></li>
+					<li id="levelUpResistEarth"><label title="Earth Resist gives the chance of reducing incoming earth damage.">Earth Resistance</label><span></span></li>
+					<li id="levelUpResistAir"><label title="Air Resist gives the chance of reducing incoming air damage.">Air Resistance</label><span></span></li>
+					<li id="levelUpResistBody"><label title="Body Resist gives the chance of reducing incoming body damage.">Body Resistance</label><span></span></li>
+					<li id="levelUpResistMind"><label title="Mind Resist gives the chance of reducing incoming mind damage.">Mind Resistance</label><span></span></li>
+					<li id="levelUpResistSpirit"><label title="Spirit Resist gives the chance of reducing incoming spirit damage.">Spirit Resistance</label><span></span></li>
 				</ul>
 			</div>
 		</div>
@@ -139,14 +198,7 @@ $(function() {
 			gender: GENDERS_MALE,
 			charClass: CLASS_KNIGHT,
 			portrait: 'images/portraits/male_1.png',
-			might: 15,
-			dexterity: 6,
-			toughness: 13,
-			accuracy: 12,
-			speed: 10,
-			cognition: 3,
-			piety: 2,
-			intellect: 2
+			stats: [15,6,13,12,10,3,2,2]
 		}),
 		new hero({
 			num:2,
@@ -154,14 +206,7 @@ $(function() {
 			gender: GENDERS_FEMALE,
 			charClass: CLASS_CLERIC,
 			portrait: 'images/portraits/female_3.png',
-			might: 8,
-			dexterity: 4,
-			toughness: 9,
-			accuracy: 8,
-			speed: 5,
-			cognition: 10,
-			piety: 15,
-			intellect: 4
+			stats: [8,4,9,8,5,10,15,4]
 		}),
 		new hero({
 			num:3,
@@ -169,14 +214,7 @@ $(function() {
 			gender: GENDERS_MALE,
 			charClass: CLASS_THIEF,
 			portrait: 'images/portraits/male_5.png',
-			might: 7,
-			dexterity: 14,
-			toughness: 10,
-			accuracy: 16,
-			speed: 14,
-			cognition: 3,
-			piety: 2,
-			intellect: 2
+			stats: [7,14,10,16,14,3,2,2]
 		}),
 		new hero({
 			num:4,
@@ -184,14 +222,7 @@ $(function() {
 			gender: GENDERS_FEMALE,
 			charClass: CLASS_SORCERER,
 			portrait: 'images/portraits/female_2.png',
-			might: 2,
-			dexterity: 7,
-			toughness: 8,
-			accuracy: 10,
-			speed: 11,
-			cognition: 14,
-			piety: 5,
-			intellect: 15
+			stats: [2,7,8,10,11,14,5,15]
 		})
 	]);
 

@@ -2,13 +2,18 @@ var GAME_MODE = MODE_NAV;
 var SELECTED_HERO = 1;
 
 $(function() {
-	$('#char1').click(function () { selectChar(1); });
-	$('#char2').click(function () { selectChar(2); });
-	$('#char3').click(function () { selectChar(3); });
-	$('#char4').click(function () { selectChar(4); });
+	$('#char1').click(function () { selectHero(0); });
+	$('#char2').click(function () { selectHero(1); });
+	$('#char3').click(function () { selectHero(2); });
+	$('#char4').click(function () { selectHero(3); });
 
 	$(document).keydown(function(e) {
 		console.log(e.which);
+		
+		if(GAME_MODE == MODE_INVENTORY) {
+			INVENTORY.handleInput(e);
+			return;
+		}
 		
 		if(GAME_MODE == MODE_LEVEL_UP) {
 			handleLevelUpInput(e);
@@ -81,10 +86,12 @@ function hideSelector() {
 	$('#selector').hide();
 }
 
-function selectHero(num) {
-	SELECTED_HERO = num;
-	showSelector();
-	updateSelector();
+function selectHero(ix) {
+	if(GAME_MODE == MODE_INVENTORY) {
+		INVENTORY.selectHero(ix);
+	} else if(GAME_MODE == MODE_NAV) {
+		INVENTORY.open(ix);
+	}
 }
 
 function updateSelector() {

@@ -17,6 +17,8 @@ var KEY_DOWN_ARROW = 40
 var KEY_LEFT_ARROW = 37;
 var KEY_RIGHT_ARROW = 39;
 var KEY_SPACE = 32;
+var KEY_I = 73;
+var KEY_ESC = 27;
 
 var GENDERS_MALE = 1;
 var GENDERS_FEMALE = 2;
@@ -27,6 +29,7 @@ var MODE_MENUS = 3;
 var MODE_CHOICE = 4;
 var MODE_CONTINUE = 5;
 var MODE_LEVEL_UP = 6;
+var MODE_INVENTORY = 7;
 
 var ELEM_PHYS = 0;
 var ELEM_FIRE = 1;
@@ -75,6 +78,25 @@ var STATUS_UNCONSCIOUS = 2;
 var STATUS_DEAD = 3;
 var STATUS_PARALYZED = 4;
 var STATUS_ASLEEP = 5;
+
+var STAT_MGHT = 0;
+var STAT_DEX = 1;
+var STAT_TGH = 2;
+var STAT_ACC = 3;
+var STAT_SPD = 4;
+var STAT_COG = 5;
+var STAT_PIE = 6;
+var STAT_INT = 7;
+
+var STAT_NAMES = [];
+STAT_NAMES[STAT_MGHT] = 'Might';
+STAT_NAMES[STAT_DEX] = 'Dexterity';
+STAT_NAMES[STAT_TGH] = 'Toughness';
+STAT_NAMES[STAT_ACC] = 'Accuracy';
+STAT_NAMES[STAT_SPD] = 'Speed';
+STAT_NAMES[STAT_COG] = 'Cognition';
+STAT_NAMES[STAT_PIE] = 'Piety';
+STAT_NAMES[STAT_INT] = 'Intellect';
 
 var BG_NIGHTSKY = 1;
 

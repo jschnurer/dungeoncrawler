@@ -1,0 +1,66 @@
+#partyInventory {
+	background: black;
+	display: none;
+	position: absolute;
+	margin: 15px auto;
+	top: 0px;
+	left: 197px;
+	width: 641px;
+	height: 480px;
+	text-align: center;
+	color: white;
+	z-index: 20;
+}
+
+#invHeroName {
+	margin: 5px;
+	margin-bottom: 8px;
+	display: block;
+	font-size: 1.3em;
+}
+
+#partyInventory #invCurrHero > div {
+	display: inline-block;
+}
+
+#partyInventory label {
+	display: inline-block;
+	width: 64px;
+	height: 64px;
+	border: 1px white solid;
+	position: relative;
+}
+
+#partyInventory label img {
+	display: block;
+	width: 64px;
+	height: 64px;
+	border: 1px white solid;
+	position: absolute;
+	top: -1px;
+	left: -1px;
+}
+
+#heroMelee {
+	background-image: url('../images/ui/melee.png');
+}
+
+#heroShield {
+	background-image: url('../images/ui/shield.png');
+}
+
+#heroRanged {
+	background-image: url('../images/ui/ranged.png');
+}
+
+#heroArmor {
+	background-image: url('../images/ui/armor.png');
+}
+
+#heroAccessory {
+	background-image: url('../images/ui/accessory.png');
+}
+
+#partyInventory #invItems {
+	margin-top: 8px;
+}
