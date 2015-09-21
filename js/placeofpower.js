@@ -131,7 +131,9 @@ function handlePlaceOfPower() {
 	// reset all combat encounters
 	nav.setCombatTiles(false);
 	
-	showChoices('You commune with this place of power. Your life and magical reserves are replenished but danger surrounds you once more.', [ {
+	SAVELOADER.save(PARTY, INVENTORY, nav, GAME_VARS);
+	
+	showChoices('Your deeds have been recorded.[br][br]You commune with this place of power. Your life and magical reserves are replenished but danger surrounds you once more.', [ {
 		text: 'Level up',
 		callback: function() {
 			showLevelUpPanel();
