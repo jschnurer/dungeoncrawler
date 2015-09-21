@@ -8,6 +8,13 @@ html {
 	border: 2px black solid;
 	background: #222;
 	margin: auto;
+	display: none;
+}
+
+#continue {
+	color: white;
+	background: black;
+	display: none;
 }
 
 #gameOver {
