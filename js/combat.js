@@ -1,10 +1,10 @@
-var combat = null;
+var COMBAT = null;
 
 $(function() {
-	combat = new COMBAT();
+	COMBAT = new combat();
 });
 
-function COMBAT() {
+function combat() {
 	var self = this;
 	var monsterNum = 0;
 	var combatants = [];
@@ -22,7 +22,7 @@ function COMBAT() {
 	this.loadEncounterGroupAndBeginCombat = function(encounterGroup) {
 		var monsters = [];
 		for(var i = 0; i < encounterGroup.length; i++)
-			monsters.push(cloneMonster(MONSTERS[parseInt(encounterGroup[i])]));
+			monsters.push(MONSTERS[parseInt(encounterGroup[i])].clone());
 		self.beginCombat(monsters);
 	}
 
@@ -52,7 +52,7 @@ function COMBAT() {
 				combatant: monsters[i]
 			});
 			
-			var $monsterBlock = $getMonsterBlock(monsters[i], monsterNum);
+			var $monsterBlock = monsters[i].$getMonsterBlock(monsterNum);
 			$monsterBlock.click(self.monsterClicked);
 			$monsterList.append($monsterBlock);
 		}
@@ -107,7 +107,7 @@ function COMBAT() {
 		currKeyboardInputOptions.length = 0;
 
 		var atkCall = function() { if(combatAwaitingInput) { clearText(); self.heroAttacks(); } };
-		var castCall = function() { if(combatAwaitingInput) { clearText(); self.heroCasts(); } };
+		var castCall = function() { if(combatAwaitingInput) { SPELLBOOK.open(currCombatant.num - 1, MODE_COMBAT); } };
 		var dodgeCall = function() { if(combatAwaitingInput) { clearText(); self.heroBlocks(); } };
 		
 		currKeyboardInputOptions[KEY_A] = atkCall;
@@ -158,13 +158,16 @@ function COMBAT() {
 	}
 
 	this.monsterClicked = function() {	
-		if(!self.combatAwaitingInput || !combatants[currCombatantIx].isHero) {
+		if(!combatAwaitingInput || !combatants[currCombatantIx].isHero) {
 			return;
 		}
 		
 		clearText();
 		
-		self.heroAttacks($(this).data('num'));
+		if(SPELLBOOK.isOpen)
+			SPELLBOOK.monsterClicked($(this).data('num'));
+		else
+			self.heroAttacks($(this).data('num'));
 	}
 
 	this.heroAttacks = function(clickedMonsterNum) {
@@ -180,7 +183,7 @@ function COMBAT() {
 		
 		var atk = hero.getMeleeAttack();
 		
-		var atkResult = inflictAttackOnMonster(atk, monster);
+		var atkResult = monster.receiveAttack(atk);
 		if(atkResult.dodged) {
 			log(hero.name + ' attacks ' + monster.name + ' but misses.');
 		} else {
@@ -193,7 +196,7 @@ function COMBAT() {
 					monster.onDeath();
 				
 				if(!self.removeMonsterFromCombat(monsterNum))
-					return;
+					return true;
 			} else {
 				log(hero.name + ' attacks and deals ' + atkResult.totalDamageDealt + ' damage to the ' + monster.name + '.');
 				self.updateMonsterBlock(monsterNum);
@@ -203,7 +206,27 @@ function COMBAT() {
 		self.finishTurn();
 	}
 
-	this.heroCasts = function() {
+	this.heroCastsAtMonster = function(casting, hero, monsterNum) {
+		combatAwaitingInput = false;
+		
+		var monster = self.getMonsterCombatantByNum(monsterNum).combatant;
+		monster.receiveCasting(casting, hero);
+		
+		if(monster.life <= 0) {
+			log('The party gains ' + monster.experience + ' essence.');
+			party.gainExperience(monster.experience);
+			
+			if(monster.onDeath != undefined && monster.onDeath != null)
+				monster.onDeath();
+			
+			if(!self.removeMonsterFromCombat(monsterNum))
+				return true;
+		} else {
+			self.updateMonsterBlock(monsterNum);
+		}
+		
+		self.finishTurn();
+		return false;
 	}
 
 	this.heroBlocks = function() {
@@ -226,7 +249,7 @@ function COMBAT() {
 	}
 	
 	this.monsterAttacks = function(monster, target) {
-		var atk = getMonsterAttack(monster);
+		var atk = monster.getAttack();
 		var hero = null;
 		
 		if(target == TARGET_RANDOM_HERO) {

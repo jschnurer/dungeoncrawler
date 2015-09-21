@@ -1,72 +1,86 @@
-var MONSTERS = [];
-
-function cloneMonster(monster) {
-	var newMonster = {};
-	newMonster.name = monster.name;
-	newMonster.accuracy = monster.accuracy;
-	newMonster.damage = {};
-	newMonster.damage.min = monster.damage.min;
-	newMonster.damage.max = monster.damage.max;
-	newMonster.damage.type = monster.damage.type;
-	newMonster.target = monster.target;
-	newMonster.attackIsDodgeable = monster.attackIsDodgeable;
-	var randomExtraLife = rand(1, monster.randomLife);
-	newMonster.life = monster.life + randomExtraLife;
-	newMonster.maxLife = monster.maxLife + randomExtraLife;
-	newMonster.image = monster.image;
-	newMonster.resistances = [];
-	for(var i = 0; i < monster.resistances.length; i++) newMonster.resistances.push(monster.resistances[i]);
-	newMonster.experience = monster.experience;
-	newMonster.dodge = monster.dodge;
-	newMonster.treasureClass = monster.treasureClass;
-	newMonster.speed = monster.speed;
-	newMonster.initBonus = monster.initBonus;
-	newMonster.charged = monster.charged;
-	newMonster.chargeAt = monster.chargeAt;
-	newMonster.tactics = monster.tactics;
-	newMonster.onDeath = monster.onDeath;
-	
-	return newMonster;
+function monster(data) {
+	this.name = data.name;
+	this.accuracy = data.accuracy;
+	this.damage = data.damage;
+	this.target = data.target;
+	this.attackIsDodgeable = data.attackIsDodgeable;
+	this.randomLife = data.randomLife;
+	this.life = data.life;
+	this.maxLife = data.maxLife;
+	this.image = data.image;
+	this.resistances = data.resistances;
+	this.experience = data.experience;
+	this.dodge = data.dodge;
+	this.treasureClass = data.treasureClass;
+	this.speed = data.speed;
+	this.initBonus = data.initBonus;
+	this.charged = data.charged;
+	this.chargeAt = data.chargeAt;
+	this.tactics = data.tactics;
+	this.onDeath = data.onDeath;
 }
 
-function inflictAttackOnMonster(attack, monster) {	
-	if(attack.dodgeable && rollStat(monster.dodge) > attack.accuracy) {
+monster.prototype.clone = function () {
+	var m = new monster(this);
+	m.life = m.maxLife = m.maxLife + rand(1, this.randomLife);
+	return m;
+}
+
+monster.prototype.receiveCasting = function(casting, hero) {
+	if(casting.type == SPELL_TYPE_DAMAGE) {
+		var damage = computeDamage(casting.value, this.resistances[casting.element]);
+		this.life -= damage;
+		if(hero != null && hero != undefined) {
+			var msg = hero.name + ' casts ' + casting.spellName + ' dealing ' + damage + ' ' + ELEM_NAMES[casting.element] + ' damage';
+			if(this.life <= 0)
+				msg += ', slaying the ' + this.name + '!';
+			else
+				msg += '.';
+			log(msg)
+		}
+	}
+}
+
+monster.prototype.receiveAttack = function(attack) {
+	if(attack.dodgeable && rollStat(this.dodge) > attack.accuracy) {
 		return { dodged: true };
 	} else {
 		var totalDamageDealt = 0;
 		for(var i = 0; i < attack.damages.length; i++) {
-			totalDamageDealt += inflictDamageOnMonster(attack.damages[i], monster);
+			totalDamageDealt += this.takeDamage(attack.damages[i], this);
 		}
 		return { dodged: false, totalDamageDealt: totalDamageDealt };
 	}
 }
 
-function inflictDamageOnMonster(damage, monster) {		
-	var damageTaken = computeDamage(damage.damage, monster.resistances[damage.type]);
-	monster.life -= damageTaken;
+monster.prototype.takeDamage = function(damage) {		
+	var damageTaken = computeDamage(damage.damage, this.resistances[damage.type]);
+	this.life -= damageTaken;
 	return damageTaken;
 }
 
-function getMonsterAttack(monster) {
+monster.prototype.getAttack = function() {
 	return {
-		dodgeable: monster.attackIsDodgeable,
-		accuracy: rollStat(monster.accuracy),
-		damages: [{damage: rand(monster.damage.min, monster.damage.max), type: monster.damage.type}]
+		dodgeable: this.attackIsDodgeable,
+		accuracy: rollStat(this.accuracy),
+		damages: [{damage: rand(this.damage.min, this.damage.max), type: this.damage.type}]
 	};
 }
 
-function $getMonsterBlock(monster, num) {
-	return $('<div class="monster" data-num="' + num + '"><span>' + monster.name + '</span><img src="images/monsters/' + monster.image + '" /></div>');
+monster.prototype.$getMonsterBlock = function(num) {
+	return $('<div class="monster" data-num="' + num + '"><span>' + this.name + '</span><img src="images/monsters/' + this.image + '" /></div>');
 }
 
 function getXMonsters(monster, count) {
 	var m = [];
 	for(var i = 0; i < count; i++)
-		m.push(cloneMonster(monster));
+		m.push(monster.clone());
 	return m;
 }
 
-MONSTERS[0] = {
+var MONSTERS = [];
+
+MONSTERS[0] = new monster({
 	name: 'Gnasher',
 	accuracy: 8,
 	damage: {min: 2, max: 4, type: ELEM_PHYS},
@@ -77,15 +91,15 @@ MONSTERS[0] = {
 	randomLife: 8,
 	image: 'gnasher.png',
 	resistances: [0, 0, 0, 0, 0, 0, 0],
-	experience: 50,
+	experience: 25,
 	dodge: 7,
 	treasureClass: 1,
 	speed: 6,
 	initBonus: 0,
 	charged: false
-};
+});
 
-MONSTERS[1] = {
+MONSTERS[1] = new monster({
 	name: 'Gnasher Nest',
 	accuracy: 12,
 	damage: {min: 5, max: 11, type: ELEM_PHYS},
@@ -96,7 +110,7 @@ MONSTERS[1] = {
 	randomLife: 30,
 	image: 'gnasher_nest.png',
 	resistances: [0, 0, 0, 0, 0, 0, 0],
-	experience: 1200,
+	experience: 4000,
 	dodge: 4,
 	treasureClass: 2,
 	speed: 4,
@@ -108,22 +122,22 @@ MONSTERS[1] = {
 			this.charged = true;
 		}
 		
-		var monsterCount = combat.getMonsterCount();
+		var monsterCount = COMBAT.getMonsterCount();
 		
 		// 50/50 chance to spawn a monster if charged and < 6 monsters
 		if(monsterCount < 6 && this.charged && rand(1, 100) >= 50) {
-			combat.addMonsters([cloneMonster(MONSTERS[0])]);
+			COMBAT.addMonsters([cloneMonster(MONSTERS[0])]);
 			
 			if(monsterCount+1 < 6 && rand(1, 100) >= 30) {
-				combat.addMonsters([cloneMonster(MONSTERS[0])]);
+				COMBAT.addMonsters([cloneMonster(MONSTERS[0])]);
 			}
 			
 			this.charged = false;
 		} else {
-			combat.monsterAttacks(this, TARGET_RANDOM_HERO);
+			COMBAT.monsterAttacks(this, TARGET_RANDOM_HERO);
 		}
 	},
 	onDeath: function() {
 		setGameVar(SORPIGAL_DUNGEON_QUEST, 2);
 	}
-};
+});

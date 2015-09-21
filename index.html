@@ -2,6 +2,7 @@
 <head>
 <link href="styles/interface.css" rel="stylesheet" type="text/css" />
 <link href="styles/inventory.css" rel="stylesheet" type="text/css" />
+<link href="styles/spellbook.css" rel="stylesheet" type="text/css" />
 <link href="styles/jquery-ui.min.css" rel="stylesheet" type="text/css" />
 <script src="js/const.js" language="javascript" type="text/javascript"></script>
 <script src="js/gamevars.js" language="javascript" type="text/javascript"></script>
@@ -18,6 +19,8 @@
 <script src="js/party.js" language="javascript" type="text/javascript"></script>
 <script src="js/placeofpower.js" language="javascript" type="text/javascript"></script>
 <script src="js/inventory.js" language="javascript" type="text/javascript"></script>
+<script src="js/spells.js" language="javascript" type="text/javascript"></script>
+<script src="js/spellbook.js" language="javascript" type="text/javascript"></script>
 </head>
 <body>
 <div class="interface">
@@ -114,6 +117,42 @@
 		<div></div>
 		<div id="log"></div>
 	</div>
+	<div id="spellPanel">
+		<span id="spellTargeting"></span>
+		<span id="spellPanelHeroName">Serena's Spellbook</span>
+		<div>
+		<label data-pos="0"></label>
+			<label data-pos="1"></label>
+			<label data-pos="2"></label>
+			<label data-pos="3"></label>
+			<label data-pos="4"></label>
+			<label data-pos="5"></label>
+			<label data-pos="6"></label>
+			<label data-pos="7"></label>
+			<label data-pos="8"></label>
+			<label data-pos="9"></label>
+			<label data-pos="10"></label>
+			<label data-pos="11"></label>
+			<label data-pos="12"></label>
+			<label data-pos="13"></label>
+			<label data-pos="14"></label>
+			<label data-pos="15"></label>
+			<label data-pos="16"></label>
+			<label data-pos="17"></label>
+			<label data-pos="18"></label>
+			<label data-pos="19"></label>
+			<label data-pos="20"></label>
+			<label data-pos="21"></label>
+			<label data-pos="22"></label>
+			<label data-pos="23"></label>
+			<label data-pos="24"></label>
+			<label data-pos="25"></label>
+			<label data-pos="26"></label>
+			<label data-pos="27"></label>
+			<label data-pos="28"></label>
+			<label data-pos="29"></label>
+		</div>
+	</div>
 	<div id="levelUpPanel">
 		<ol>
 			<li><a id="levelChar1"></a></li>
@@ -207,7 +246,8 @@ $(function() {
 			gender: GENDERS_FEMALE,
 			charClass: CLASS_CLERIC,
 			portrait: 'images/portraits/female_3.png',
-			stats: [8,4,9,8,5,10,15,4]
+			stats: [8,4,9,8,5,10,15,4],
+			spells: [SPELLS[0].clone()]
 		}),
 		new hero({
 			num:3,
@@ -223,9 +263,15 @@ $(function() {
 			gender: GENDERS_FEMALE,
 			charClass: CLASS_SORCERER,
 			portrait: 'images/portraits/female_2.png',
-			stats: [2,7,8,10,11,14,5,15]
+			stats: [2,7,8,10,11,14,5,15],
+			spells: [SPELLS[1].clone()]
 		})
 	]);
+	
+	party.heroes[0].updateBars();
+	party.heroes[1].updateBars();
+	party.heroes[2].updateBars();
+	party.heroes[3].updateBars();
 
 	nav.setMap(atlas[MAP_SORPIGAL]);
 	nav.teleportParty(18, 11, 'W');

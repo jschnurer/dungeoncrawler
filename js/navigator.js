@@ -220,6 +220,8 @@ function navigator() {
 			doActivate();
 		} else if(key == KEY_I) {
 			INVENTORY.open(0);
+		} else if(key == KEY_C) {
+			SPELLBOOK.open(0, MODE_NAV);
 		}
 	}
 	
@@ -352,7 +354,7 @@ function navigator() {
 			&& tile.code == 'Z'
 			&& self.map.encounterGroups.length > 0) { // shortcut for a 10% fight
 			if(rand(1, 10) == 5) { // why 5? why not?
-				combat.loadEncounterGroupAndBeginCombat(getRandomItem(self.map.encounterGroups));
+				COMBAT.loadEncounterGroupAndBeginCombat(getRandomItem(self.map.encounterGroups));
 				tile.combatComplete = true;
 			}
 			return true;
@@ -360,7 +362,7 @@ function navigator() {
 			&& !tile.combatComplete
 			&& tile.code == 'X'
 			&& self.map.encounterGroups.length > 0) { // shortcut for a 100% fight
-			combat.loadEncounterGroupAndBeginCombat(getRandomItem(self.map.encounterGroups));
+			COMBAT.loadEncounterGroupAndBeginCombat(getRandomItem(self.map.encounterGroups));
 			tile.combatComplete = true;
 			return true;
 		}

@@ -69,10 +69,16 @@ function hero (values) {
 	self.spellMinDamageBonusRatio = .25;
 	self.spellMaxDamageBonusRatio = 1;
 	self.getSpellDamageBonusString = function () { return Math.round(self.getStat(STAT_INT) * self.spellMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_INT) * self.spellMaxDamageBonusRatio); };
+	self.getSpellDamageBonus = function() {
+		return rand(Math.round(self.getStat(STAT_INT) * self.spellMinDamageBonusRatio), Math.round(self.getStat(STAT_INT) * self.spellMaxDamageBonusRatio));
+	}
 	
 	self.portentMinDamageBonusRatio = .25;
 	self.portentMaxDamageBonusRatio = 1;
 	self.getPortentDamageBonusString = function () { return Math.round(self.getStat(STAT_PIE) * self.portentMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_PIE) * self.portentMaxDamageBonusRatio); };
+	self.getPortentDamageBonus = function() {
+		return rand(Math.round(self.getStat(STAT_PIE) * self.portentMinDamageBonusRatio), Math.round(self.getStat(STAT_PIE) * self.portentMaxDamageBonusRatio));
+	}
 	
 	// P,F,W,E,A,B,M,S
 	self.resistances = values.resistances;
@@ -106,7 +112,7 @@ function hero (values) {
 		
 		if(item.maxLifeBonus) {
 			self.maxLife += bonusMod * item.maxLifeBonus;
-			updateBars();			
+			this.updateBars();			
 		}
 		
 		// TODO: handle other possible bonuses
@@ -152,6 +158,42 @@ function hero (values) {
 		return theItem;
 	}
 	
+	// Spells
+	this.spells = values.spells || [];
+	
+	this.spellSlotEmpty = function(slot) {
+		return this.spells[slot] == null || this.spells[slot] == undefined;
+	}
+	
+	this.getSpell = function(slot) {
+		return this.spells[slot];
+	}
+	
+	this.setSpell = function(spell, slot) {
+		this.spells[slot] = spell;
+	}
+	
+	this.receiveCasting = function(casting) {
+		if(casting.type == SPELL_TYPE_HEAL) {
+			self.life += casting.value;
+			if(!casting.healingBreaksMaxLife && self.life > self.maxLife)
+				self.life = self.maxLife;
+			
+			this.updateBars();
+			log(this.name + ' recovers ' + casting.value + ' life.');
+		}
+	}
+	
+	this.canAffordSpell = function(spell) {
+		return this.mana >= spell.cost;
+	}
+	
+	this.payForSpell = function(spell) {
+		this.mana -= spell.cost;
+		this.updateBars();
+	}
+	////////
+	
 	if(values.gender == GENDERS_MALE) {
 		this.pronoun = 'he';
 		this.ownershipPronouns = 'his';
@@ -161,8 +203,6 @@ function hero (values) {
 		this.ownershipPronouns = 'her';
 	}
 	
-	updateBars();
-	
 	this.getInitiative = function () {
 		return rollStat(self.getStat(STAT_SPD));
 	}
@@ -170,7 +210,7 @@ function hero (values) {
 	this.fullHeal = function () {
 		self.life = self.maxLife;
 		self.mana = self.maxMana;
-		updateBars();
+		this.updateBars();
 		self.setStatus(STATUS_OK);
 	}
 	
@@ -188,7 +228,7 @@ function hero (values) {
 		if(!breakMax && self.life > self.maxLife)
 			self.life = self.maxLife;
 		
-		updateBars();
+		this.updateBars();
 	}
 	
 	this.getMeleeAttack = function () {
@@ -253,7 +293,7 @@ function hero (values) {
 		}
 		
 		self.life -= damageTaken;
-		updateBars();
+		this.updateBars();
 		
 		log(self.name + ' suffers ' + damageTaken + ' ' + ELEM_NAMES[damage.type] + ' damage.');
 		
@@ -271,7 +311,7 @@ function hero (values) {
 		return false;
 	}
 	
-	function updateBars() {
+	this.updateBars = function (){
 		lifeBar.html(self.life + '/' + self.maxLife);
 		
 		var lifePercent = self.life / self.maxLife;
@@ -282,7 +322,6 @@ function hero (values) {
 			lifeBar.css('background-size','0% 100%');
 		else
 			lifeBar.css('background-size',(lifePercent * 100) + '% 100%');
-		
 		
 		if(lifePercent <= .25)
 			lifeBar.css('background-image', "url('images/red.png')");
@@ -296,6 +335,15 @@ function hero (values) {
 		}
 		
 		manaBar.html(self.mana + '/' + self.maxMana);
+		
+		var manaPercent = self.mana / self.maxMana;
+		
+		if(self.mana >= self.maxMana)
+			manaBar.css('background-size', '100% 100%');
+		else if(self.mana <= 0)
+			manaBar.css('background-size','0% 100%');
+		else
+			manaBar.css('background-size',(manaPercent * 100) + '% 100%');
 	}
 	
 	this.setStatus = function (status) {

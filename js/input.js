@@ -10,6 +10,11 @@ $(function() {
 	$(document).keydown(function(e) {
 		console.log(e.which);
 		
+		if(GAME_MODE == MODE_SPELLBOOK) {
+			SPELLBOOK.handleInput(e);
+			return;
+		}
+		
 		if(GAME_MODE == MODE_INVENTORY) {
 			INVENTORY.handleInput(e);
 			return;
@@ -73,7 +78,7 @@ $(function() {
 		if(GAME_MODE == MODE_NAV) {	
 			nav.handleInput(e.which);
 		} else if(GAME_MODE == MODE_COMBAT) {
-			combat.handleCombatInput(e.which);
+			COMBAT.handleCombatInput(e.which);
 		}
 	});
 });
@@ -91,6 +96,8 @@ function selectHero(ix) {
 		INVENTORY.selectHero(ix);
 	} else if(GAME_MODE == MODE_NAV) {
 		INVENTORY.open(ix);
+	} else if(GAME_MODE == MODE_SPELLBOOK) {
+		SPELLBOOK.selectHero(ix);
 	}
 }
 

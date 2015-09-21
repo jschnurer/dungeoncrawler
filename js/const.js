@@ -30,6 +30,7 @@ var MODE_CHOICE = 4;
 var MODE_CONTINUE = 5;
 var MODE_LEVEL_UP = 6;
 var MODE_INVENTORY = 7;
+var MODE_SPELLBOOK = 8;
 
 var ELEM_PHYS = 0;
 var ELEM_FIRE = 1;
@@ -66,13 +67,12 @@ var TILE_GRASS = 71;
 var TILE_PLACE_OF_POWER = 1;
 var TILE_CHEST = 84;
 
-var CLASS_KNIGHT = 1;
-var CLASS_THIEF = 2;
-var CLASS_SORCERER = 3;
-var CLASS_CLERIC = 4;
-var CLASS_ARCHER = 5;
-var CLASS_PALADIN = 6;
-var CLASS_DRUID = 7;
+var CLASS_KNIGHT = 0;
+var CLASS_THIEF = 1;
+var CLASS_SORCERER = 2;
+var CLASS_CLERIC = 3;
+var CLASS_PALADIN = 4;
+var CLASS_DRUID = 5;
 
 var STATUS_OK = 1;
 var STATUS_UNCONSCIOUS = 2;
@@ -102,13 +102,16 @@ STAT_NAMES[STAT_INT] = 'Intellect';
 var BG_NIGHTSKY = 1;
 
 var TARGET_RANDOM_HERO = 1;
+var TARGET_SINGLE_HERO = 2;
+var TARGET_ALL_HEROES = 3;
+var TARGET_SINGLE_MONSTER = 4;
+var TARGET_ALL_MONSTERS = 5;
 
 var tghToLife = [];
 tghToLife[CLASS_KNIGHT] = 4;
 tghToLife[CLASS_THIEF] = 4;
 tghToLife[CLASS_SORCERER] = 3;
 tghToLife[CLASS_CLERIC] = 4;
-tghToLife[CLASS_ARCHER] = 4;
 tghToLife[CLASS_PALADIN] = 4;
 tghToLife[CLASS_DRUID] = 3;
 
@@ -117,7 +120,6 @@ cogToMana[CLASS_KNIGHT] = 2;
 cogToMana[CLASS_THIEF] = 3;
 cogToMana[CLASS_SORCERER] = 5;
 cogToMana[CLASS_CLERIC] = 4;
-cogToMana[CLASS_ARCHER] = 3;
 cogToMana[CLASS_PALADIN] = 3;
 cogToMana[CLASS_DRUID] = 4;
 
@@ -126,7 +128,6 @@ pieIntToMana[CLASS_KNIGHT] = 1;
 pieIntToMana[CLASS_THIEF] = 1;
 pieIntToMana[CLASS_SORCERER] = 1;
 pieIntToMana[CLASS_CLERIC] = 1;
-pieIntToMana[CLASS_ARCHER] = 1;
 pieIntToMana[CLASS_PALADIN] = 1;
 pieIntToMana[CLASS_DRUID] = 1;
 
