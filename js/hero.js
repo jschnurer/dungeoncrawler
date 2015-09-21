@@ -391,4 +391,8 @@ function hero (values) {
 			|| self.status == STATUS_PARALYZED
 			|| self.status == STATUS_ASLEEP);
 	}
+	
+	this.canCast = function() {
+		return this.canAct();
+	}
 }

@@ -129,6 +129,9 @@ spellbook.prototype.beginCasting = function(spell) {
 	if(!this.spellMode == SPELLMODE_SELECT_SPELL)
 		return;
 	
+	if(!this.selectedHero.canCast())
+		return;
+	
 	if(this.selectedHero.canAffordSpell(spell)) {
 		if(spell.target == TARGET_ALL_HEROES) {
 			this.castingSpell = spell;

@@ -10,6 +10,14 @@ function inventory(items) {
 inventory.prototype.handleInput = function (e) {
 	if(e.which == KEY_I || e.which == KEY_ESC) {
 		this.close();
+	} else if(e.which == KEY_1 && this.selectedHero.num != 1) {
+		this.selectHero(0);
+	} else if(e.which == KEY_2 && this.selectedHero.num != 2) {
+		this.selectHero(1);
+	} else if(e.which == KEY_3 && this.selectedHero.num != 3) {
+		this.selectHero(2);
+	} else if(e.which == KEY_4 && this.selectedHero.num != 4) {
+		this.selectHero(3);
 	}
 }
 inventory.prototype.maxLength = 45;
@@ -85,7 +93,7 @@ inventory.prototype.close = function () {
 inventory.prototype.open = function (heroIx) {
 	GAME_MODE = MODE_INVENTORY;
 	
-	this.inventoryHero = PARTY.heroes[heroIx];
+	this.selectedHero = PARTY.heroes[heroIx];
 	
 	$('#partyInventory').show();
 	$('#essencePanel').hide();
@@ -111,7 +119,7 @@ inventory.prototype.open = function (heroIx) {
 inventory.prototype.loadEquipment = function() {
 	$('#invCurrHero label img').remove();
 	
-	$('#invHeroName').html(this.inventoryHero.name);
+	$('#invHeroName').html(this.selectedHero.name);
 	
 	var $hm = $('#heroMelee');
 	var $hs = $('#heroShield');
@@ -137,7 +145,7 @@ inventory.prototype.loadEquipment = function() {
 	equipSlots.push(ITEM_SHIELD);
 	
 	for(var i = 0; i < equipSlots.length; i++) {
-		var item = this.inventoryHero.getEquipment(equipSlots[i]);
+		var item = this.selectedHero.getEquipment(equipSlots[i]);
 		if(item != null) {
 			var $itemImg = $('<img src="images/items/' + item.icon + '" title="" data-pos="-1" data-isEquipped="true" data-equipSlot="'
 				+ equipSlots[i] + '" data-item="' + item.id + '" />');
@@ -157,11 +165,11 @@ inventory.prototype.loadEquipment = function() {
 }
 
 inventory.prototype.selectHero = function(heroIx) {
-	this.inventoryHero = PARTY.heroes[heroIx];
+	this.selectedHero = PARTY.heroes[heroIx];
 	this.loadEquipment();
 }
 
-inventory.prototype.inventoryHero = null;
+inventory.prototype.selectedHero = null;
 
 var INVENTORY = new inventory();
 
@@ -184,7 +192,7 @@ $(function() {
 				var droppedItem = null;
 				
 				if(isEquipped == 'true') {
-					droppedItem = INVENTORY.inventoryHero.removeEquipment(equipSlot);
+					droppedItem = INVENTORY.selectedHero.removeEquipment(equipSlot);
 				} else {
 					droppedItem = INVENTORY.emptyPosition(itemPos);
 				}
@@ -204,7 +212,7 @@ $(function() {
 	$('#invCurrHero label').droppable({
 		drop: function(event, ui) {
 			var newEquipSlot = $(this).attr('data-equipSlot');
-			if(INVENTORY.inventoryHero.getEquipment(newEquipSlot) == null) {
+			if(INVENTORY.selectedHero.getEquipment(newEquipSlot) == null) {
 				var isEquipped = $(ui.draggable.context).attr('data-isEquipped');
 				
 				if(isEquipped == 'true')
@@ -218,11 +226,11 @@ $(function() {
 				// get the item position in inventory
 				var itemPos = parseInt($(ui.draggable.context).attr('data-pos'));
 				
-				if(!INVENTORY.inventoryHero.canEquip(INVENTORY.getItemInPosition(itemPos)))
+				if(!INVENTORY.selectedHero.canEquip(INVENTORY.getItemInPosition(itemPos)))
 					return; // hero can't equip it
 				
 				var droppedItem = INVENTORY.emptyPosition(itemPos);
-				INVENTORY.inventoryHero.equipItem(droppedItem);
+				INVENTORY.selectedHero.equipItem(droppedItem);
 				
 				var $droppedElement = $(ui.draggable.context);
 				
