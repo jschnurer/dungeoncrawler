@@ -78,7 +78,7 @@ inventory.prototype.close = function () {
 inventory.prototype.open = function (heroIx) {
 	GAME_MODE = MODE_INVENTORY;
 	
-	this.inventoryHero = party.heroes[heroIx];
+	this.inventoryHero = PARTY.heroes[heroIx];
 	
 	$('#partyInventory').show();
 	$('#essencePanel').hide();
@@ -150,7 +150,7 @@ inventory.prototype.loadEquipment = function() {
 }
 
 inventory.prototype.selectHero = function(heroIx) {
-	this.inventoryHero = party.heroes[heroIx];
+	this.inventoryHero = PARTY.heroes[heroIx];
 	this.loadEquipment();
 }
 

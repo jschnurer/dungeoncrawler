@@ -33,7 +33,7 @@ spellbook.prototype.selectHero = function (ix) {
 	if(this.spellMode == SPELLMODE_SELECT_SPELL) {
 		if(this.previousGameMode == MODE_NAV) {
 			$('#spellPanel div label img').remove();
-			this.selectedHero = party.heroes[ix];
+			this.selectedHero = PARTY.heroes[ix];
 			this.loadHeroSpells();
 		}
 	} else if(this.spellMode == SPELLMODE_SELECT_TARGET) {
@@ -41,7 +41,7 @@ spellbook.prototype.selectHero = function (ix) {
 			var casting = this.castingSpell.getCasting(this.selectedHero);
 			this.selectedHero.payForSpell(this.castingSpell);
 			log(this.selectedHero.name + ' casts ' + this.castingSpell.name + '.');
-			party.heroes[ix].receiveCasting(casting);
+			PARTY.heroes[ix].receiveCasting(casting);
 			
 			this.castingSpell = null;
 			this.spellMode = SPELLMODE_SELECT_SPELL;
@@ -82,7 +82,7 @@ spellbook.prototype.close = function(didCast) {
 spellbook.prototype.open = function (heroIx, gameModeToReturnTo) {
 	GAME_MODE = MODE_SPELLBOOK;
 	this.previousGameMode = gameModeToReturnTo;
-	this.selectedHero = party.heroes[heroIx];
+	this.selectedHero = PARTY.heroes[heroIx];
 	this.isOpen = true;
 	
 	$('#spellTargeting').hide();

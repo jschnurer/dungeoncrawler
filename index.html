@@ -204,6 +204,9 @@
 			</div>
 		</div>
 	</div>
+	<div id="gameOver">
+		Game Over
+	</div>
 </div>
 <div id="preload">
 	<img id="IMG_BG_1" src="images/backgrounds/nightsky.png" width="1" height="1" />
@@ -231,7 +234,7 @@ $(function() {
 	
 	nav = new navigator();
 	
-	party = new party([
+	PARTY = new party([
 		new hero({
 			num:1,
 			name: 'Crag the Hack',
@@ -268,10 +271,10 @@ $(function() {
 		})
 	]);
 	
-	party.heroes[0].updateBars();
-	party.heroes[1].updateBars();
-	party.heroes[2].updateBars();
-	party.heroes[3].updateBars();
+	PARTY.heroes[0].updateBars();
+	PARTY.heroes[1].updateBars();
+	PARTY.heroes[2].updateBars();
+	PARTY.heroes[3].updateBars();
 
 	nav.setMap(atlas[MAP_SORPIGAL]);
 	nav.teleportParty(18, 11, 'W');

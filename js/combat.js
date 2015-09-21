@@ -37,7 +37,7 @@ function combat() {
 		
 		// add heroes to combatants list
 		for(var i = 0; i < 4; i++)
-			combatants.push({ init: party.heroes[i].getInitiative(), isHero: true, num: party.heroes[i].num, combatant: party.heroes[i] });
+			combatants.push({ init: PARTY.heroes[i].getInitiative(), isHero: true, num: PARTY.heroes[i].num, combatant: PARTY.heroes[i] });
 		
 		// add monsters too
 		for(var i = 0; i < monsters.length; i++) {
@@ -75,7 +75,7 @@ function combat() {
 		$combatView.hide();
 		showText('The party is victorious in glorious combat!');
 		log('The party is victorious in glorious combat!');
-		selectHero(party.getFirstActingHero().num);
+		selectHero(PARTY.getFirstActingHero().num);
 	}
 
 	this.takeTurn = function() {
@@ -94,8 +94,17 @@ function combat() {
 	this.takeHeroTurn = function() {
 		var currCombatant = combatants[currCombatantIx].combatant;
 		
-		if(!currCombatant.canAct()) {
+		if(!currCombatant.canAct()) {			
 			combatAwaitingInput = false;
+			
+			// check to see if everyone is dead
+			if(PARTY.tpk()) {
+				self.combatants.length = 0;
+				self.endCombat();
+				gameOver();
+				return;
+			}
+			
 			self.finishTurn();
 			return;
 		}
@@ -190,7 +199,7 @@ function combat() {
 			if(monster.life <= 0) {
 				log(hero.name + ' attacks and deals ' + atkResult.totalDamageDealt + ' damage, slaying the ' + monster.name + '!');
 				log('The party gains ' + monster.experience + ' essence.');
-				party.gainExperience(monster.experience);
+				PARTY.gainExperience(monster.experience);
 				
 				if(monster.onDeath != undefined && monster.onDeath != null)
 					monster.onDeath();
@@ -214,7 +223,7 @@ function combat() {
 		
 		if(monster.life <= 0) {
 			log('The party gains ' + monster.experience + ' essence.');
-			party.gainExperience(monster.experience);
+			PARTY.gainExperience(monster.experience);
 			
 			if(monster.onDeath != undefined && monster.onDeath != null)
 				monster.onDeath();
@@ -255,14 +264,20 @@ function combat() {
 		if(target == TARGET_RANDOM_HERO) {
 			var availableHeroes = [];
 			
-			for(var i = 0; i < party.heroes.length; i++) {
-				if(party.heroes[i].status != STATUS_DEAD) {
-					availableHeroes.push(party.heroes[i]);
+			for(var i = 0; i < PARTY.heroes.length; i++) {
+				if(PARTY.heroes[i].status != STATUS_DEAD) {
+					availableHeroes.push(PARTY.heroes[i]);
 				}
 			}
 			
 			hero = getRandomItem(availableHeroes);
-		}		
+		}
+		
+		if(hero == null || hero == undefined) {
+			log(monster.name + ' can\'t find anyone to attack...');
+			self.finishTurn();
+			return;
+		}
 		
 		// if the hero is blocking, decrease accuracy
 		if(heroBlockStatuses[hero.num]) {

@@ -23,6 +23,7 @@ var KEY_ESC = 27;
 var GENDERS_MALE = 1;
 var GENDERS_FEMALE = 2;
 
+var MODE_GAMEOVER = 0;
 var MODE_NAV = 1;
 var MODE_COMBAT = 2;
 var MODE_MENUS = 3;
@@ -150,4 +151,9 @@ function computeDamage(damage, resistance) {
 		return Math.floor(damage * ((100 - resistance)/100.0));
 	else
 		return Math.floor(damage * (100 - resistance)/100.0);
+}
+
+function gameOver() {
+	GAME_MODE = MODE_GAMEOVER;
+	$('#gameOver').show();
 }

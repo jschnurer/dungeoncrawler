@@ -347,13 +347,12 @@ function hero (values) {
 	}
 	
 	this.setStatus = function (status) {
+		self.status = status;
 		if(status == STATUS_DEAD) {
 			self.portraitBox.css("background-image", "url('images/portraits/dead.png'), url('" + self.portrait + "')");
-			
 			log(self.name + ' is killed!');
 		} else if(status == STATUS_UNCONSCIOUS) {
 			self.portraitBox.css("background-image", "url('images/portraits/unconscious.png'), url('" + self.portrait + "')");
-			
 			log(self.name + ' is knocked unconscious.');
 		} else {
 			self.portraitBox.css("background-image", "url('" + self.portrait + "')");

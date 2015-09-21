@@ -10,6 +10,23 @@ html {
 	margin: auto;
 }
 
+#gameOver {
+	position: absolute;
+	top: 0px;
+	bottom: -305px;
+	left: 0px;
+	right: 0px;
+	border: 2px black solid;
+	background: #222;
+	margin: auto;
+	color: #A00;
+	font-size: 8em;
+	z-index: 9999;
+	text-align: center;
+	line-height: 750px;
+	display: none;
+}
+
 .charPanel {
 	position: absolute;
 	height: 210px;

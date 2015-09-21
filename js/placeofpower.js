@@ -93,7 +93,7 @@ $(function() {
 
 function levelUpPlusClick() {
 	var advCost = currLevelUpHero.getAdvancementCost();
-	var paidOk = party.loseExperience(advCost);
+	var paidOk = PARTY.loseExperience(advCost);
 	
 	if(!paidOk)
 		return;
@@ -126,7 +126,7 @@ function levelUpMinusClick() {
 }
 
 function handlePlaceOfPower() {
-	party.fullHeal();
+	PARTY.fullHeal();
 	
 	// reset all combat encounters
 	nav.setCombatTiles(false);
@@ -167,10 +167,10 @@ function showLevelUpPanel() {
 	GAME_MODE = MODE_LEVEL_UP;
 	$levelUpPanel.show();
 	$levelUpHeroStats.hide();
-	$lChar1.html(party.heroes[0].name);
-	$lChar2.html(party.heroes[1].name);
-	$lChar3.html(party.heroes[2].name);
-	$lChar4.html(party.heroes[3].name);
+	$lChar1.html(PARTY.heroes[0].name);
+	$lChar2.html(PARTY.heroes[1].name);
+	$lChar3.html(PARTY.heroes[2].name);
+	$lChar4.html(PARTY.heroes[3].name);
 }
 
 function dismissLevelUpPanel() {
@@ -181,7 +181,7 @@ function dismissLevelUpPanel() {
 function levelUpChooseHero(heroIx) {
 	$levelUpHeroStats.show();
 	
-	var h = party.heroes[heroIx];
+	var h = PARTY.heroes[heroIx];
 	currLevelUpHero = h;
 	
 	$levelUpHeroName.html(h.name);
