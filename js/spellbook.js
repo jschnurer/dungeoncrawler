@@ -85,6 +85,7 @@ spellbook.prototype.open = function (heroIx, gameModeToReturnTo) {
 	this.selectedHero = party.heroes[heroIx];
 	this.isOpen = true;
 	
+	$('#spellTargeting').hide();
 	$('#spellPanel').show();
 	this.loadHeroSpells();
 }
