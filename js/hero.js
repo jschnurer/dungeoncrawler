@@ -50,11 +50,11 @@ function hero (values) {
 	
 	self.mightMinDamageBonusRatio = .25;
 	self.mightMaxDamageBonusRatio = 1;
-	self.getMightDamageBonusString = function () { return Math.round(self.getStat(STAT_MGHT) * self.mightMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_MGHT) * self.mightMaxDamageBonusRatio); };
+	self.getMightDamageBonusString = function () { return Math.floor(self.getStat(STAT_MGHT) * self.mightMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_MGHT) * self.mightMaxDamageBonusRatio); };
 	
 	self.dexMinDamageBonusRatio = .25;
-	self.dexMaxDamageBonusRatio = .1;
-	self.getDexDamageBonusString = function () { return Math.round(self.getStat(STAT_DEX) * self.dexMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_DEX) * self.dexMaxDamageBonusRatio); };
+	self.dexMaxDamageBonusRatio = 1;
+	self.getDexDamageBonusString = function () { return Math.floor(self.getStat(STAT_DEX) * self.dexMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_DEX) * self.dexMaxDamageBonusRatio); };
 		
 	self.dodge = values.dodge;
 	if(values.dodge == undefined) {
@@ -84,18 +84,19 @@ function hero (values) {
 	self.resistances = values.resistances;
 	if(values.resistances == undefined) {
 		self.resistances = [0,0,0,0,0,0,0,0];
-		
-		self.resistances[ELEM_PHYS] = Math.floor(self.getStat(STAT_TGH) / 3);
-		
-		for(var i = 1; i < self.resistances.length; i++) {
-			self.resistances[i] = Math.round(self.getStat(STAT_INT) / 2 + self.getStat(STAT_PIE) / 2);
-		}
 	}
 	
 	this.getResistance = function (type) {
 		var resistanceVal = self.resistances[type];
 		for(var i = 0; i < self.equipment.length; i++)
 			resistanceVal += self.getEquipmentResistance(self.equipment[i], type);
+		
+		if(type == ELEM_PHYS) {
+			resistanceVal += Math.floor(self.getStat(STAT_TGH) / 3);
+		} else {
+			resistanceVal += Math.round(self.getStat(STAT_INT) / 2 + self.getStat(STAT_PIE) / 2);
+		}
+		
 		return resistanceVal;
 	}
 	
@@ -160,6 +161,16 @@ function hero (values) {
 	
 	// Spells
 	this.spells = values.spells || [];
+	
+	this.learnSpell = function(spell) {
+		for(var i = 0; i < SPELLBOOK.maxLength; i++) {
+			if(this.spellSlotEmpty(i)) {
+				this.setSpell(spell, i);
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	this.spellSlotEmpty = function(slot) {
 		return this.spells[slot] == null || this.spells[slot] == undefined;

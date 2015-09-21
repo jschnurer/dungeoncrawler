@@ -38,18 +38,38 @@ spellbook.prototype.selectHero = function (ix) {
 		}
 	} else if(this.spellMode == SPELLMODE_SELECT_TARGET) {
 		if(this.castingSpell != null && this.castingSpell.target == TARGET_SINGLE_HERO) {
-			var casting = this.castingSpell.getCasting(this.selectedHero);
-			this.selectedHero.payForSpell(this.castingSpell);
-			log(this.selectedHero.name + ' casts ' + this.castingSpell.name + '.');
-			PARTY.heroes[ix].receiveCasting(casting);
-			
-			this.castingSpell = null;
-			this.spellMode = SPELLMODE_SELECT_SPELL;
-			if(this.previousGameMode == MODE_COMBAT)
-				COMBAT.finishTurn();
-			this.close();
+			this.castAt([PARTY.heroes[ix]]);
 		}
 	}
+}
+
+spellbook.prototype.castAt = function(heroes, monsterNums) {
+	var casting = null;
+	
+	if(monsterNums != null && monsterNums != undefined)
+		casting = this.castingSpell.getCasting(this.selectedHero, COMBAT.getMonstersByNums(monsterNums));
+	else
+		casting = this.castingSpell.getCasting(this.selectedHero, heroes);
+	
+	this.selectedHero.payForSpell(this.castingSpell);
+	log(this.selectedHero.name + ' casts ' + this.castingSpell.name + '.');
+	
+	if(heroes) {
+		for(var i = 0; i < targets.length; i++) {
+			targets[i].receiveCasting(casting);
+		}
+	} else {
+		if(COMBAT.heroCastsAtMonsters(casting, this.selectedHero, monsterNums)) {
+			this.previousGameMode = MODE_CONTINUE;
+		} else {
+			if(this.previousGameMode == MODE_COMBAT)
+				COMBAT.finishTurn();
+		}
+	}
+	
+	this.castingSpell = null;
+	this.spellMode = SPELLMODE_SELECT_SPELL;
+	this.close();
 }
 
 spellbook.prototype.monsterClicked = function(monsterNum) {
@@ -57,15 +77,8 @@ spellbook.prototype.monsterClicked = function(monsterNum) {
 		&& this.castingSpell != null
 		&& this.castingSpell.target == TARGET_SINGLE_MONSTER
 		&& this.selectedHero.canAffordSpell(this.castingSpell)) {
-		var casting = this.castingSpell.getCasting(this.selectedHero, COMBAT.getMonsterCombatantByNum(monsterNum).combatant);
-		this.selectedHero.payForSpell(this.castingSpell);
-		if(COMBAT.heroCastsAtMonster(casting, this.selectedHero, monsterNum)) {
-			this.previousGameMode = MODE_CONTINUE;
-		}		
-		
-		this.castingSpell = null;
-		this.spellMode = SPELLMODE_SELECT_SPELL;
-		this.close();
+		var monster = COMBAT.getMonsterCombatantByNum(monsterNum).combatant;
+		this.castAt(null, [monsterNum]);
 	}
 }
 
@@ -117,15 +130,25 @@ spellbook.prototype.beginCasting = function(spell) {
 		return;
 	
 	if(this.selectedHero.canAffordSpell(spell)) {
-		this.castingSpell = spell;
-		this.spellMode = SPELLMODE_SELECT_TARGET;
-		
-		if(spell.target == TARGET_SINGLE_HERO) {
-			$('#spellTargeting').html('Cast ' + spell.name + ' on which hero? (Or ESC to cancel)');
-		} else if(spell.target == TARGET_SINGLE_MONSTER) {
-			$('#spellTargeting').html('Cast ' + spell.name + ' at which monster? (Or ESC to cancel)');
+		if(spell.target == TARGET_ALL_HEROES) {
+			this.castingSpell = spell;
+			this.castAt(PARTY.heroes);
+		} else if(spell.target == TARGET_ALL_MONSTERS && this.previousGameMode == MODE_COMBAT) {
+			this.castingSpell = spell;
+			this.castAt(null, COMBAT.getAllMonsterNums());
+		} else {
+			if(spell.target == TARGET_SINGLE_HERO) {
+				$('#spellTargeting').html('Cast ' + spell.name + ' on which hero? (Or ESC to cancel)');
+				$('#spellTargeting').show();
+				this.castingSpell = spell;
+				this.spellMode = SPELLMODE_SELECT_TARGET;
+			} else if(spell.target == TARGET_SINGLE_MONSTER && this.previousGameMode == MODE_COMBAT) {
+				$('#spellTargeting').html('Cast ' + spell.name + ' at which monster? (Or ESC to cancel)');
+				$('#spellTargeting').show();
+				this.castingSpell = spell;
+				this.spellMode = SPELLMODE_SELECT_TARGET;
+			}
 		}
-		$('#spellTargeting').show();
 	}
 }
 

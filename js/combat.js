@@ -165,6 +165,30 @@ function combat() {
 	this.getMonsterCombatantByNum = function(num) {
 		return combatants[self.getMonsterCombatantIndex(num)];
 	}
+	
+	this.getMonstersByNums = function(nums) {
+		var monsters = [];
+		for(var i = 0; i < nums.length; i++) {
+			for(var m = 0; m < combatants.length; m++) {
+				if(m.num == nums[i]
+					&& !m.isHero)
+					monsters.push(combatants[m].combatant);
+			}
+		}
+		return monsters;
+	}
+	
+	this.getAllMonsterNums = function() {
+		var monsterNums = [];
+		for(var i = 0; i < combatants.length; i++) {
+			if(combatants[i].isHero)
+				continue;
+			
+			monsterNums.push(combatants[i].num);
+		}
+		
+		return monsterNums;
+	}
 
 	this.monsterClicked = function() {	
 		if(!combatAwaitingInput || !combatants[currCombatantIx].isHero) {
@@ -215,23 +239,27 @@ function combat() {
 		self.finishTurn();
 	}
 
-	this.heroCastsAtMonster = function(casting, hero, monsterNum) {
+	this.heroCastsAtMonsters = function(casting, hero, monsterNums) {
 		combatAwaitingInput = false;
 		
-		var monster = self.getMonsterCombatantByNum(monsterNum).combatant;
-		monster.receiveCasting(casting, hero);
-		
-		if(monster.life <= 0) {
-			log('The party gains ' + monster.experience + ' essence.');
-			PARTY.gainExperience(monster.experience);
+		for(var i = 0; i < monsterNums.length; i++){
+			var monsterNum = monsterNums[i];
 			
-			if(monster.onDeath != undefined && monster.onDeath != null)
-				monster.onDeath();
+			var monster = self.getMonsterCombatantByNum(monsterNum).combatant;
+			monster.receiveCasting(casting, hero);
 			
-			if(!self.removeMonsterFromCombat(monsterNum))
-				return true;
-		} else {
-			self.updateMonsterBlock(monsterNum);
+			if(monster.life <= 0) {
+				log('The party gains ' + monster.experience + ' essence.');
+				PARTY.gainExperience(monster.experience);
+				
+				if(monster.onDeath != undefined && monster.onDeath != null)
+					monster.onDeath();
+				
+				if(!self.removeMonsterFromCombat(monsterNum))
+					return true;
+			} else {
+				self.updateMonsterBlock(monsterNum);
+			}
 		}
 		
 		self.finishTurn();

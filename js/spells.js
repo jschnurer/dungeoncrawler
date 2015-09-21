@@ -15,6 +15,7 @@ function spell(data) {
 	this.minHeal = data.minHeal;
 	this.maxHeal = data.maxHeal;
 	this.healingBreaksMaxLife = data.healingBreaksMaxLife;
+	this.bonusMultiplier = data.bonusMultiplier;
 }
 
 spell.prototype.clone = function() {
@@ -23,9 +24,10 @@ spell.prototype.clone = function() {
 
 spell.prototype.getTooltip = function () {
 	var tt = this.name + '<br />'
-		+ ELEM_NAMES[this.element] + ' magic<br />'
+		+ SCHOOL_NAMES[this.school] + ' - ' + ELEM_NAMES[this.element] + ' magic<br />'
 		+ this.description + '<br /><br />'
-		+ this.cost + ' mana';
+		+ this.cost + ' mana <br />'
+		+ (this.bonusMultiplier * 100) + '% ' + SCHOOL_NAMES[this.school] + ' multiplier';
 		
 	if(this.type == SPELL_TYPE_HEAL) {
 		tt += '<br />Restores ' + this.minHeal + ' to ' + this.maxHeal + ' life.';
@@ -52,9 +54,9 @@ spell.prototype.getCasting = function(castingHero, targetMonster) {
 	}
 	
 	if(this.school == SCHOOL_PORTENT) {
-		casting.value += castingHero.getPortentDamageBonus();
+		casting.value += (castingHero.getPortentDamageBonus() * this.bonusMultiplier);
 	} else if(this.school == SCHOOL_SPELL) {
-		casting.value += castingHero.getSpellDamageBonus();
+		casting.value += (castingHero.getSpellDamageBonus() * this.bonusMultiplier);
 	}
 	
 	return casting;
@@ -91,7 +93,8 @@ SPELLS[0] = new spell({
 	value: 300,
 	minHeal: 1,
 	maxHeal: 4,
-	healingBreaksMaxLife: false
+	healingBreaksMaxLife: false,
+	bonusMultiplier: 1
 });
 
 SPELLS[1] = new spell({
@@ -102,10 +105,28 @@ SPELLS[1] = new spell({
 	school: SCHOOL_SPELL,
 	type: SPELL_TYPE_DAMAGE,
 	target: TARGET_SINGLE_MONSTER,
-	cost: 6,
+	cost: 8,
 	classes: [false, true, true, false, false, true],
 	element: ELEM_AIR,
 	value: 300,
 	minDamage: 1,
-	maxDamage: 5
+	maxDamage: 5,
+	bonusMultiplier: 1
+});
+
+SPELLS[2] = new spell({
+	id: 2,
+	name: 'Frostfall',
+	icon: 'snowing.png',
+	description: 'A freezing frost settles over the area, damaging all monsters.',
+	school: SCHOOL_SPELL,
+	type: SPELL_TYPE_DAMAGE,
+	target: TARGET_ALL_MONSTERS,
+	cost: 14,
+	classes: [false, true, true, false, false, true],
+	element: ELEM_WATER,
+	value: 500,
+	minDamage: 2,
+	maxDamage: 6,
+	bonusMultiplier: .25
 });

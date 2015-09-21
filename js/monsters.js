@@ -33,9 +33,9 @@ monster.prototype.receiveCasting = function(casting, hero) {
 		if(hero != null && hero != undefined) {
 			var msg = hero.name + ' casts ' + casting.spellName + ' dealing ' + damage + ' ' + ELEM_NAMES[casting.element] + ' damage';
 			if(this.life <= 0)
-				msg += ', slaying the ' + this.name + '!';
+				msg += ', slaying ' + this.name + '!';
 			else
-				msg += '.';
+				msg += ' to ' + this.name + '.';
 			log(msg)
 		}
 	}
