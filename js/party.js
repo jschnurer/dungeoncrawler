@@ -1,10 +1,15 @@
-function party(heroes) {
-	this.experience = 0;
-	this.heroes = heroes;
+function party(data) {
+	this.experience = data.experience || 0;
+	this.heroes = data.heroes;
 	
+	this.loadHeroPortraits();
+}
+
+party.prototype.loadHeroPortraits = function() {
 	this.heroes.forEach(function(hero) {
 		hero.setStatus(STATUS_OK);
 		hero.portraitBox.attr('title', hero.name);
+		hero.updateBars();
 	});
 }
 

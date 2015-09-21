@@ -10,6 +10,7 @@
 <script src="js/items.js" language="javascript" type="text/javascript"></script>
 <script src="js/jquery-2.1.4.min.js" language="javascript" type="text/javascript"></script>
 <script src="js/jquery-ui.min.js" language="javascript" type="text/javascript"></script>
+<script src="js/jstorage.js" language="javascript" type="text/javascript"></script>
 <script src="js/hero.js" language="javascript" type="text/javascript"></script>
 <script src="js/atlas.js" language="javascript" type="text/javascript"></script>
 <script src="js/navigator.js" language="javascript" type="text/javascript"></script>
@@ -21,6 +22,7 @@
 <script src="js/inventory.js" language="javascript" type="text/javascript"></script>
 <script src="js/spells.js" language="javascript" type="text/javascript"></script>
 <script src="js/spellbook.js" language="javascript" type="text/javascript"></script>
+<script src="js/saveload.js" language="javascript" type="text/javascript"></script>
 </head>
 <body>
 <div class="interface">
@@ -234,7 +236,9 @@ $(function() {
 	
 	nav = new navigator();
 	
-	PARTY = new party([
+	PARTY = new party({
+		experience: 0,
+		heroes: [
 		new hero({
 			num:1,
 			name: 'Crag the Hack',
@@ -268,13 +272,8 @@ $(function() {
 			portrait: 'images/portraits/female_2.png',
 			stats: [2,7,8,10,11,14,5,15],
 			spells: [SPELLS[1].clone()]
-		})
-	]);
-	
-	PARTY.heroes[0].updateBars();
-	PARTY.heroes[1].updateBars();
-	PARTY.heroes[2].updateBars();
-	PARTY.heroes[3].updateBars();
+		})]
+	});
 
 	nav.setMap(atlas[MAP_SORPIGAL]);
 	nav.teleportParty(18, 11, 'W');

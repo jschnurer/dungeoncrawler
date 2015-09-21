@@ -1,4 +1,11 @@
-function inventory() {}
+function inventory(items) {
+	if(items == undefined) {
+		this.items.length = 0;
+		return;
+	}
+	
+	this.items = items;
+}
 
 inventory.prototype.handleInput = function (e) {
 	if(e.which == KEY_I || e.which == KEY_ESC) {

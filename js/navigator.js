@@ -40,6 +40,14 @@ function navigator() {
 	this.hardness[TILE_WATER] = true;
 	this.hardness['P'] = true;
 	
+	this.getPartyPosition = function() {
+		return partyPosition;
+	}
+	
+	this.getMapId = function() {
+		return this.map.id;
+	}
+	
 	this.setMap = function(map) {
 		this.map = map;
 		this.setCombatTiles(false);
