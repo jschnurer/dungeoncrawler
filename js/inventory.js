@@ -18,9 +18,9 @@ inventory.prototype.gainItem = function (item, cloneItem) {
 	for(var i = 0; i < this.maxLength; i++) {
 		if(this.items[i] == undefined || this.items[i] == null) {
 			if(cloneItem)
-				this.items.push(item.clone());
+				this.items[i] = item.clone();
 			else
-				this.items.push(item);
+				this.items[i] = item;
 			
 			return true;
 		}

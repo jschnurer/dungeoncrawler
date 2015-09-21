@@ -145,6 +145,21 @@ function hero (values) {
 					return false;
 			}
 		}
+		if(item.classes != undefined) {
+			if(!item.classes[self.charClass])
+				return false;
+		}
+		
+		if(item.type == ITEM_MELEE
+			&& item.hands == 2
+			&& this.getEquipment(ITEM_SHIELD)) {
+			return false;
+		} else if(item.type == ITEM_SHIELD) {
+			var eWep = this.getEquipment(ITEM_MELEE);
+			if(eWep
+				&& eWep.hands == 2)
+				return false;
+		}
 		
 		return true;
 	}
@@ -258,7 +273,7 @@ function hero (values) {
 				dodgeable: true,
 				accuracy: acc,
 				damages: [{
-					damage: rand(meleeWeapon.minDamage, meleeWeapon.maxDamage)
+					damage: meleeWeapon.damage
 						+ Math.floor(rand(self.getStat(STAT_MGHT)*self.mightMinDamageBonusRatio, self.getStat(STAT_MGHT)*self.mightMaxDamageBonusRatio)),
 					type: meleeWeapon.damageType
 				}]

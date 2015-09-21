@@ -4,8 +4,7 @@ function item (data) {
 	this.type = data.type;
 	this.weight = data.weight;
 	this.icon = data.icon;
-	this.minDamage = data.minDamage;
-	this.maxDamage = data.maxDamage;
+	this.damage = data.damage;
 	this.damageType = data.damageType;
 	this.accBonus = data.accBonus;
 	this.reqs = data.reqs;
@@ -13,6 +12,7 @@ function item (data) {
 	this.resistances = data.resistances;
 	this.statBonuses = data.statBonuses;
 	this.maxLifeBonus = data.maxLifeBonus;
+	this.hands = data.hands;
 }
 
 item.prototype.clone = function() {
@@ -23,9 +23,9 @@ item.prototype.getTooltip = function() {
 	var tooltip = this.name + '<br />';
 	
 	if(this.type == ITEM_MELEE) {
-		tooltip += WEAPON_WEIGHT_NAMES[this.weight] + ' ' + ITEM_TYPE_NAMES[this.type] + '<br /><br />';
+		tooltip += this.hands + '-handed ' + WEAPON_WEIGHT_NAMES[this.weight] + ' ' + ITEM_TYPE_NAMES[this.type] + '<br /><br />';
 		
-		tooltip += this.minDamage + ' to ' + this.maxDamage + ' ' + ELEM_NAMES[this.damageType] + ' damage';
+		tooltip += this.damage + ' ' + ELEM_NAMES[this.damageType] + ' damage';
 	} else {
 		tooltip += ITEM_TYPE_NAMES[this.type] + '<br />';
 	}
@@ -102,59 +102,145 @@ var WEAPON_WEIGHT_NAMES = [];
 WEAPON_WEIGHT_NAMES[WEAPON_HEAVY] = 'Heavy';
 WEAPON_WEIGHT_NAMES[WEAPON_LIGHT] = 'Light';
 
-ITEMS[0] = new item ({
-	id: 0,
+var ITEM_CLUB = 0;
+var ITEM_CLOTHES = 1;
+var ITEM_LEATHERARMOR = 2;
+var ITEM_DAGGER = 3;
+var ITEM_FANGNECKLACE = 4;
+var ITEM_GEMSTONEBROACH = 5;
+var ITEM_MAUL = 6;
+var ITEM_BUCKLER = 7;
+var ITEM_ROBE = 8;
+var ITEM_STAFF = 9;
+var ITEM_HATCHET = 10;
+var ITEM_HAMMER = 11;
+
+//// Weapons ////
+// Tier 1 //
+ITEMS[ITEM_CLUB] = new item ({
+	id: ITEM_CLUB,
 	name: 'Club',
 	icon: 'club.png',
 	type: ITEM_MELEE,
 	weight: WEAPON_HEAVY,
-	minDamage: 1,
-	maxDamage: 3,
+	damage: 1,
 	damageType: ELEM_PHYS,
 	accBonus: 0,
+	hands: 1,
 	reqs: [2, 0, 0, 0, 0, 0, 0, 0]
 });
+ITEMS[ITEM_DAGGER] = new item ({
+	id: ITEM_DAGGER,
+	name: 'Dagger',
+	icon: 'dagger.png',
+	type: ITEM_MELEE,
+	weight: WEAPON_LIGHT,
+	damage: 1,
+	damageType: ELEM_PHYS,
+	accBonus: 1,
+	hands: 1,
+	reqs: [1, 5, 0, 0, 0, 0, 0, 0]
+});
+// Tier 2 //
+ITEMS[ITEM_MAUL] = new item ({
+	id: ITEM_MAUL,
+	name: 'Maul',
+	icon: 'flat-hammer.png',
+	type: ITEM_MELEE,
+	weight: WEAPON_HEAVY,
+	damage: 8,
+	damageType: ELEM_PHYS,
+	accBonus: 0,
+	hands: 2,
+	reqs: [9, 0, 0, 0, 0, 0, 0, 0]
+});
+ITEMS[ITEM_HAMMER] = new item ({
+	id: ITEM_HAMMER,
+	name: 'Hammer',
+	icon: 'gavel.png',
+	type: ITEM_MELEE,
+	weight: WEAPON_HEAVY,
+	damage: 5,
+	damageType: ELEM_PHYS,
+	accBonus: 0,
+	hands: 1,
+	reqs: [5, 0, 0, 0, 0, 0, 0, 0]
+});
+ITEMS[ITEM_STAFF] = new item ({
+	id: ITEM_STAFF,
+	name: 'Staff',
+	icon: 'wizard-staff.png',
+	type: ITEM_MELEE,
+	weight: WEAPON_HEAVY,
+	damage: 3,
+	damageType: ELEM_PHYS,
+	accBonus: 0,
+	hands: 2,
+	reqs: [2, 0, 0, 0, 0, 0, 0, 0]
+});
+ITEMS[ITEM_HATCHET] = new item ({
+	id: ITEM_HATCHET,
+	name: 'Hatchet',
+	icon: 'wood-axe.png',
+	type: ITEM_MELEE,
+	weight: WEAPON_LIGHT,
+	damage: 3,
+	damageType: ELEM_PHYS,
+	accBonus: 2,
+	hands: 1,
+	reqs: [2, 7, 0, 0, 0, 0, 0, 0]
+});
 
-ITEMS[1] = new item ({
-	id: 1,
+// Armors //
+// Tier 1 //
+ITEMS[ITEM_CLOTHES] = new item ({
+	id: ITEM_CLOTHES,
 	name: 'Clothes',
 	icon: 'clothes.png',
 	type: ITEM_ARMOR,
 	dodge: 1
 });
-
-ITEMS[2] = new item ({
-	id: 2,
+// Tier 2 //
+ITEMS[ITEM_LEATHERARMOR] = new item ({
+	id: ITEM_LEATHERARMOR,
 	name: 'Leather Armor',
 	icon: 'leather.png',
 	type: ITEM_ARMOR,
+	dodge: 3,
+	resistances: [2, 0, 0, 0, 0, 0, 0, 0],
+	reqs: [3]
+});
+ITEMS[ITEM_ROBE] = new item ({
+	id: ITEM_ROBE,
+	name: 'Robe',
+	icon: 'robe.png',
+	type: ITEM_ARMOR,
 	dodge: 2,
-	resistances: [2, 0, 0, 0, 0, 0, 0, 0]
+	resistances: [0, 1, 1, 1, 1, 1, 1, 1]
 });
 
-ITEMS[3] = new item ({
-	id: 3,
-	name: 'Dagger',
-	icon: 'dagger.png',
-	type: ITEM_MELEE,
-	weight: WEAPON_LIGHT,
-	minDamage: 1,
-	maxDamage: 4,
-	damageType: ELEM_PHYS,
-	accBonus: 1,
-	reqs: [1, 5, 0, 0, 0, 0, 0, 0]
+// Shields //
+ITEMS[ITEM_BUCKLER] = new item ({
+	id: ITEM_BUCKLER,
+	name: 'Buckler',
+	icon: 'round-shield.png',
+	type: ITEM_SHIELD,
+	dodge: 1,
+	classes: [true, true, false, true, true, false],
+	reqs: [4]
 });
 
-ITEMS[4] = new item ({
-	id: 4,
+// Accessories //
+ITEMS[ITEM_FANGNECKLACE] = new item ({
+	id: ITEM_FANGNECKLACE,
 	name: 'Fang Necklace',
 	icon: 'fang_necklace.png',
 	type: ITEM_ACCESSORY,
 	statBonuses: [2, 1, 0, 0, 0, 0, 0, 0]
 });
 
-ITEMS[5] = new item ({
-	id: 5,
+ITEMS[ITEM_GEMSTONEBROACH] = new item ({
+	id: ITEM_GEMSTONEBROACH,
 	name: 'Gemstone Broach',
 	icon: 'gemstone_broach.png',
 	type: ITEM_ACCESSORY,

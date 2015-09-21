@@ -55,8 +55,8 @@ spellbook.prototype.castAt = function(heroes, monsterNums) {
 	log(this.selectedHero.name + ' casts ' + this.castingSpell.name + '.');
 	
 	if(heroes) {
-		for(var i = 0; i < targets.length; i++) {
-			targets[i].receiveCasting(casting);
+		for(var i = 0; i < heroes.length; i++) {
+			heroes[i].receiveCasting(casting);
 		}
 	} else {
 		if(COMBAT.heroCastsAtMonsters(casting, this.selectedHero, monsterNums)) {

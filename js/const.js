@@ -111,17 +111,17 @@ var TARGET_ALL_MONSTERS = 5;
 var tghToLife = [];
 tghToLife[CLASS_KNIGHT] = 4;
 tghToLife[CLASS_THIEF] = 4;
-tghToLife[CLASS_SORCERER] = 3;
+tghToLife[CLASS_SORCERER] = 4;
 tghToLife[CLASS_CLERIC] = 4;
 tghToLife[CLASS_PALADIN] = 4;
-tghToLife[CLASS_DRUID] = 3;
+tghToLife[CLASS_DRUID] = 4;
 
 var cogToMana = [];
-cogToMana[CLASS_KNIGHT] = 2;
-cogToMana[CLASS_THIEF] = 3;
-cogToMana[CLASS_SORCERER] = 5;
+cogToMana[CLASS_KNIGHT] = 4;
+cogToMana[CLASS_THIEF] = 4;
+cogToMana[CLASS_SORCERER] = 4;
 cogToMana[CLASS_CLERIC] = 4;
-cogToMana[CLASS_PALADIN] = 3;
+cogToMana[CLASS_PALADIN] = 4;
 cogToMana[CLASS_DRUID] = 4;
 
 var pieIntToMana = [];
