@@ -21,7 +21,7 @@ $(function() {
 		}
 		
 		if(GAME_MODE == MODE_LEVEL_UP) {
-			handleLevelUpInput(e);
+			PLACEOFPOWER.handleInput(e);
 			return;
 		}
 		

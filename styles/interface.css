@@ -148,7 +148,7 @@ html {
 #commandPanel > #log {
 	position: absolute;
 	width: 275px;
-	top: -2px;
+	top: -1px;
 	right: 0px;
 	bottom: 0px;
 	border-left: 2px #91908F solid;

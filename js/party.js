@@ -3,6 +3,7 @@ function party(data) {
 	this.heroes = data.heroes;
 	
 	this.loadHeroPortraits();
+	$('#essencePanel').html(this.experience);
 }
 
 party.prototype.loadHeroPortraits = function() {
@@ -41,6 +42,14 @@ party.prototype.fullHeal = function () {
 	this.heroes.forEach(function(hero) {
 		hero.fullHeal();
 	});
+}
+
+party.prototype.getAverageLevel = function () {
+	var avgLvl = 0;
+	this.heroes.forEach(function(hero) {
+		avgLvl += hero.level;
+	});
+	return avgLvl / 4;
 }
 
 var PARTY = null;

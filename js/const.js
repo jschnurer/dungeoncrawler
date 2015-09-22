@@ -89,6 +89,14 @@ var STAT_SPD = 4;
 var STAT_COG = 5;
 var STAT_PIE = 6;
 var STAT_INT = 7;
+var STAT_LIFE = 8;
+var STAT_MANA = 9;
+var STAT_MIGHTBONUS = 10;
+var STAT_DEXBONUS = 11;
+var STAT_DODGE = 12;
+var STAT_TURNS = 13;
+var STAT_PORTENTBONUS = 14;
+var STAT_SPELLBONUS = 15;
 
 var STAT_NAMES = [];
 STAT_NAMES[STAT_MGHT] = 'Might';
@@ -137,7 +145,7 @@ function rand(min, max) {
 }
 
 function rollStat(statValue) {
-	return rand(0, statValue * 2);
+	return rand(Math.floor(statValue * .4), Math.floor(statValue * 1.25));
 }
 
 function getRandomItem(items) {

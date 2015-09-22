@@ -1,131 +1,87 @@
-var $levelUpPanel = null;
-var $lChar1 = null;
-var $lChar2 = null;
-var $lChar3 = null;
-var $lChar4 = null;
-var $levelUpHeroStats = null;
-var $levelUpHeroName = null;
-var $levelUpMight = null;
-var $levelUpDexterity = null;
-var $levelUpToughness = null;
-var $levelUpAccuracy = null;
-var $levelUpSpeed = null;
-var $levelUpCognition = null;
-var $levelUpPiety = null;
-var $levelUpIntellect = null;
+function placeOfPower () {
+	this.setup();
+}
 
-var $levelUpLife = null;
-var $levelUpMana = null;
-var $levelUpMightDamageBonus = null;
-var $levelUpDexterityDamageBonus = null;
-var $levelUpDodge = null;
-var $levelUpTurnsPerRound = null;
-var $levelUpPortentDamageBonus = null;
-var $levelUpSpellDamageBonus = null;
-var $levelUpResistPhysical = null;
-var $levelUpResistFire = null;
-var $levelUpResistWater = null;
-var $levelUpResistEarth = null;
-var $levelUpResistAir = null;
-var $levelUpResistBody = null;
-var $levelUpResistMind = null;
-var $levelUpResistSpirit = null;
-
-var $levelUpLevel = null;
-var $levelUpCost = null;
-
-var levelUpChooseHero1Callback = function () { levelUpChooseHero(0); };
-var levelUpChooseHero2Callback = function () { levelUpChooseHero(1); };
-var levelUpChooseHero3Callback = function () { levelUpChooseHero(2); };
-var levelUpChooseHero4Callback = function () { levelUpChooseHero(3); };
-
-var currLevelUpHero = null;
-
-$(function() {
-	$levelUpPanel = $('#levelUpPanel');
-	$lChar1 = $('#levelChar1');
-	$lChar2 = $('#levelChar2');
-	$lChar3 = $('#levelChar3');
-	$lChar4 = $('#levelChar4');
-	$lChar1.click(levelUpChooseHero1Callback);
-	$lChar2.click(levelUpChooseHero2Callback);
-	$lChar3.click(levelUpChooseHero3Callback);
-	$lChar4.click(levelUpChooseHero4Callback);
-	$('#levelNone').click(function() { dismissLevelUpPanel(); });
-
-	$levelUpHeroStats = $('#levelUpHeroStats');
-	$levelUpHeroName = $('#levelUpHeroName');
-	$levelUpMight = $('#levelUpMight span');
-	$levelUpDexterity = $('#levelUpDexterity span');
-	$levelUpToughness = $('#levelUpToughness span');
-	$levelUpAccuracy = $('#levelUpAccuracy span');
-	$levelUpSpeed = $('#levelUpSpeed span');
-	$levelUpCognition = $('#levelUpCognition span');
-	$levelUpPiety = $('#levelUpPiety span');
-	$levelUpIntellect = $('#levelUpIntellect span');
+placeOfPower.prototype.setup = function () {
+	this.$lChar1 = $('#levelChar1');
+	this.$lChar2 = $('#levelChar2');
+	this.$lChar3 = $('#levelChar3');
+	this.$lChar4 = $('#levelChar4');
+	this.$lChar1.click(function () { PLACEOFPOWER.selectHero(0); });
+	this.$lChar2.click(function () { PLACEOFPOWER.selectHero(1); });
+	this.$lChar3.click(function () { PLACEOFPOWER.selectHero(2); });
+	this.$lChar4.click(function () { PLACEOFPOWER.selectHero(3); });
+	$('#levelNone').click(function() { PLACEOFPOWER.close(); });
 	
-	$('#levelUpConfirm').click(function() { confirmAllotment(); });
-	$('#levelUpCancel').click(function() { cancelAllotment(); });
+	$('#levelUpConfirm').click(function() { PLACEOFPOWER.confirmAllotment(); });
+	$('#levelUpCancel').click(function() { PLACEOFPOWER.cancelAllotment(); });
 	
-	$levelUpLevel = $('#levelUpLevel span');
-    $levelUpCost = $('#levelUpCost span');
+	this.$levelUpLevel = $('#levelUpLevel span');
+    this.$levelUpCost = $('#levelUpCost span');
 	
-	$levelUpLife = $('#levelUpLife span');
-	$levelUpMana = $('#levelUpMana span');
-	$levelUpMightDamageBonus = $('#levelUpMightDamageBonus span');
-	$levelUpDexterityDamageBonus = $('#levelUpDexterityDamageBonus span');
-	$levelUpDodge = $('#levelUpDodge span');
-	$levelUpTurnsPerRound = $('#levelUpTurnsPerRound span');
-	$levelUpPortentDamageBonus = $('#levelUpPortentDamageBonus span');
-	$levelUpSpellDamageBonus = $('#levelUpSpellDamageBonus span');
-	$levelUpResistPhysical = $('#levelUpResistPhysical span');
-	$levelUpResistFire = $('#levelUpResistFire span');
-	$levelUpResistWater = $('#levelUpResistWater span');
-	$levelUpResistEarth = $('#levelUpResistEarth span');
-	$levelUpResistAir = $('#levelUpResistAir span');
-	$levelUpResistBody = $('#levelUpResistBody span');
-	$levelUpResistMind = $('#levelUpResistMind span');
-	$levelUpResistSpirit = $('#levelUpResistSpirit span');
+	this.$levelUpResistPhysical = $('#levelUpResistPhysical span');
+	this.$levelUpResistFire = $('#levelUpResistFire span');
+	this.$levelUpResistWater = $('#levelUpResistWater span');
+	this.$levelUpResistEarth = $('#levelUpResistEarth span');
+	this.$levelUpResistAir = $('#levelUpResistAir span');
+	this.$levelUpResistBody = $('#levelUpResistBody span');
+	this.$levelUpResistMind = $('#levelUpResistMind span');
+	this.$levelUpResistSpirit = $('#levelUpResistSpirit span');
 	
-	$('.levelUpPlus').click(levelUpPlusClick);
-	$('.levelUpMinus').click(levelUpMinusClick);	
-});
+	$('.levelUpPlus').click(function() { PLACEOFPOWER.plusClick($(this)); });
+	$('.levelUpMinus').click(function() { PLACEOFPOWER.minusClick($(this)); });	
+};
 
-function levelUpPlusClick() {
-	var advCost = currLevelUpHero.getAdvancementCost();
+placeOfPower.prototype.plusClick = function($element) {
+	if(!this.selectedHero.canAdvance())
+		return;
+	
+	var advCost = this.selectedHero.getAdvancementCost();
 	var paidOk = PARTY.loseExperience(advCost);
 	
 	if(!paidOk)
 		return;
 	
-	var parent = $(this).parent().parent();
+	var parent = $element.parent().parent();
 	var currStatVal = parent.children('span').html();
 	
 	parent.children('span').html(parseInt(currStatVal) + 1);
 	parent.children('span').css('color', 'cyan');
 	
-	currLevelUpHero.level++;
+	var statId = parseInt(parent.attr('data-statId'));
 	
-	var parentName = parent.attr('id');
-	
-	if(parentName == 'levelUpMight') currLevelUpHero.might++;
-	else if(parentName == 'levelUpDexterity') currLevelUpHero.dexterity++;
-	else if(parentName == 'levelUpToughness') currLevelUpHero.toughness++;
-	else if(parentName == 'levelUpAccuracy') currLevelUpHero.accuracy++;
-	else if(parentName == 'levelUpSpeed') currLevelUpHero.speed++;
-	else if(parentName == 'levelUpCognition') currLevelUpHero.cognition++;
-	else if(parentName == 'levelUpPiety') currLevelUpHero.piety++;
-	else if(parentName == 'levelUpIntellect') currLevelUpHero.intellect++;
-	
-	$levelUpCost.html(currLevelUpHero.getAdvancementCost());
-	$levelUpLevel.html(currLevelUpHero.level);
-	updateDerivedStats(currLevelUpHero);
+	this.selectedHero.advanceStat(statId, 1);
+	this.pendingChanges[statId]++;
+	this.costsPaid.push(advCost);
+	this.pendingPoints = true;
+	this.updateDerivedStats();
 }
 
-function levelUpMinusClick() {
+placeOfPower.prototype.minusClick = function($element) {
+	var parent = $element.parent().parent();
+	var statId = parseInt(parent.attr('data-statId'));
+	
+	if(this.pendingChanges[statId] == 0)
+		return;
+	
+	this.reduceStat(statId);
+	
+	parent.children('span').html(this.selectedHero.getStat(statId));
+	if(this.pendingChanges[statId] > 0)
+		parent.children('span').css('color', 'cyan');	
+	else
+		parent.children('span').css('color', 'white');
+	
+	this.updateDerivedStats();
 }
 
-function handlePlaceOfPower() {
+placeOfPower.prototype.reduceStat = function(statId) {
+	this.selectedHero.advanceStat(statId, -1);
+	this.pendingChanges[statId]--;
+	PARTY.gainExperience(this.costsPaid.pop());
+}
+
+placeOfPower.prototype.open = function() {
 	PARTY.fullHeal();
 	
 	// reset all combat encounters
@@ -136,96 +92,111 @@ function handlePlaceOfPower() {
 	showChoices('Your deeds have been recorded.[br][br]You commune with this place of power. Your life and magical reserves are replenished but danger surrounds you once more.', [ {
 		text: 'Level up',
 		callback: function() {
-			showLevelUpPanel();
+			GAME_MODE = MODE_LEVEL_UP;
+			PLACEOFPOWER.openLevelUpMenu();
 		}
 	}, {
 		text: 'Leave',
 		callback: function() {
+			SAVELOADER.save(PARTY, INVENTORY, nav, GAME_VARS);
 			finishChoice();
 		}
 	}]);
 }
 
-function handleLevelUpInput(e) {
+placeOfPower.prototype.handleInput = function(e) {
 	if(e.which == KEY_1) {
-		levelUpChooseHero1Callback();
+		this.selectHero(0);
 		e.preventDefault();
 	} else if(e.which == KEY_2) {
-		levelUpChooseHero2Callback();
+		this.selectHero(1);
 		e.preventDefault();
 	} else if(e.which == KEY_3) {
-		levelUpChooseHero3Callback();
+		this.selectHero(2);
 		e.preventDefault();
 	} else if(e.which == KEY_4) {
-		levelUpChooseHero4Callback();
+		this.selectHero(3);
 		e.preventDefault();
 	} else if(e.which == KEY_5) {
-		dismissLevelUpPanel();
+		this.closeLevelUpMenu();
 		e.preventDefault();
 	}
 }
 
-function showLevelUpPanel() {
-	GAME_MODE = MODE_LEVEL_UP;
-	$levelUpPanel.show();
-	$levelUpHeroStats.hide();
-	$lChar1.html(PARTY.heroes[0].name);
-	$lChar2.html(PARTY.heroes[1].name);
-	$lChar3.html(PARTY.heroes[2].name);
-	$lChar4.html(PARTY.heroes[3].name);
+placeOfPower.prototype.openLevelUpMenu = function() {	
+	this.pendingChanges = [0,0,0,0,0,0,0,0];
+	this.costsPaid = [];
+	$('#levelUpPanel').show();
+	$('#levelUpHeroStats').hide();
+	this.$lChar1.html(PARTY.heroes[0].name);
+	this.$lChar2.html(PARTY.heroes[1].name);
+	this.$lChar3.html(PARTY.heroes[2].name);
+	this.$lChar4.html(PARTY.heroes[3].name);
 }
 
-function dismissLevelUpPanel() {
+placeOfPower.prototype.closeLevelUpMenu = function() {
 	GAME_MODE = MODE_CHOICE;
-	$levelUpPanel.hide();
+	$('#levelUpPanel').hide();
 }
 
-function levelUpChooseHero(heroIx) {
-	$levelUpHeroStats.show();
+placeOfPower.prototype.selectHero = function(heroIx) {
+	$('#levelUpHeroStats').show();
 	
 	var h = PARTY.heroes[heroIx];
-	currLevelUpHero = h;
+	this.selectedHero = h;
 	
-	$levelUpHeroName.html(h.name);
-    $levelUpMight.html(h.getStat(STAT_MGHT));
-    $levelUpDexterity.html(h.getStat(STAT_DEX));
-    $levelUpToughness.html(h.getStat(STAT_TGH));
-    $levelUpAccuracy.html(h.getStat(STAT_ACC));
-    $levelUpSpeed.html(h.getStat(STAT_SPD));
-    $levelUpCognition.html(h.getStat(STAT_COG));
-    $levelUpPiety.html(h.getStat(STAT_PIE));
-    $levelUpIntellect.html(h.getStat(STAT_INT));
+	$('#levelUpStats > li').each(function (ix, el) {
+		var stat = h.getStat(parseInt($(el).attr('data-statid')));
+		$(el).children('span').html(stat);
+		$(el).children('span').css('color', 'white');
+	});
 	
-	$levelUpMight.data('starting', h.getStat(STAT_MGHT));
-    $levelUpDexterity.data('starting', h.getStat(STAT_DEX));
-    $levelUpToughness.data('starting', h.getStat(STAT_TGH));
-    $levelUpAccuracy.data('starting', h.getStat(STAT_ACC));
-    $levelUpSpeed.data('starting', h.getStat(STAT_SPD));
-    $levelUpCognition.data('starting', h.getStat(STAT_COG));
-    $levelUpPiety.data('starting', h.getStat(STAT_PIE));
-    $levelUpIntellect.data('starting', h.getStat(STAT_INT));
+	$('#levelUpHeroName').html(h.name);
 	
-	$levelUpLevel.html(h.level);
-	$levelUpCost.html(h.getAdvancementCost());
-	
-	updateDerivedStats(h);
+	this.updateDerivedStats();
 }
 
-function updateDerivedStats(h) {
-	$levelUpLife.html(h.maxLife);
-	$levelUpMana.html(h.maxMana);
-	$levelUpMightDamageBonus.html(h.getMightDamageBonusString());
-	$levelUpDexterityDamageBonus.html(h.getDexDamageBonusString());
-	$levelUpDodge.html(h.dodge);
-	$levelUpTurnsPerRound.html(h.turnsPerRound);
-	$levelUpPortentDamageBonus.html(h.getPortentDamageBonusString());
-	$levelUpSpellDamageBonus.html(h.getSpellDamageBonusString());
-	$levelUpResistPhysical.html(h.getResistance(ELEM_PHYS));
-	$levelUpResistFire.html(h.getResistance(ELEM_FIRE));
-	$levelUpResistWater.html(h.getResistance(ELEM_WATER));
-	$levelUpResistEarth.html(h.getResistance(ELEM_EARTH));
-	$levelUpResistAir.html(h.getResistance(ELEM_AIR));
-	$levelUpResistBody.html(h.getResistance(ELEM_BODY));
-	$levelUpResistMind.html(h.getResistance(ELEM_MIND));
-	$levelUpResistSpirit.html(h.getResistance(ELEM_SPIRIT));
+placeOfPower.prototype.updateDerivedStats = function() {
+	this.$levelUpCost.html(this.selectedHero.getAdvancementCost());
+	this.$levelUpLevel.html(this.selectedHero.level);
+
+	$('#levelUpDerivedStats1 > li').each(function (ix, el) {
+		$(el).children('span').html(PLACEOFPOWER.selectedHero.getStat(parseInt($(el).attr('data-statId'))));
+	});
+	
+	$('#levelUpDerivedStats2 > li').each(function (ix, el) {
+		$(el).children('span').html(PLACEOFPOWER.selectedHero.getResistance(parseInt($(el).attr('data-elemId'))));
+	});
 }
+
+placeOfPower.prototype.confirmAllotment = function() {
+	this.selectedHero.updateBars();
+	this.closeLevelUpMenu();
+}
+
+placeOfPower.prototype.cancelAllotment = function() {
+	for(var i = 0; i < this.pendingChanges.length; i++) {
+		if(this.pendingChanges[i] > 0) {
+			var numTimes = this.pendingChanges[i];
+			for(var x = 0; x < numTimes; x++) {
+				this.reduceStat(i);
+			}
+		}
+		this.pendingChanges[i] = 0;
+	}
+	this.closeLevelUpMenu();
+}
+
+placeOfPower.prototype.hideAdvancement = function () {
+	$('#levelUpStats .levelUpDown').hide();
+}
+
+placeOfPower.prototype.showAdvancement = function () {
+	$('#levelUpStats .levelUpDown').show();
+}
+
+var PLACEOFPOWER = null;
+
+$(function() {
+	PLACEOFPOWER = new placeOfPower();
+});

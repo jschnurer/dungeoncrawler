@@ -356,7 +356,7 @@ function navigator() {
 			return tile.event.script.replace(/\n/g, '');
 		} else if(trigger == 'activate'
 			&& tile.code == 'P') {
-				return 'handlePlaceOfPower()';
+				return 'PLACEOFPOWER.open()';
 		} else if(trigger == 'touch'
 			&& !tile.combatComplete
 			&& tile.code == 'Z'

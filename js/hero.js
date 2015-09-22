@@ -18,12 +18,48 @@ function hero (values) {
 	self.stats = values.stats;
 	
 	this.getStat = function(statId) {
-		return self.stats[statId];
+		if(statId < 8) {
+			return self.stats[statId];
+		} else {
+			switch (statId) {
+				case STAT_LIFE: return this.maxLife;
+				case STAT_MANA: return this.maxMana;
+				case STAT_MIGHTBONUS: return this.getMightDamageBonusString();
+				case STAT_DEXBONUS: return this.getDexDamageBonusString();
+				case STAT_DODGE: return this.getDodge();
+				case STAT_TURNS: return this.getTurns();
+				case STAT_PORTENTBONUS: return this.getPortentDamageBonusString();
+				case STAT_SPELLBONUS: return this.getSpellDamageBonusString();
+			}
+		}
 	}
 	
-	this.levelUpStat = function(statId) {
-		self.stats[statId]++;
-		// TODO: update derived stats
+	this.canAdvance = function() {
+		return self.level < PARTY.getAverageLevel() + 3;
+	}
+	
+	this.advanceStat = function(statId, amount) {
+		self.level += amount;
+		self.stats[statId] += amount;
+		
+		switch (statId) {
+			case STAT_TGH:
+				self.maxLife += (amount * tghToLife[self.charClass]);
+				self.life += (amount * tghToLife[self.charClass]);
+				break;
+			case STAT_COG:
+				self.maxMana += (amount * cogToMana[self.charClass]);
+				self.mana += (amount * cogToMana[self.charClass]);
+				break;
+			case STAT_PIE:
+				self.maxMana += (amount * pieIntToMana[self.charClass]);
+				self.mana += (amount * pieIntToMana[self.charClass]);
+				break;
+			case STAT_INT:
+				self.maxMana += (amount * pieIntToMana[self.charClass]);
+				self.mana += (amount * pieIntToMana[self.charClass]);
+				break;
+		}
 	}
 	
 	self.getAdvancementCost = function () {
@@ -51,19 +87,19 @@ function hero (values) {
 	self.mightMinDamageBonusRatio = .25;
 	self.mightMaxDamageBonusRatio = 1;
 	self.getMightDamageBonusString = function () { return Math.floor(self.getStat(STAT_MGHT) * self.mightMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_MGHT) * self.mightMaxDamageBonusRatio); };
+	self.getMightDamageBonus = function() { Math.floor(rand(self.getStat(STAT_MGHT)*self.mightMinDamageBonusRatio, self.getStat(STAT_MGHT)*self.mightMaxDamageBonusRatio)); }
 	
 	self.dexMinDamageBonusRatio = .25;
 	self.dexMaxDamageBonusRatio = 1;
 	self.getDexDamageBonusString = function () { return Math.floor(self.getStat(STAT_DEX) * self.dexMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_DEX) * self.dexMaxDamageBonusRatio); };
-		
-	self.dodge = values.dodge;
-	if(values.dodge == undefined) {
-		self.dodge = Math.round(self.getStat(STAT_SPD) / 3);
+	self.getDexDamageBonus = function() { Math.floor(rand(self.getStat(STAT_DEX)*self.dexMinDamageBonusRatio, self.getStat(STAT_DEX)*self.dexMaxDamageBonusRatio)); }
+	
+	self.getDodge = function() {
+		return Math.round(self.getStat(STAT_SPD) / 3);
 	}
 	
-	self.turnsPerRound = values.turnsPerRound;	
-	if(values.turnsPerRound == undefined) {
-		self.turnsPerRound = 1 + Math.floor(self.getStat(STAT_SPD) / 30);
+	self.getTurns = function() {
+		return 1 + Math.floor(self.getStat(STAT_SPD) / 30);
 	}
 	
 	self.spellMinDamageBonusRatio = .25;
@@ -266,15 +302,14 @@ function hero (values) {
 			return {
 				dodgeable: true,
 				accuracy: acc,
-				damages: [{damage: 1, type: ELEM_PHYS}] + Math.floor(rand(self.getStat(STAT_MGHT)*self.mightMinDamageBonusRatio, self.getStat(STAT_MGHT)*self.mightMaxDamageBonusRatio))
+				damages: [{damage: 1, type: ELEM_PHYS}] + self.getMightDamageBonus()
 			};
 		} else {
 			return {
 				dodgeable: true,
 				accuracy: acc,
 				damages: [{
-					damage: meleeWeapon.damage
-						+ Math.floor(rand(self.getStat(STAT_MGHT)*self.mightMinDamageBonusRatio, self.getStat(STAT_MGHT)*self.mightMaxDamageBonusRatio)),
+					damage: meleeWeapon.damage + (meleeWeapon.weight == WEAPON_HEAVY ? self.getMightDamageBonus() : self.getDexDamageBonus()),
 					type: meleeWeapon.damageType
 				}]
 			};
@@ -286,7 +321,7 @@ function hero (values) {
 			return { dodged: false, totalDamageDealt: 0, effectWorked: false };
 		}
 		
-		if(attack.dodgeable && rollStat(self.dodge) > attack.accuracy) {
+		if(attack.dodgeable && rollStat(self.getDodge()) > attack.accuracy) {
 			return { dodged: true };
 		} else {
 			var totalDamageDealt = 0;
