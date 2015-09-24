@@ -203,6 +203,12 @@ canvas {
 	background: black;
 }
 
+#combatView .turbo {
+	background-image: url('../images/monsters/crowned-explosion.png');
+	background-repeat: no-repeat;
+	background-position: center bottom;
+}
+
 #combatView .monster > span{
 	color: white;
 	display: block;

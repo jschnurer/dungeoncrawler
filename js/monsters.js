@@ -1,28 +1,51 @@
 function monster(data) {
 	this.name = data.name;
 	this.accuracy = data.accuracy;
-	this.damage = data.damage;
+	this.damage = {
+		min: data.damage.min,
+		max: data.damage.max,
+		type: data.damage.type
+	};
 	this.target = data.target;
 	this.attackIsDodgeable = data.attackIsDodgeable;
 	this.randomLife = data.randomLife;
 	this.life = data.life;
 	this.maxLife = data.maxLife;
 	this.image = data.image;
-	this.resistances = data.resistances;
+	this.resistances = [];
+	for(var i = 0; i < data.resistances.length; i++)
+		this.resistances[i] = data.resistances[i];
 	this.experience = data.experience;
 	this.dodge = data.dodge;
 	this.treasureClass = data.treasureClass;
 	this.speed = data.speed;
 	this.initBonus = data.initBonus;
-	this.charged = data.charged;
-	this.chargeAt = data.chargeAt;
 	this.tactics = data.tactics;
 	this.onDeath = data.onDeath;
+	this.turboable = data.turboable;
 }
 
 monster.prototype.clone = function () {
 	var m = new monster(this);
 	m.life = m.maxLife = m.maxLife + rand(1, this.randomLife);
+	
+	if(this.turboable && rand(1, 100) == 100) {
+		m.turbo = true;
+		m.life *= 2;
+		m.maxLife *= 2;
+		m.damage.min *= 2;
+		m.damage.max *= 2;
+		m.accuracy *= 2;
+		m.dodge = Math.floor(m.dodge * 1.5);
+		m.experience = Math.floor(m.experience * 1.75);
+		m.speed *= 2;
+		m.treasureClass++;
+		m.initBonus *= 2;
+		m.name = 'Turbo ' + m.name;
+	} else {
+		m.turbo = false;
+	}
+	
 	return m;
 }
 
@@ -68,7 +91,7 @@ monster.prototype.getAttack = function() {
 }
 
 monster.prototype.$getMonsterBlock = function(num) {
-	return $('<div class="monster" data-num="' + num + '"><span>' + this.name + '</span><img src="images/monsters/' + this.image + '" /></div>');
+	return $('<div class="monster' + (this.turbo ? ' turbo' : '') + '" data-num="' + num + '"><span>' + this.name + '</span><img src="images/monsters/' + this.image + '" /></div>');
 }
 
 function getXMonsters(monster, count) {
@@ -96,7 +119,7 @@ MONSTERS[0] = new monster({
 	treasureClass: 1,
 	speed: 7,
 	initBonus: 0,
-	charged: false
+	turboable: true
 });
 
 MONSTERS[1] = new monster({
@@ -110,11 +133,12 @@ MONSTERS[1] = new monster({
 	randomLife: 40,
 	image: 'gnasher_nest.png',
 	resistances: [0, 0, 0, 0, 0, 0, 0],
-	experience: 4500,
+	experience: 2000,
 	dodge: 4,
 	treasureClass: 2,
 	speed: 12,
 	initBonus: 0,
+	turboable: true,
 	tactics: function() {
 		var monsterCount = COMBAT.getMonsterCount();
 		// 40% chance to spawn a monster if <6 monsters

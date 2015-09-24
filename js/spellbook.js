@@ -147,7 +147,7 @@ spellbook.prototype.beginCasting = function(spell) {
 		return;
 	
 	if(this.selectedHero.canAffordSpell(spell)) {
-		if(spell.target == TARGET_ALL_HEROES) {
+		if(spell.target == TARGET_PARTY) {
 			this.castingSpell = spell;
 			this.castAt(PARTY.heroes);
 		} else if(spell.target == TARGET_ALL_MONSTERS && this.previousGameMode == MODE_COMBAT) {
