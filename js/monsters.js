@@ -118,7 +118,7 @@ MONSTERS[1] = new monster({
 	tactics: function() {
 		var monsterCount = COMBAT.getMonsterCount();
 		// 40% chance to spawn a monster if <6 monsters
-		if(monsterCount < 6 && && rand(1, 100) >= 60) {
+		if(monsterCount < 6 && rand(1, 100) >= 60) {
 			COMBAT.addMonsters([cloneMonster(MONSTERS[0])]);
 			
 			// another 60% chance to spawn another one if there's still room

@@ -321,11 +321,15 @@ function navigator() {
 	function getEventHardness(x, y) {
 		var tile = self.map.tiles[y][x];
 		if(tile != undefined
-			&& tile.event != null
-			&& tile.event.hardnessScript != ''
+			&& tile.event != null) {
+			if(tile.event.hardnessScript != ''
 			&& tile.event.hardnessScript != undefined) {
-			return eval(tile.event.hardnessScript);
-		} else {
+				return eval(tile.event.hardnessScript);
+			} else if(tile.event.isChest
+				&& self.getChestGameVar(tile.event.chestGameVar) == 0) {
+				return true;
+			}
+		} else {			
 			return false;
 		}
 	}
@@ -334,9 +338,9 @@ function navigator() {
 		var tile = self.map.tiles[y][x];
 		if(tile != undefined
 			&& tile.event != null
-			&& tile.event.showChestScript != ''
-			&& tile.event.showChestScript != undefined) {
-			return eval(tile.event.showChestScript);
+			&& tile.event.isChest
+			&& self.getChestGameVar(tile.event.chestGameVar) == 0) {
+			return true;
 		} else {
 			return false;
 		}
@@ -374,9 +378,44 @@ function navigator() {
 		return null;
 	}
 	
+	this.getChestGameVar = function (eventChestGameVarString) {
+		return getGameVar(window[eventChestGameVarString]);
+	}
+	
+	function handleChestActivateAtTile(x, y) {
+		var tile = self.map.tiles[y][x];
+		if(tile == null
+			|| tile == undefined
+			|| tile.event == null
+			|| tile.event == undefined
+			|| !tile.event.isChest)
+			return false;
+			
+		if(self.getChestGameVar(tile.event.chestGameVar) != 0)
+			return false;
+		
+		if(tile.event.chestItem != undefined && tile.event.chestItem != null && tile.event.chestItem != '') {
+			if(INVENTORY.gainItem(ITEMS[window[tile.event.chestItem]], true)) {
+				showText('You find ' + ITEMS[window[tile.event.chestItem]].name + '.');
+				setGameVar(window[tile.event.chestGameVar], 1);
+				self.draw();
+			} else {
+				showText('You find ' + ITEMS[window[tile.event.chestItem]].name + ' but have no room to carry it.');
+			}
+		} else if(tile.event.chestEssence != undefined && tile.event.chestEssence != null) {
+			PARTY.gainExperience(parseInt(tile.event.chestEssence));
+			setGameVar(window[tile.event.chestGameVar], 1);
+			showText('The party gains ' + tile.event.chestEssence + ' essence.');
+			self.draw();
+		}
+	}
+	
 	function doActivate() {
 		var x = partyPosition.x;
 		var y = partyPosition.y;
+		
+		if(handleChestActivateAtTile(x, y))
+			return;
 		
 		var thisTilesEventScript = getEventScriptAtTile(x, y, 'activate');
 		if(thisTilesEventScript != null) {
@@ -385,14 +424,23 @@ function navigator() {
 		}
 				
 		var nextTilesEventScript = null;
-		if(partyPosition.facing == 'N')
+		if(partyPosition.facing == 'N') {
+			if(handleChestActivateAtTile(x, y-1))
+				return;
 			nextTilesEventScript = getEventScriptAtTile(x, y-1, 'activate');
-		else if(partyPosition.facing == 'S')
+		} else if(partyPosition.facing == 'S') {
+			if(handleChestActivateAtTile(x, y+1))
+				return;
 			nextTilesEventScript = getEventScriptAtTile(x, y+1, 'activate');
-		else if(partyPosition.facing == 'E')
+		} else if(partyPosition.facing == 'E') {
+			if(handleChestActivateAtTile(x, x+1))
+				return;
 			nextTilesEventScript = getEventScriptAtTile(x+1, y, 'activate');
-		else if(partyPosition.facing == 'W')
+		} else if(partyPosition.facing == 'W') {
+			if(handleChestActivateAtTile(x-1, y))
+				return;
 			nextTilesEventScript = getEventScriptAtTile(x-1, y, 'activate');
+		}
 		
 		if(nextTilesEventScript != null) {
 			eval(nextTilesEventScript);

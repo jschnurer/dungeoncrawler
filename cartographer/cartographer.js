@@ -260,6 +260,11 @@ function handleEventPopup() {
 	$('#eventPopup').show();
 	eventPopupOpen = true;
 	
+	$('#eventIsChest').attr('checked', false);
+	$('#eventChestItem').val('');
+	$('#eventChestEssence').val('');
+	$('#eventChestGameVar').val('');
+	
 	$('#eventTrigger').val('touch');
 	$('#eventFacing').val('*');
 	$('#eventScript').val('');
@@ -271,11 +276,18 @@ function handleEventPopup() {
 	var existingEvent = jQuery.data(cell, 'event');
 	
 	if(existingEvent != undefined && existingEvent != null) {
-		$('#eventTrigger').val(existingEvent.trigger);
-		$('#eventFacing').val(existingEvent.facing);
-		$('#eventScript').val(existingEvent.script);
-		$('#eventHardnessScript').val(existingEvent.hardnessScript);
-		$('#eventShowChestScript').val(existingEvent.showChestScript);
+		if(existingEvent.isChest) {
+			$('#eventIsChest').prop('checked', true);
+			$('#eventChestItem').val(existingEvent.chestItem);
+			$('#eventChestEssence').val(existingEvent.chestEssence);
+			$('#eventChestGameVar').val(existingEvent.chestGameVar);
+		} else {
+			$('#eventTrigger').val(existingEvent.trigger);
+			$('#eventFacing').val(existingEvent.facing);
+			$('#eventScript').val(existingEvent.script);
+			$('#eventHardnessScript').val(existingEvent.hardnessScript);
+			$('#eventShowChestScript').val(existingEvent.showChestScript);
+		}
 	}
 	
 	currentEventX = currentCell.x;
@@ -292,11 +304,30 @@ function saveEvent() {
 	
 	existingEvent.x = currentEventX;
 	existingEvent.y = currentEventY;
-	existingEvent.trigger = $('#eventTrigger').val();
-	existingEvent.facing = $('#eventFacing').val();
-	existingEvent.script = $('#eventScript').val();
-	existingEvent.hardnessScript = $('#eventHardnessScript').val();
-	existingEvent.showChestScript = $('#eventShowChestScript').val();
+	
+	if($('#eventIsChest').is(':checked')) {
+		existingEvent.isChest = true;
+		existingEvent.chestItem = $('#eventChestItem').val();
+		existingEvent.chestEssence = $('#eventChestEssence').val();
+		existingEvent.chestGameVar = $('#eventChestGameVar').val();
+		
+		existingEvent.trigger = undefined;
+		existingEvent.facing = undefined;
+		existingEvent.script = undefined;
+		existingEvent.hardnessScript = undefined;
+		existingEvent.showChestScript = undefined;
+	} else {
+		existingEvent.isChest = false;
+		existingEvent.chestItem = undefined;
+		existingEvent.chestEssence = undefined;
+		existingEvent.chestGameVar = undefined;
+		
+		existingEvent.trigger = $('#eventTrigger').val();
+		existingEvent.facing = $('#eventFacing').val();
+		existingEvent.script = $('#eventScript').val();
+		existingEvent.hardnessScript = $('#eventHardnessScript').val();
+		existingEvent.showChestScript = $('#eventShowChestScript').val();
+	}
 	
 	jQuery.data(cell, 'event', existingEvent);
 	$(cell).addClass('eventCell');
