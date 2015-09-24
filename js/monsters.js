@@ -37,7 +37,7 @@ monster.prototype.clone = function () {
 		m.damage.max *= 2;
 		m.accuracy *= 2;
 		m.dodge = Math.floor(m.dodge * 1.5);
-		m.experience = Math.floor(m.experience * 1.75);
+		m.experience = m.experience * 2;
 		m.speed *= 2;
 		m.treasureClass++;
 		m.initBonus *= 2;
