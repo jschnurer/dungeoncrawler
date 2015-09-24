@@ -179,6 +179,7 @@ function save() {
 	
 	var map = {};
 	map.name = $('#name').val();
+	map.id = $('#mapId').val();
 	map.tiles = tiles;
 	
 	var encounterGroups = [];
@@ -201,6 +202,7 @@ function load() {
 function loadMap(json) {
 	var map = JSON.parse(json);
 	$('#name').val(map.name);
+	$('#mapId').val(map.id);
 	
 	$('td').removeClass();
 	

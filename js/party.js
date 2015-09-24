@@ -19,6 +19,10 @@ party.prototype.gainExperience = function (amount) {
 	$('#essencePanel').html(this.experience);
 }
 
+party.prototype.hasExperience = function (amount) {
+	return this.experience >= amount;
+}
+
 party.prototype.loseExperience = function (amount) {
 	if(this.experience < amount) {
 		return false;

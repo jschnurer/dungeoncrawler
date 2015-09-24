@@ -3,6 +3,7 @@
 <link href="styles/interface.css" rel="stylesheet" type="text/css" />
 <link href="styles/inventory.css" rel="stylesheet" type="text/css" />
 <link href="styles/spellbook.css" rel="stylesheet" type="text/css" />
+<link href="styles/shop.css" rel="stylesheet" type="text/css" />
 <link href="styles/jquery-ui.min.css" rel="stylesheet" type="text/css" />
 <script src="js/const.js" language="javascript" type="text/javascript"></script>
 <script src="js/gamevars.js" language="javascript" type="text/javascript"></script>
@@ -23,11 +24,12 @@
 <script src="js/spells.js" language="javascript" type="text/javascript"></script>
 <script src="js/spellbook.js" language="javascript" type="text/javascript"></script>
 <script src="js/saveload.js" language="javascript" type="text/javascript"></script>
+<script src="js/shops.js" language="javascript" type="text/javascript"></script>
 </head>
 <body>
 <div id="continue">
-<div>Continue saved game?</div>
-<button id="continueGame">Yes</button><button id="newGame">No</button>
+<div>A saved game was found.</div>
+<button id="continueGame">(C)ontinue saved game</button><br /><button id="newGame">(N)ew game</button>
 </div>
 <div class="interface">
 	<div id="goldPanel" title="Gold" class="floatPanel">0</div>
@@ -40,10 +42,11 @@
 	<div id="partyInventory">
 		<div id="invCurrHero">
 			<span id="invHeroName">&nbsp;</span>
-			<div><label id="heroMelee" title="Melee Weapon" data-equipSlot="1"></label></div>
-			<div><label id="heroShield" title="Shield" data-equipSlot="4"></label></div>
-			<div><label id="heroArmor" title="Armor" data-equipSlot="2"></label></div>
-			<div><label id="heroAccessory" title="Accessory" data-equipSlot="3"></label></div>
+			<label id="trashItem" title="Drop items here to discard them permanently." data-isTrash="1"></label>
+			<label id="heroMelee" title="Melee Weapon" data-equipSlot="1"></label>
+			<label id="heroShield" title="Shield" data-equipSlot="4"></label>
+			<label id="heroArmor" title="Armor" data-equipSlot="2"></label>
+			<label id="heroAccessory" title="Accessory" data-equipSlot="3"></label>
 		</div>
 		<div id="invItems">
 			<label data-pos="0"></label>
@@ -123,11 +126,45 @@
 		<div></div>
 		<div id="log"></div>
 	</div>
+	<div id="shopPanel">
+		<div class="message">
+			<div>&nbsp;&nbsp;Here's what I've got for sale. You can hover over an item to learn more about it or you can click on an item to purchase it.<br />
+			 &nbsp;&nbsp;To sell something to me, just drag it onto my inventory and drop it. I'll be sure to pay you a <i>fair</i> price.</div>
+			<a>Close (Escape)</a>
+		</div>
+		<div class="transactionLog">
+			<div></div>
+		</div>
+		<div class="items">
+			<label data-pos="0"></label>
+			<label data-pos="1"></label>
+			<label data-pos="2"></label>
+			<label data-pos="3"></label>
+			<label data-pos="4"></label>
+			<label data-pos="5"></label>
+			<label data-pos="6"></label>
+			<label data-pos="7"></label>
+			<label data-pos="8"></label>
+			<label data-pos="9"></label>
+			<label data-pos="10"></label>
+			<label data-pos="11"></label>
+			<label data-pos="12"></label>
+			<label data-pos="13"></label>
+			<label data-pos="14"></label>
+			<label data-pos="15"></label>
+			<label data-pos="16"></label>
+			<label data-pos="17"></label>
+			<label data-pos="18"></label>
+			<label data-pos="19"></label>
+			<label data-pos="20"></label>
+			<span></span>
+		</div>
+	</div>
 	<div id="spellPanel">
 		<span id="spellTargeting"></span>
 		<span id="spellPanelHeroName">Serena's Spellbook</span>
 		<div>
-		<label data-pos="0"></label>
+			<label data-pos="0"></label>
 			<label data-pos="1"></label>
 			<label data-pos="2"></label>
 			<label data-pos="3"></label>
@@ -241,6 +278,8 @@ $(function() {
 	nav = new navigator();
 	
 	if(SAVELOADER.doesSaveExist()) {
+		GAME_MODE = MODE_MAINMENU;
+		
 		$('#continue').show();
 		$('.interface').hide();
 	} else {
@@ -253,6 +292,7 @@ $(function() {
 		$('#continue').hide();
 		$('.interface').show();
 		SAVELOADER.load();
+		GAME_MODE = MODE_NAV;
 	});
 	$('#newGame').click(newGame);
 });
@@ -302,6 +342,7 @@ function newGame() {
 
 	nav.setMap(atlas[MAP_SORPIGAL]);
 	nav.teleportParty(18, 11, 'W');
+	GAME_MODE = MODE_NAV;
 }
 </script>
 </body>

@@ -271,10 +271,12 @@ canvas {
 }
 
 #essencePanel {
+	top: 8px;
 	background-position: center right;
 	text-align: left;
 	right: 190px;
 	background-image: url(../images/ui/essence.png);
+	z-index: 30;
 }
 
 #goldPanel {

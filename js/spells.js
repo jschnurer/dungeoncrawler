@@ -16,6 +16,7 @@ function spell(data) {
 	this.maxHeal = data.maxHeal;
 	this.healingBreaksMaxLife = data.healingBreaksMaxLife;
 	this.bonusMultiplier = data.bonusMultiplier;
+	this.reqs = data.reqs;
 }
 
 spell.prototype.clone = function() {
@@ -34,7 +35,23 @@ spell.prototype.getTooltip = function () {
 	} else if(this.type == SPELL_TYPE_DAMAGE) {
 		tt += '<br />Deals ' + this.minDamage + ' to ' + this.maxDamage + ' ' + ELEM_NAMES[this.element] + ' damage.';
 	}
+
+	if(this.reqs != undefined) {
+		var reqString = 'Requires: ';
+		var anyReqs = false;
 		
+		for(var i = 0; i < this.reqs.length; i++) {
+			if(this.reqs[i] > 0) {
+				reqString += this.reqs[i] + ' ' + STAT_NAMES[i] + ', ';
+				anyReqs = true;
+			}
+		}
+		
+		if(anyReqs) {
+			tt += '<br /><br />' + reqString.substr(0, reqString.length - 2);
+		}
+	}
+	
 	return tt;
 }
 
@@ -78,9 +95,12 @@ SCHOOL_NAMES[SCHOOL_PORTENT] = 'Portent';
 SCHOOL_NAMES[SCHOOL_SPELL] = 'Spell';
 
 // [KNIGHT, THIEF, SORCERER, CLERIC, PALADIN, DRUID]
+var SPELL_MEND_MINOR_WOUNDS = 0;
+var SPELL_STATIC_JOLT = 1;
+var SPELL_FROSTFALL = 2;
 
-SPELLS[0] = new spell({
-	id: 0,
+SPELLS[SPELL_MEND_MINOR_WOUNDS] = new spell({
+	id: SPELL_MEND_MINOR_WOUNDS,
 	name: 'Mend Minor Wounds',
 	icon: 'bandage-roll.png',
 	description: 'Soothing energy radiates from your fingers and mends the wounds of the hero you touch.',
@@ -94,11 +114,12 @@ SPELLS[0] = new spell({
 	minHeal: 1,
 	maxHeal: 4,
 	healingBreaksMaxLife: false,
-	bonusMultiplier: 1
+	bonusMultiplier: 1,
+	reqs: [0, 0, 0, 0, 0, 0, 5, 0]
 });
 
-SPELLS[1] = new spell({
-	id: 1,
+SPELLS[SPELL_STATIC_JOLT] = new spell({
+	id: SPELL_STATIC_JOLT,
 	name: 'Static Jolt',
 	icon: 'lightning-frequency.png',
 	description: 'A jolt of static energy jumps from your outstretched finger and zaps a monster of your choosing.',
@@ -111,11 +132,12 @@ SPELLS[1] = new spell({
 	value: 300,
 	minDamage: 1,
 	maxDamage: 5,
-	bonusMultiplier: 1
+	bonusMultiplier: 1,
+	reqs: [0, 0, 0, 0, 0, 0, 0, 5]
 });
 
-SPELLS[2] = new spell({
-	id: 2,
+SPELLS[SPELL_FROSTFALL] = new spell({
+	id: SPELL_FROSTFALL,
 	name: 'Frostfall',
 	icon: 'snowing.png',
 	description: 'A freezing frost settles over the area, damaging all monsters.',
@@ -128,5 +150,6 @@ SPELLS[2] = new spell({
 	value: 500,
 	minDamage: 2,
 	maxDamage: 6,
-	bonusMultiplier: .25
+	bonusMultiplier: .25,
+	reqs: [0, 0, 0, 0, 0, 0, 0, 10]
 });

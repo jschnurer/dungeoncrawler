@@ -1,0 +1,67 @@
+#shopPanel {
+	position: absolute;
+	top: 509px;
+	left: 0px;
+	right: 308px;
+	border-top: 2px black solid;
+	height: 300px;
+	background: #000;
+	color: white;
+	padding-right: 310px;
+	display: none;
+}
+
+#shopPanel > div.items {
+	position: absolute;
+	left: 215px;
+	top: 45px;
+	right: 0px;
+}
+
+#shopPanel > div.items > span {
+	display: block;
+	position: absolute;
+	top: -35px;
+	font-size: 1.25em;
+	width: 100%;
+	text-align: center;
+}
+
+#shopPanel > .message {
+	width: 195px;
+	position: absolute;
+	bottom: 0px;
+	top: 0px;
+}
+
+#shopPanel > .message > div {
+	margin: 10px 5px 0px 15px;
+}
+
+#shopPanel > .message a {
+	display: block;
+	width: 175px;
+	margin-left: 15px;
+	margin-right: 5px;
+	text-align: center;
+	cursor: pointer;
+	position: absolute;
+	bottom: 15px;
+}
+
+#shopPanel > .message a:hover {
+	background-color: #666;
+	color: #111;
+}
+
+#shopPanel > .transactionLog {
+	width: 185px;
+	position: absolute;
+	bottom: 0px;
+	top: 0px;
+	right: 0px;
+}
+
+#shopPanel > .transactionLog > div {
+	margin: 10px 5px 0px 5px;
+}

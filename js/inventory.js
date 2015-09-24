@@ -22,13 +22,17 @@ inventory.prototype.handleInput = function (e) {
 }
 inventory.prototype.maxLength = 45;
 inventory.prototype.items = [];
-inventory.prototype.gainItem = function (item, cloneItem) {
+inventory.prototype.gainItem = function (item, cloneItem, drawAfterGain) {
 	for(var i = 0; i < this.maxLength; i++) {
 		if(this.items[i] == undefined || this.items[i] == null) {
 			if(cloneItem)
 				this.items[i] = item.clone();
 			else
 				this.items[i] = item;
+			
+			if(drawAfterGain) {
+				this.createElementInSlot(this.items[i], i);
+			}
 			
 			return true;
 		}
@@ -85,35 +89,41 @@ inventory.prototype.isEmpty = function (ix) {
 }
 inventory.prototype.close = function () {
 	$('#partyInventory label img').remove();
-	
 	$('#partyInventory').hide();
-	$('#essencePanel').show();
-	GAME_MODE = MODE_NAV;
+	if(!this.storeMode)
+		GAME_MODE = MODE_NAV;
 }
-inventory.prototype.open = function (heroIx) {
-	GAME_MODE = MODE_INVENTORY;
+inventory.prototype.open = function (heroIx, storeMode) {
+	this.storeMode = storeMode;
+	
+	if(!this.storeMode)
+		GAME_MODE = MODE_INVENTORY;
 	
 	this.selectedHero = PARTY.heroes[heroIx];
 	
 	$('#partyInventory').show();
-	$('#essencePanel').hide();
 	
 	// create all the items in the inventory
 	for(var i = 0; i < this.maxLength; i++) {
 		if(this.items[i] != null) {
-			var $itemImg = $('<img src="images/items/' + this.items[i].icon + '" title="" data-pos="' + i + '" data-isEquipped="false" data-equipSlot="' + this.items[i].type + '" data-item="' + this.items[i].id + '" />');
-			$('#invItems label:nth-child(' + (i + 1) + ')').append($itemImg);
-			$itemImg.tooltip({
-				track: true,
-				content: function() {
-					return ITEMS[$(this).attr('data-item')].getTooltip();
-				}
-			});
-			$itemImg.draggable({ containment: '#partyInventory', helper: 'clone' });
+			this.createElementInSlot(this.items[i], i);
 		}
 	}
 	
 	this.loadEquipment();
+}
+
+inventory.prototype.createElementInSlot = function (item, slotIx) {
+	var $itemImg = $('<img src="images/items/' + item.icon + '" title="" data-pos="' + slotIx + '" data-isEquipped="false" data-equipSlot="' + item.type + '" data-item="' + item.id + '" />');
+	$('#invItems label:nth-child(' + (slotIx + 1) + ')').append($itemImg);
+	$itemImg.tooltip({
+		track: true,
+		content: function() {
+			return ITEMS[$(this).attr('data-item')].getTooltip();
+		}
+	});
+	
+	$itemImg.draggable({ helper: 'clone' });
 }
 
 inventory.prototype.loadEquipment = function() {
@@ -159,7 +169,7 @@ inventory.prototype.loadEquipment = function() {
 				}
 			});
 			
-			$itemImg.draggable({ containment: '#partyInventory', helper: 'clone' });
+			$itemImg.draggable({ helper: 'clone' });
 		}
 	}
 }
@@ -193,6 +203,7 @@ $(function() {
 				
 				if(isEquipped == 'true') {
 					droppedItem = INVENTORY.selectedHero.removeEquipment(equipSlot);
+					$(ui.draggable.context).attr('data-isEquipped', 'false');
 				} else {
 					droppedItem = INVENTORY.emptyPosition(itemPos);
 				}
@@ -211,6 +222,34 @@ $(function() {
 	
 	$('#invCurrHero label').droppable({
 		drop: function(event, ui) {
+			var isTrash = $(this).attr('data-isTrash');
+			if(isTrash) {
+				var isEquipped = $(ui.draggable.context).attr('data-isEquipped');
+				var destroyedItem = null;
+				var alreadyLogged = false;
+				if(isEquipped == 'true') {
+					// unequip and destroy
+					var equipSlot = $(ui.draggable.context).attr('data-equipSlot');
+					destroyedItem = INVENTORY.selectedHero.removeEquipment(equipSlot);
+					
+					if(destroyedItem.id == ITEM_CLOTHES) {
+						log(INVENTORY.selectedHero.name + ' takes off ' + INVENTORY.selectedHero.ownershipPronoun + ' clothing and discards it... <span style="font-size:1.25em">&#865;&#176; &#860;&#662; &#865;&#176;</span>');
+						alreadyLogged = true;
+					}
+				} else {
+					// get the item position in inventory
+					var itemPos = parseInt($(ui.draggable.context).attr('data-pos'));
+					destroyedItem = INVENTORY.emptyPosition(itemPos);
+				}
+				
+				if(!alreadyLogged)
+					log(destroyedItem.name + ' was discarded.');
+				
+				var $droppedElement = $(ui.draggable.context);
+				$droppedElement.remove();
+				return;
+			}
+			
 			var newEquipSlot = $(this).attr('data-equipSlot');
 			if(INVENTORY.selectedHero.getEquipment(newEquipSlot) == null) {
 				var isEquipped = $(ui.draggable.context).attr('data-isEquipped');

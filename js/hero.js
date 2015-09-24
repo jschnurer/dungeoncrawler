@@ -213,14 +213,35 @@ function hero (values) {
 	// Spells
 	this.spells = values.spells || [];
 	
+	this.canLearnSpell = function(spell) {
+		if(spell.reqs != undefined && spell.reqs != null) {
+			for(var i = 0; i < spell.reqs.length; i++) {
+				if(this.getStat(i) < spell.reqs[i])
+					return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	this.knowsSpell = function(spell) {
+		for(var i = 0; i < this.spells.length; i++) {
+			if(this.spells[i] != null
+			&& this.spells[i].id == spell.id)
+				return true;
+		}
+		
+		return false;
+	}
+	
 	this.learnSpell = function(spell) {
 		for(var i = 0; i < SPELLBOOK.maxLength; i++) {
 			if(this.spellSlotEmpty(i)) {
 				this.setSpell(spell, i);
-				return true;
+				return i;
 			}
 		}
-		return false;
+		return -1;
 	}
 	
 	this.spellSlotEmpty = function(slot) {
@@ -258,11 +279,11 @@ function hero (values) {
 	
 	if(values.gender == GENDERS_MALE) {
 		this.pronoun = 'he';
-		this.ownershipPronouns = 'his';
+		this.ownershipPronoun = 'his';
 	}
 	else {
 		this.pronoun = 'she';
-		this.ownershipPronouns = 'her';
+		this.ownershipPronoun = 'her';
 	}
 	
 	this.getInitiative = function () {

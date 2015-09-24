@@ -85,18 +85,26 @@ spellbook.prototype.monsterClicked = function(monsterNum) {
 	}
 }
 
-spellbook.prototype.close = function(didCast) {
+spellbook.prototype.close = function() {
 	$('#spellPanel div label img').remove();
 	
 	$('#spellPanel').hide();
 	$('#essencePanel').show();
 	
 	this.isOpen = false;
-	GAME_MODE = this.previousGameMode;
+	if(!this.shopMode)
+		GAME_MODE = this.previousGameMode;
 }
 
-spellbook.prototype.open = function (heroIx, gameModeToReturnTo) {
-	GAME_MODE = MODE_SPELLBOOK;
+spellbook.prototype.open = function (heroIx, gameModeToReturnTo, shopMode) {
+	this.shopMode = shopMode;
+	if(!this.shopMode) {
+		GAME_MODE = MODE_SPELLBOOK;
+		$('#spellPanel').css('top', '460px');
+	} else {
+		$('#spellPanel').css('top', '235px');
+	}
+	
 	this.previousGameMode = gameModeToReturnTo;
 	this.selectedHero = PARTY.heroes[heroIx];
 	this.isOpen = true;
@@ -113,19 +121,25 @@ spellbook.prototype.loadHeroSpells = function() {
 	for(var i = 0; i < this.maxLength; i++) {
 		var spell = this.selectedHero.getSpell(i);
 		if(spell != undefined && spell != null) {
-			var $img = $('<img src="images/spells/' + spell.icon
-				+ '" title="" data-pos="' + i + '" data-item="' + spell.id + '" />');
-			$('#spellPanel div label:nth-child(' + (i + 1) + ')').append($img);
-			$img.tooltip({
-				track: true,
-				content: function() {
-					return SPELLS[parseInt($(this).attr('data-item'))].getTooltip();
-				}
-			});
-			$img.draggable({ containment: '#spellPanel', helper: 'clone' });
-			$img.click(function() { SPELLBOOK.beginCasting(SPELLS[parseInt($(this).attr('data-item'))]); });
+			this.createElement(spell, i);
 		}
 	}
+}
+
+spellbook.prototype.createElement = function(spell, ix) {
+	var $img = $('<img src="images/spells/' + spell.icon
+				+ '" title="" data-pos="' + ix + '" data-item="' + spell.id + '" />');
+	$('#spellPanel div label:nth-child(' + (ix + 1) + ')').append($img);
+	$img.tooltip({
+		track: true,
+		content: function() {
+			return SPELLS[parseInt($(this).attr('data-item'))].getTooltip();
+		}
+	});
+	$img.draggable({ containment: '#spellPanel', helper: 'clone' });
+	
+	if(!this.shopMode)
+		$img.click(function() { SPELLBOOK.beginCasting(SPELLS[parseInt($(this).attr('data-item'))]); });
 }
 
 spellbook.prototype.beginCasting = function(spell) {
@@ -171,10 +185,6 @@ $(function() {
 			var $droppedElement = $(ui.draggable.context);
 			
 			var $existingElement = $(this).children();
-			
-			if(!($existingElement == null || $existingElement == undefined || $existingElement.length == 0)) {
-				console.log($droppedElement.parent());
-			}
 			
 			SPELLBOOK.selectedHero.setSpell(draggedSpell, droppedPosition);
 			SPELLBOOK.selectedHero.setSpell(droppedSpell, draggedPosition);

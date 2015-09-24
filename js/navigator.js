@@ -285,8 +285,6 @@ function navigator() {
 			doTouchEventAtTile(partyPosition.x, partyPosition.y);
 		}
 		
-		console.log(partyPosition);
-		
 		self.draw();
 	}
 	
@@ -316,8 +314,6 @@ function navigator() {
 		}
 		
 		doTouchEventAtTile(partyPosition.x, partyPosition.y);
-		
-		console.log(partyPosition);
 		
 		self.draw();
 	}

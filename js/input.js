@@ -8,7 +8,19 @@ $(function() {
 	$('#char4').click(function () { selectHero(3); });
 
 	$(document).keydown(function(e) {
-		console.log(e.which);
+		if(GAME_MODE == MODE_MAINMENU) {
+			if(e.which == KEY_C) {
+				$('#continueGame').click();
+			} else if(e.which == KEY_N) {
+				newGame();
+			}
+			return;
+		}
+		
+		if(GAME_MODE == MODE_SHOP) {
+			CURRENT_SHOP.handleInput(e);
+			return;
+		}
 		
 		if(GAME_MODE == MODE_SPELLBOOK) {
 			SPELLBOOK.handleInput(e);
@@ -98,6 +110,8 @@ function selectHero(ix) {
 		INVENTORY.open(ix);
 	} else if(GAME_MODE == MODE_SPELLBOOK) {
 		SPELLBOOK.selectHero(ix);
+	} else if(GAME_MODE == MODE_SHOP) {
+		CURRENT_SHOP.selectHero(ix);
 	}
 }
 
