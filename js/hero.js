@@ -87,12 +87,12 @@ function hero (values) {
 	self.mightMinDamageBonusRatio = .25;
 	self.mightMaxDamageBonusRatio = 1;
 	self.getMightDamageBonusString = function () { return Math.floor(self.getStat(STAT_MGHT) * self.mightMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_MGHT) * self.mightMaxDamageBonusRatio); };
-	self.getMightDamageBonus = function() { Math.floor(rand(self.getStat(STAT_MGHT)*self.mightMinDamageBonusRatio, self.getStat(STAT_MGHT)*self.mightMaxDamageBonusRatio)); }
+	self.getMightDamageBonus = function() { return Math.floor(rand(self.getStat(STAT_MGHT)*self.mightMinDamageBonusRatio, self.getStat(STAT_MGHT)*self.mightMaxDamageBonusRatio)); }
 	
 	self.dexMinDamageBonusRatio = .25;
 	self.dexMaxDamageBonusRatio = 1;
 	self.getDexDamageBonusString = function () { return Math.floor(self.getStat(STAT_DEX) * self.dexMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_DEX) * self.dexMaxDamageBonusRatio); };
-	self.getDexDamageBonus = function() { Math.floor(rand(self.getStat(STAT_DEX)*self.dexMinDamageBonusRatio, self.getStat(STAT_DEX)*self.dexMaxDamageBonusRatio)); }
+	self.getDexDamageBonus = function() { return Math.floor(rand(self.getStat(STAT_DEX)*self.dexMinDamageBonusRatio, self.getStat(STAT_DEX)*self.dexMaxDamageBonusRatio)); }
 	
 	self.getDodge = function() {
 		return Math.round(self.getStat(STAT_SPD) / 3);

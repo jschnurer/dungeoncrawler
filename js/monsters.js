@@ -83,10 +83,10 @@ var MONSTERS = [];
 MONSTERS[0] = new monster({
 	name: 'Gnasher',
 	accuracy: 8,
-	damage: {min: 2, max: 4, type: ELEM_PHYS},
+	damage: {min: 3, max: 5, type: ELEM_PHYS},
 	target: TARGET_RANDOM_HERO,
 	attackIsDodgeable: true,
-	life: 8,
+	life: 12,
 	maxLife: 8,
 	randomLife: 8,
 	image: 'gnasher.png',
@@ -101,34 +101,28 @@ MONSTERS[0] = new monster({
 
 MONSTERS[1] = new monster({
 	name: 'Gnasher Nest',
-	accuracy: 12,
+	accuracy: 13,
 	damage: {min: 5, max: 11, type: ELEM_PHYS},
 	target: TARGET_RANDOM_HERO,
 	attackIsDodgeable: true,
-	life: 50,
-	maxLife: 50,
-	randomLife: 30,
+	life: 60,
+	maxLife: 60,
+	randomLife: 40,
 	image: 'gnasher_nest.png',
 	resistances: [0, 0, 0, 0, 0, 0, 0],
 	experience: 4500,
 	dodge: 4,
 	treasureClass: 2,
-	speed: 6,
+	speed: 12,
 	initBonus: 0,
-	charged: false,
-	chargeAt: 7,
 	tactics: function() {
-		if(!this.charged && rand(1, 10) >= this.chargeAt) {
-			this.charged = true;
-		}
-		
 		var monsterCount = COMBAT.getMonsterCount();
-		
-		// 50/50 chance to spawn a monster if charged and < 6 monsters
-		if(monsterCount < 6 && this.charged && rand(1, 100) >= 50) {
+		// 40% chance to spawn a monster if <6 monsters
+		if(monsterCount < 6 && && rand(1, 100) >= 60) {
 			COMBAT.addMonsters([cloneMonster(MONSTERS[0])]);
 			
-			if(monsterCount+1 < 6 && rand(1, 100) >= 30) {
+			// another 60% chance to spawn another one if there's still room
+			if(monsterCount+1 < 6 && rand(1, 100) >= 40) {
 				COMBAT.addMonsters([cloneMonster(MONSTERS[0])]);
 			}
 			

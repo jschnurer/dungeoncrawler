@@ -185,10 +185,11 @@ SHOPS[SHOP_SORPIGAL_BLACKSMITH] = new shop({
 
 SHOPS[SHOP_SORPIGAL_GUILD] = new shop({
 	id: SHOP_SORPIGAL_GUILD,
-	name: 'Novice Guild of the Seeker',
+	name: '&thorn;',
 	type: SHOP_MAGIC,
 	itemIds: [
 		SPELL_MEND_MINOR_WOUNDS,
+		SPELL_AURA_OF_VALOR,
 		SPELL_STATIC_JOLT,
 		SPELL_FROSTFALL
 	]

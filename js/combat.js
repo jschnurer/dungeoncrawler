@@ -94,6 +94,8 @@ function combat() {
 	this.takeHeroTurn = function() {
 		var currCombatant = combatants[currCombatantIx].combatant;
 		
+		console.log('beginning ' + currCombatant.name + ' turn.');
+		
 		if(!currCombatant.canAct()) {			
 			combatAwaitingInput = false;
 			
@@ -277,6 +279,8 @@ function combat() {
 	this.takeMonsterTurn = function() {
 		var monster = combatants[currCombatantIx].combatant;
 		
+		console.log('beginning ' + monster.name + ' turn.');
+		
 		if(monster.tactics != undefined) {
 			monster.tactics();
 			self.finishTurn();
@@ -324,6 +328,7 @@ function combat() {
 	}
 	
 	this.finishTurn = function() {
+		console.log('finished turn.');
 		currCombatantIx++;
 		combatTimer = window.setTimeout(function () { self.takeTurn(); }, 500);
 	}

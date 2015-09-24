@@ -64,9 +64,6 @@ spellbook.prototype.castAt = function(heroes, monsterNums) {
 	} else {
 		if(COMBAT.heroCastsAtMonsters(casting, this.selectedHero, monsterNums)) {
 			this.previousGameMode = MODE_CONTINUE;
-		} else {
-			if(this.previousGameMode == MODE_COMBAT)
-				COMBAT.finishTurn();
 		}
 	}
 	
