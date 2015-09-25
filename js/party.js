@@ -56,4 +56,13 @@ party.prototype.getAverageLevel = function () {
 	return avgLvl / 4;
 }
 
+party.prototype.anyConsciousHeroWithSkill = function (skillId) {
+	var hasSkill = false;
+	this.heroes.forEach(function(hero) {
+		if(hero.hasSkill(skillId))
+			hasSkill = true;
+	});
+	return hasSkill;
+}
+
 var PARTY = null;

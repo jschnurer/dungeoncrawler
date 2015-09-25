@@ -262,7 +262,7 @@ function navigator() {
 		var otherTile = self.map.tiles[partyPosition.y + yOffset][partyPosition.x + xOffset];
 		var otherTileEventHardness = getEventHardness(partyPosition.x + xOffset, partyPosition.y + yOffset);
 		
-		if(!self.hardness[otherTile.tile]
+		if((!self.hardness[otherTile.tile] || (otherTile.tile == TILE_FOREST && PARTY.anyConsciousHeroWithSkill(SKILL_PATHFINDING)))
 			&& (otherTile.code != undefined && !self.hardness[otherTile.code])
 			&& !otherTileEventHardness) {
 			partyPosition.y += yOffset;

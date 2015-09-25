@@ -210,6 +210,17 @@ function hero (values) {
 		return theItem;
 	}
 	
+	// Skills
+	this.skills = values.skills || [];
+	
+	this.learnSkill = function(skillId) {
+		this.skills[skillId] = true;
+	}
+	
+	this.hasSkill = function(skillId) {
+		return this.skills[skillId] != undefined && this.skills[skillId] != null;
+	}
+	
 	// Spells
 	this.spells = values.spells || [];
 	

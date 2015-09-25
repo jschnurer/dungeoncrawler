@@ -131,6 +131,8 @@ STAT_NAMES[STAT_COG] = 'Cognition';
 STAT_NAMES[STAT_PIE] = 'Piety';
 STAT_NAMES[STAT_INT] = 'Intellect';
 
+var SKILL_PATHFINDING = 0;
+
 var BG_NIGHTSKY = 1;
 
 var TARGET_RANDOM_HERO = 1;
