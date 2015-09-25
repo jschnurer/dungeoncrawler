@@ -148,6 +148,16 @@ spellbook.prototype.beginCasting = function(spell) {
 	
 	if(this.selectedHero.canAffordSpell(spell)) {
 		if(spell.target == TARGET_PARTY) {
+			if(this.previousGameMode == MODE_COMBAT) {
+				COMBAT.heroCastsAtParty(spell.getCasting(this.selectedHero), this.selectedHero);
+				log(this.selectedHero.name + ' casts ' + spell.name + '.');
+				COMBAT.finishTurn();
+				this.close();
+			} else if(this.previousGameMode == MODE_NAV) {
+				nav.heroCastsAtParty(spell.getCasting(this.selectedHero), this.selectedHero);
+				this.close();
+			}
+		} if(spell.target == TARGET_ALL_HEROES) {
 			this.castingSpell = spell;
 			this.castAt(PARTY.heroes);
 		} else if(spell.target == TARGET_ALL_MONSTERS && this.previousGameMode == MODE_COMBAT) {

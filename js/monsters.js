@@ -1,4 +1,5 @@
 function monster(data) {
+	this.debuffs = [];
 	this.name = data.name;
 	this.accuracy = data.accuracy;
 	this.damage = {
@@ -37,7 +38,7 @@ monster.prototype.clone = function () {
 		m.damage.max *= 2;
 		m.accuracy *= 2;
 		m.dodge = Math.floor(m.dodge * 1.5);
-		m.experience = m.experience * 2;
+		m.experience = Math.floor(m.experience * 2.25);
 		m.speed *= 2;
 		m.treasureClass++;
 		m.initBonus *= 2;
@@ -61,11 +62,23 @@ monster.prototype.receiveCasting = function(casting, hero) {
 				msg += ' to ' + this.name + '.';
 			log(msg)
 		}
+		
+		if(casting.debuff != undefined && this.life > 0 && rand(1, 100) / 100.0 <= casting.debuffChance) {
+			this.debuffs[casting.debuff] = true;
+			log(this.name + ' is stricken with ' + DEBUFF_NAMES[casting.debuff]);
+		}
 	}
 }
 
+monster.prototype.getDodge = function () {
+	if(this.debuffs[DEBUFF_DODGE])
+		return Math.round(this.dodge * .66);
+	
+	return this.dodge;
+}
+
 monster.prototype.receiveAttack = function(attack) {
-	if(attack.dodgeable && rollStat(this.dodge) > attack.accuracy) {
+	if(attack.dodgeable && rollStat(this.getDodge()) > attack.accuracy) {
 		return { dodged: true };
 	} else {
 		var totalDamageDealt = 0;
@@ -106,7 +119,7 @@ var MONSTERS = [];
 MONSTERS[0] = new monster({
 	name: 'Gnasher',
 	accuracy: 8,
-	damage: {min: 3, max: 5, type: ELEM_PHYS},
+	damage: {min: 2, max: 3, type: ELEM_PHYS},
 	target: TARGET_RANDOM_HERO,
 	attackIsDodgeable: true,
 	life: 12,
@@ -125,7 +138,7 @@ MONSTERS[0] = new monster({
 MONSTERS[1] = new monster({
 	name: 'Gnasher Nest',
 	accuracy: 13,
-	damage: {min: 5, max: 11, type: ELEM_PHYS},
+	damage: {min: 4, max: 8, type: ELEM_PHYS},
 	target: TARGET_RANDOM_HERO,
 	attackIsDodgeable: true,
 	life: 60,

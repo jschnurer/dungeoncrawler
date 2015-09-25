@@ -15,6 +15,7 @@ function combat() {
 	var $combatView = null;
 	var combatAwaitingInput = false;
 	var heroBlockStatuses = [false,false,false,false,false];
+	var buffs = [];
 
 	$monsterList = $('#monsterList');
 	$combatView = $('#combatView');
@@ -27,7 +28,7 @@ function combat() {
 	}
 
 	this.beginCombat = function(monsters) {
-		
+		buffs.length = 0;
 		combatAwaitingInput = false;
 		combatants.length = 0;
 		GAME_MODE = MODE_COMBAT;
@@ -93,8 +94,6 @@ function combat() {
 
 	this.takeHeroTurn = function() {
 		var currCombatant = combatants[currCombatantIx].combatant;
-		
-		console.log('beginning ' + currCombatant.name + ' turn.');
 		
 		if(!currCombatant.canAct()) {			
 			combatAwaitingInput = false;
@@ -216,7 +215,7 @@ function combat() {
 		
 		var monster = self.getMonsterCombatantByNum(monsterNum).combatant;
 		
-		var atk = hero.getMeleeAttack();
+		var atk = self.addBuffsToHeroAttack(hero.getMeleeAttack());
 		
 		var atkResult = monster.receiveAttack(atk);
 		if(atkResult.dodged) {
@@ -236,6 +235,47 @@ function combat() {
 				log(hero.name + ' attacks and deals ' + atkResult.totalDamageDealt + ' damage to the ' + monster.name + '.');
 				self.updateMonsterBlock(monsterNum);
 			}
+		}
+		
+		self.finishTurn();
+	}
+	
+	this.addPartyBuff = function(casting) {
+		var existingBuff = buffs[casting.spellId];
+		
+		if(existingBuff != undefined && existingBuff != null) {
+			buffs[casting.spellId].casterNum = casting.casterNum;
+			buffs[casting.spellId].value = casting.value;
+			return;
+		}
+		
+		buffs[casting.spellId] = {
+			spellId: casting.spellId,
+			value: casting.value,
+			casterNum: casting.casterNum
+		};
+	}
+	
+	this.getBuff = function (spellId) {
+		if(buffs[spellId] == undefined)
+			return null;
+		return buffs[spellId];
+	}
+	
+	this.addBuffsToHeroAttack = function(atk) {
+		var buff = null;
+		
+		buff = self.getBuff(SPELL_AURA_OF_VALOR);
+		if(buff) {
+			atk.accuracy += buff.value;
+		}
+		
+		return atk;
+	}
+	
+	this.heroCastsAtParty = function(casting, hero) {
+		if(casting.type == SPELL_TYPE_BUFF) {
+			self.addPartyBuff(casting);
 		}
 		
 		self.finishTurn();
@@ -278,8 +318,6 @@ function combat() {
 
 	this.takeMonsterTurn = function() {
 		var monster = combatants[currCombatantIx].combatant;
-		
-		console.log('beginning ' + monster.name + ' turn.');
 		
 		if(monster.tactics != undefined) {
 			monster.tactics();
@@ -328,7 +366,6 @@ function combat() {
 	}
 	
 	this.finishTurn = function() {
-		console.log('finished turn.');
 		currCombatantIx++;
 		combatTimer = window.setTimeout(function () { self.takeTurn(); }, 500);
 	}

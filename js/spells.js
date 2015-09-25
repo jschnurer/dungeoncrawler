@@ -7,7 +7,6 @@ function spell(data) {
 	this.type = data.type;
 	this.target = data.target;
 	this.cost = data.cost;
-	this.classes = data.classes;
 	this.element = data.element;
 	this.value = data.value;
 	this.damage = data.damage;
@@ -17,6 +16,8 @@ function spell(data) {
 	this.reqs = data.reqs;
 	this.mode = data.mode;
 	this.buffAmt = data.buffAmt;
+	this.debuff = data.debuff;
+	this.debuffChance = data.debuffChance;
 }
 
 spell.prototype.clone = function() {
@@ -57,10 +58,14 @@ spell.prototype.getTooltip = function () {
 
 spell.prototype.getCasting = function(castingHero, targetMonster) {
 	var casting = {
+		spellId: this.id,
 		spellName: this.name,
 		type: this.type,
 		element: this.element,
-		school: this.school
+		school: this.school,
+		casterNum: castingHero.num,
+		debuff: this.debuff,
+		debuffChance: this.debuffChance
 	};
 	
 	if(this.type == SPELL_TYPE_HEAL) {
@@ -78,6 +83,8 @@ spell.prototype.getCasting = function(castingHero, targetMonster) {
 		casting.value += (castingHero.getSpellDamageBonus() * this.bonusMultiplier);
 	}
 	
+	casting.value = Math.floor(casting.value);
+	
 	return casting;
 }
 
@@ -88,6 +95,11 @@ var SPELL_TYPE_DAMAGE = 1;
 var SPELL_TYPE_CURE = 2;
 var SPELL_TYPE_BUFF = 3;
 var SPELL_TYPE_DEBUFF = 4;
+
+var DEBUFF_DODGE = 0;
+
+var DEBUFF_NAMES = [];
+DEBUFF_NAMES[DEBUFF_DODGE] = ' clumsiness';
 
 var SCHOOL_PORTENT = 0;
 var SCHOOL_SPELL = 1;
@@ -101,6 +113,7 @@ var SPELL_MEND_MINOR_WOUNDS = 0;
 var SPELL_STATIC_JOLT = 1;
 var SPELL_FROSTFALL = 2;
 var SPELL_AURA_OF_VALOR = 3;
+var SPELL_DEADLY_SWARM = 4;
 
 SPELLS[SPELL_MEND_MINOR_WOUNDS] = new spell({
 	id: SPELL_MEND_MINOR_WOUNDS,
@@ -165,8 +178,27 @@ SPELLS[SPELL_AURA_OF_VALOR] = new spell({
 	cost: 5,
 	element: ELEM_SPIRIT,
 	mode: SPELL_MODE_COMBAT,
-	value: 150,
+	value: 250,
 	buffAmt: 1,
 	bonusMultiplier: .25,
-	reqs: [0, 0, 0, 0, 0, 0, 5, 0]
+	reqs: [0, 0, 0, 0, 0, 0, 4, 0]
+});
+
+SPELLS[SPELL_DEADLY_SWARM] = new spell({
+	id: SPELL_DEADLY_SWARM,
+	name: 'Deadly Swarm',
+	icon: 'wasp-sting.png',
+	description: 'A wave of the hand spawns a deadly swarm of stinging insects that surround an enemy, damaging them and possibly lowering their ability to dodge attacks.',
+	school: SCHOOL_SPELL,
+	type: SPELL_TYPE_DAMAGE,
+	target: TARGET_SINGLE_MONSTER,
+	cost: 9,
+	element: ELEM_EARTH,
+	mode: SPELL_MODE_COMBAT,
+	value: 450,
+	damage: 3,
+	bonusMultiplier: .85,
+	debuff: DEBUFF_DODGE,
+	debuffChance: .85,
+	reqs: [0, 0, 0, 0, 0, 0, 0, 7]
 });
