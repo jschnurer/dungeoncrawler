@@ -11,7 +11,7 @@ function monster(data) {
 	this.attackIsDodgeable = data.attackIsDodgeable;
 	this.randomLife = data.randomLife;
 	this.life = data.life;
-	this.maxLife = data.maxLife;
+	this.maxLife = data.life;
 	this.image = data.image;
 	this.resistances = [];
 	for(var i = 0; i < data.resistances.length; i++)
@@ -118,12 +118,11 @@ var MONSTERS = [];
 
 MONSTERS[0] = new monster({
 	name: 'Gnasher',
-	accuracy: 8,
+	accuracy: 4,
 	damage: {min: 2, max: 3, type: ELEM_PHYS},
 	target: TARGET_RANDOM_HERO,
 	attackIsDodgeable: true,
-	life: 12,
-	maxLife: 8,
+	life: 8,
 	randomLife: 8,
 	image: 'gnasher.png',
 	resistances: [0, 0, 0, 0, 0, 0, 0],
@@ -137,12 +136,11 @@ MONSTERS[0] = new monster({
 
 MONSTERS[1] = new monster({
 	name: 'Gnasher Nest',
-	accuracy: 13,
-	damage: {min: 4, max: 8, type: ELEM_PHYS},
+	accuracy: 9,
+	damage: {min: 6, max: 10, type: ELEM_PHYS},
 	target: TARGET_RANDOM_HERO,
 	attackIsDodgeable: true,
 	life: 60,
-	maxLife: 60,
 	randomLife: 40,
 	image: 'gnasher_nest.png',
 	resistances: [0, 0, 0, 0, 0, 0, 0],
@@ -171,4 +169,22 @@ MONSTERS[1] = new monster({
 	onDeath: function() {
 		setGameVar(SORPIGAL_DUNGEON_QUEST, 2);
 	}
+});
+
+MONSTERS[2] = new monster({
+	name: 'Murk Dweller',
+	accuracy: 6,
+	damage: {min: 4, max: 7, type: ELEM_PHYS},
+	target: TARGET_RANDOM_HERO,
+	attackIsDodgeable: true,
+	life: 12,
+	randomLife: 10,
+	image: 'murk_dweller.png',
+	resistances: [33, 10, 10, 10, -25, -25, -25],
+	experience: 75,
+	dodge: 8,
+	treasureClass: 1,
+	speed: 5,
+	initBonus: 1,
+	turboable: true
 });

@@ -114,7 +114,12 @@ var SPELL_STATIC_JOLT = 1;
 var SPELL_FROSTFALL = 2;
 var SPELL_AURA_OF_VALOR = 3;
 var SPELL_DEADLY_SWARM = 4;
+var SPELL_FLAMING_WEAPON = 5;
+var SPELL_MIND_BLAST = 6;
+var SPELL_CHAIN_LIGHTNING = 7;
 
+//////////////////////////////////// Portents //////////////////////////////////////////////////////
+////////////// BODY ////////////////
 SPELLS[SPELL_MEND_MINOR_WOUNDS] = new spell({
 	id: SPELL_MEND_MINOR_WOUNDS,
 	name: 'Mend Minor Wounds',
@@ -130,43 +135,26 @@ SPELLS[SPELL_MEND_MINOR_WOUNDS] = new spell({
 	heal: 2,
 	healingBreaksMaxLife: false,
 	bonusMultiplier: 1,
-	reqs: [0, 0, 0, 0, 0, 0, 5, 0]
+	reqs: [0, 0, 0, 0, 0, 0, 6, 0]
 });
-
-SPELLS[SPELL_STATIC_JOLT] = new spell({
-	id: SPELL_STATIC_JOLT,
-	name: 'Static Jolt',
-	icon: 'lightning-frequency.png',
-	description: 'A jolt of static energy jumps from your outstretched finger and zaps a monster of your choosing.',
-	school: SCHOOL_SPELL,
+////////////// MIND ////////////////
+SPELLS[SPELL_MIND_BLAST] = new spell({
+	id: SPELL_MIND_BLAST,
+	name: 'Mind Blast',
+	icon: 'psychic-waves.png',
+	description: 'A blast of pure, psychic energy assails a foe.',
+	school: SCHOOL_PORTENT,
 	type: SPELL_TYPE_DAMAGE,
 	target: TARGET_SINGLE_MONSTER,
-	cost: 8,
+	cost: 9,
 	element: ELEM_AIR,
 	mode: SPELL_MODE_COMBAT,
-	value: 300,
-	damage: 3,
-	bonusMultiplier: 1,
-	reqs: [0, 0, 0, 0, 0, 0, 0, 5]
+	value: 450,
+	damage: 1,
+	bonusMultiplier: .75,
+	reqs: [0, 0, 0, 0, 0, 0, 10, 0]
 });
-
-SPELLS[SPELL_FROSTFALL] = new spell({
-	id: SPELL_FROSTFALL,
-	name: 'Frostfall',
-	icon: 'snowing.png',
-	description: 'A freezing frost settles over the area, damaging all monsters.',
-	school: SCHOOL_SPELL,
-	type: SPELL_TYPE_DAMAGE,
-	target: TARGET_ALL_MONSTERS,
-	cost: 14,
-	element: ELEM_WATER,
-	mode: SPELL_MODE_COMBAT,
-	value: 500,
-	damage: 4,
-	bonusMultiplier: .25,
-	reqs: [0, 0, 0, 0, 0, 0, 0, 10]
-});
-
+////////////// SPIRIT ////////////////
 SPELLS[SPELL_AURA_OF_VALOR] = new spell({
 	id: SPELL_AURA_OF_VALOR,
 	name: 'Aura of Valor',
@@ -184,6 +172,59 @@ SPELLS[SPELL_AURA_OF_VALOR] = new spell({
 	reqs: [0, 0, 0, 0, 0, 0, 4, 0]
 });
 
+//////////////////////////////////// Spells //////////////////////////////////////////////////////
+////////////// AIR ////////////////
+SPELLS[SPELL_STATIC_JOLT] = new spell({
+	id: SPELL_STATIC_JOLT,
+	name: 'Static Jolt',
+	icon: 'lightning-frequency.png',
+	description: 'A jolt of static energy jumps from your outstretched finger and zaps a monster of your choosing.',
+	school: SCHOOL_SPELL,
+	type: SPELL_TYPE_DAMAGE,
+	target: TARGET_SINGLE_MONSTER,
+	cost: 8,
+	element: ELEM_AIR,
+	mode: SPELL_MODE_COMBAT,
+	value: 300,
+	damage: 3,
+	bonusMultiplier: 1,
+	reqs: [0, 0, 0, 0, 0, 0, 0, 5]
+});
+
+SPELLS[SPELL_CHAIN_LIGHTNING] = new spell({
+	id: SPELL_CHAIN_LIGHTNING,
+	name: 'Chain Lightning',
+	icon: 'chain-lightning.png',
+	description: 'From your palms you cast outward a thundering bolt of lightning. Upon striking a foe, the bolt will leap to another, and another, and another.',
+	school: SCHOOL_SPELL,
+	type: SPELL_TYPE_DAMAGE,
+	target: TARGET_SINGLE_MONSTER,
+	cost: 35,
+	element: ELEM_AIR,
+	mode: SPELL_MODE_COMBAT,
+	value: 5000,
+	damage: 12,
+	bonusMultiplier: 1.25,
+	reqs: [0, 0, 0, 0, 0, 0, 0, 22]
+});
+////////////// WATER ////////////////
+SPELLS[SPELL_FROSTFALL] = new spell({
+	id: SPELL_FROSTFALL,
+	name: 'Frostfall',
+	icon: 'snowing.png',
+	description: 'A damaging frost settles over the area, chilling all monsters to the bone.',
+	school: SCHOOL_SPELL,
+	type: SPELL_TYPE_DAMAGE,
+	target: TARGET_ALL_MONSTERS,
+	cost: 13,
+	element: ELEM_WATER,
+	mode: SPELL_MODE_COMBAT,
+	value: 500,
+	damage: 3,
+	bonusMultiplier: .25,
+	reqs: [0, 0, 0, 0, 0, 0, 0, 10]
+});
+////////////// EARTH ////////////////
 SPELLS[SPELL_DEADLY_SWARM] = new spell({
 	id: SPELL_DEADLY_SWARM,
 	name: 'Deadly Swarm',
@@ -201,4 +242,21 @@ SPELLS[SPELL_DEADLY_SWARM] = new spell({
 	debuff: DEBUFF_DODGE,
 	debuffChance: .85,
 	reqs: [0, 0, 0, 0, 0, 0, 0, 7]
+});
+////////////// FIRE ////////////////
+SPELLS[SPELL_FLAMING_WEAPON] = new spell({
+	id: SPELL_FLAMING_WEAPON,
+	name: 'Flaming Weapon',
+	icon: 'flaming-trident.png',
+	description: 'An aura of burning energy envelopes the weapon of an ally, causing their attacks to do additional fire damage.',
+	school: SCHOOL_SPELL,
+	type: SPELL_TYPE_BUFF,
+	target: TARGET_SINGLE_HERO,
+	cost: 8,
+	element: ELEM_FIRE,
+	mode: SPELL_MODE_COMBAT,
+	value: 600,
+	buffAmt: 1,
+	bonusMultiplier: .25,
+	reqs: [0, 0, 0, 0, 0, 0, 0, 12]
 });
