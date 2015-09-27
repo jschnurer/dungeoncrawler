@@ -90,6 +90,7 @@ var TILE_CEILING_FLOOR = 66;
 var TILE_GRASS = 71;
 var TILE_PLACE_OF_POWER = 1;
 var TILE_CHEST = 84;
+var TILE_WHIRLPOOL = 82;
 
 var CLASS_KNIGHT = 0;
 var CLASS_THIEF = 1;
@@ -147,20 +148,20 @@ var SPELL_MODE_NAV = 1;
 var SPELL_MODE_BOTH = 2;
 
 var tghToLife = [];
-tghToLife[CLASS_KNIGHT] = 4;
-tghToLife[CLASS_THIEF] = 4;
-tghToLife[CLASS_SORCERER] = 4;
-tghToLife[CLASS_CLERIC] = 4;
-tghToLife[CLASS_PALADIN] = 4;
-tghToLife[CLASS_DRUID] = 4;
+tghToLife[CLASS_KNIGHT] = 5;
+tghToLife[CLASS_THIEF] = 5;
+tghToLife[CLASS_SORCERER] = 5;
+tghToLife[CLASS_CLERIC] = 5;
+tghToLife[CLASS_PALADIN] = 5;
+tghToLife[CLASS_DRUID] = 5;
 
 var cogToMana = [];
-cogToMana[CLASS_KNIGHT] = 4;
-cogToMana[CLASS_THIEF] = 4;
-cogToMana[CLASS_SORCERER] = 4;
-cogToMana[CLASS_CLERIC] = 4;
-cogToMana[CLASS_PALADIN] = 4;
-cogToMana[CLASS_DRUID] = 4;
+cogToMana[CLASS_KNIGHT] = 5;
+cogToMana[CLASS_THIEF] = 5;
+cogToMana[CLASS_SORCERER] = 5;
+cogToMana[CLASS_CLERIC] = 5;
+cogToMana[CLASS_PALADIN] = 5;
+cogToMana[CLASS_DRUID] = 5;
 
 var pieIntToMana = [];
 pieIntToMana[CLASS_KNIGHT] = 1;

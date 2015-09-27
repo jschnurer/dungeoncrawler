@@ -32,7 +32,7 @@ function combat() {
 		combatAwaitingInput = false;
 		combatants.length = 0;
 		GAME_MODE = MODE_COMBAT;
-		clearText();
+		
 		
 		$combatView.show();
 		
@@ -76,7 +76,7 @@ function combat() {
 		$combatView.hide();
 		showText('The party is victorious in glorious combat!');
 		log('The party is victorious in glorious combat!');
-		selectHero(PARTY.getFirstActingHero().num);
+		PARTY.clearHeroCombatBuffs();
 	}
 
 	this.takeTurn = function() {
@@ -221,8 +221,22 @@ function combat() {
 		if(atkResult.dodged) {
 			log(hero.name + ' attacks ' + monster.name + ' but misses.');
 		} else {
+			
+			var dmgData = atkResult.damageData;
+			var dmgTooltip = '';
+			for(var i = 0; i < dmgData.length; i++) {
+				if(dmgData[i] > 0) {
+					if(dmgTooltip != '')
+						dmgTooltip += '\n';
+					dmgTooltip += dmgData[i] + ' ' + ELEM_NAMES[i];
+				}
+			}
+
+			console.log(dmgTooltip);
+			
 			if(monster.life <= 0) {
-				log(hero.name + ' attacks and deals ' + atkResult.totalDamageDealt + ' damage, slaying the ' + monster.name + '!');
+				
+				log(hero.name + ' attacks and deals <i title="' + dmgTooltip + '">' + atkResult.totalDamageDealt + '</i> damage, slaying the ' + monster.name + '!');
 				log('The party gains ' + monster.experience + ' essence.');
 				PARTY.gainExperience(monster.experience);
 				
@@ -232,7 +246,7 @@ function combat() {
 				if(!self.removeMonsterFromCombat(monsterNum))
 					return true;
 			} else {
-				log(hero.name + ' attacks and deals ' + atkResult.totalDamageDealt + ' damage to the ' + monster.name + '.');
+				log(hero.name + ' attacks and deals <i title="' + dmgTooltip + '">' + atkResult.totalDamageDealt + '</i> damage to the ' + monster.name + '.');
 				self.updateMonsterBlock(monsterNum);
 			}
 		}
@@ -366,6 +380,7 @@ function combat() {
 	}
 	
 	this.finishTurn = function() {
+		clearText();
 		currCombatantIx++;
 		combatTimer = window.setTimeout(function () { self.takeTurn(); }, 500);
 	}

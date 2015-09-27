@@ -65,4 +65,10 @@ party.prototype.anyConsciousHeroWithSkill = function (skillId) {
 	return hasSkill;
 }
 
+party.prototype.clearHeroCombatBuffs = function () {
+	this.heroes.forEach(function(hero) {
+		hero.clearBuffs();
+	});
+}
+
 var PARTY = null;

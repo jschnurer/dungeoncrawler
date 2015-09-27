@@ -65,7 +65,7 @@ monster.prototype.receiveCasting = function(casting, hero) {
 		
 		if(casting.debuff != undefined && this.life > 0 && rand(1, 100) / 100.0 <= casting.debuffChance) {
 			this.debuffs[casting.debuff] = true;
-			log(this.name + ' is stricken with ' + DEBUFF_NAMES[casting.debuff]);
+			log(this.name + ' is ' + DEBUFF_APPLIED_STRINGS[casting.debuff] + '!');
 		}
 	}
 }
@@ -81,11 +81,14 @@ monster.prototype.receiveAttack = function(attack) {
 	if(attack.dodgeable && rollStat(this.getDodge()) > attack.accuracy) {
 		return { dodged: true };
 	} else {
+		var dmgData = [0,0,0,0,0,0,0,0];
 		var totalDamageDealt = 0;
 		for(var i = 0; i < attack.damages.length; i++) {
-			totalDamageDealt += this.takeDamage(attack.damages[i], this);
+			var thisDamage = this.takeDamage(attack.damages[i], this);
+			totalDamageDealt += thisDamage;
+			dmgData[attack.damages[i].type] += thisDamage;
 		}
-		return { dodged: false, totalDamageDealt: totalDamageDealt };
+		return { dodged: false, totalDamageDealt: totalDamageDealt, damageData: dmgData };
 	}
 }
 

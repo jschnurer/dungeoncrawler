@@ -3,6 +3,12 @@ function hero (values) {
 	self.num = values.num;
 	self.status = STATUS_OK;
 	
+	self.buffs = [];
+	
+	this.clearBuffs = function () {
+		self.buffs.length = 0;
+	}
+	
 	self.portraitBox = $('#char' + values.num);
 	
 	var lifeBar = $('#life' + values.num);
@@ -275,6 +281,8 @@ function hero (values) {
 			
 			this.updateBars();
 			log(this.name + ' recovers ' + casting.value + ' life.');
+		} else if(casting.type == SPELL_TYPE_BUFF) {
+			this.buffs[casting.spellId] = casting.value;
 		}
 	}
 	
@@ -337,7 +345,7 @@ function hero (values) {
 				damages: [{damage: 1, type: ELEM_PHYS}] + self.getMightDamageBonus()
 			};
 		} else {
-			return {
+			var damage = {
 				dodgeable: true,
 				accuracy: acc,
 				damages: [{
@@ -345,6 +353,15 @@ function hero (values) {
 					type: meleeWeapon.damageType
 				}]
 			};
+			
+			if(self.buffs[SPELL_FLAMING_WEAPON] != undefined) {
+				damage.damages.push({
+					damage: self.buffs[SPELL_FLAMING_WEAPON],
+					type: ELEM_FIRE
+				});
+			}
+			
+			return damage;
 		}
 	}
 		

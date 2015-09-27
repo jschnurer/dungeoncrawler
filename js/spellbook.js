@@ -149,12 +149,14 @@ spellbook.prototype.beginCasting = function(spell) {
 	if(this.selectedHero.canAffordSpell(spell)) {
 		if(spell.target == TARGET_PARTY) {
 			if(this.previousGameMode == MODE_COMBAT) {
+				this.selectedHero.payForSpell(spell);
 				COMBAT.heroCastsAtParty(spell.getCasting(this.selectedHero), this.selectedHero);
 				log(this.selectedHero.name + ' casts ' + spell.name + '.');
-				COMBAT.finishTurn();
 				this.close();
 			} else if(this.previousGameMode == MODE_NAV) {
+				this.selectedHero.payForSpell(spell);
 				nav.heroCastsAtParty(spell.getCasting(this.selectedHero), this.selectedHero);
+				log(this.selectedHero.name + ' casts ' + spell.name + '.');
 				this.close();
 			}
 		} if(spell.target == TARGET_ALL_HEROES) {

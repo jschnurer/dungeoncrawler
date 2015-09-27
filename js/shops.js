@@ -41,7 +41,7 @@ shop.prototype.open = function(prevGameMode) {
 					if(CURRENT_SHOP.type == SHOP_ITEMS)
 						return ITEMS[$(this).attr('data-itemId')].getTooltip();
 					else if(CURRENT_SHOP.type == SHOP_MAGIC)
-						return SPELLS[$(this).attr('data-itemId')].getTooltip();
+						return SPELLS[$(this).attr('data-itemId')].getTooltip(true);
 				}
 			});
 			$itemImg.click(function () {
@@ -189,7 +189,9 @@ SHOPS[SHOP_SORPIGAL_GUILD] = new shop({
 	type: SHOP_MAGIC,
 	itemIds: [
 		SPELL_MEND_MINOR_WOUNDS,
+		SPELL_MIND_BLAST,
 		SPELL_AURA_OF_VALOR,
+		SPELL_FLAMING_WEAPON,
 		SPELL_STATIC_JOLT,
 		SPELL_DEADLY_SWARM,
 		SPELL_FROSTFALL

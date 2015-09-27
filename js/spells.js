@@ -24,7 +24,7 @@ spell.prototype.clone = function() {
 	return new spell(this);
 }
 
-spell.prototype.getTooltip = function () {
+spell.prototype.getTooltip = function (isShop) {
 	var tt = this.name + '<br />'
 		+ SCHOOL_NAMES[this.school] + ' - ' + ELEM_NAMES[this.element] + ' magic<br />'
 		+ this.description + '<br /><br />'
@@ -51,6 +51,10 @@ spell.prototype.getTooltip = function () {
 		if(anyReqs) {
 			tt += '<br /><br />' + reqString.substr(0, reqString.length - 2);
 		}
+	}
+	
+	if(isShop) {
+		tt += '<br /><br />Value: ' + this.value;
 	}
 	
 	return tt;
@@ -99,7 +103,10 @@ var SPELL_TYPE_DEBUFF = 4;
 var DEBUFF_DODGE = 0;
 
 var DEBUFF_NAMES = [];
-DEBUFF_NAMES[DEBUFF_DODGE] = ' clumsiness';
+DEBUFF_NAMES[DEBUFF_DODGE] = 'off balance';
+
+var DEBUFF_APPLIED_STRINGS = [];
+DEBUFF_APPLIED_STRINGS[DEBUFF_DODGE] = 'knocked off balance';
 
 var SCHOOL_PORTENT = 0;
 var SCHOOL_SPELL = 1;
@@ -117,6 +124,7 @@ var SPELL_DEADLY_SWARM = 4;
 var SPELL_FLAMING_WEAPON = 5;
 var SPELL_MIND_BLAST = 6;
 var SPELL_CHAIN_LIGHTNING = 7;
+var SPELL_WATER_WALKING = 8;
 
 //////////////////////////////////// Portents //////////////////////////////////////////////////////
 ////////////// BODY ////////////////
@@ -128,7 +136,7 @@ SPELLS[SPELL_MEND_MINOR_WOUNDS] = new spell({
 	school: SCHOOL_PORTENT,
 	type: SPELL_TYPE_HEAL,
 	target: TARGET_SINGLE_HERO,
-	cost: 8,
+	cost: 9,
 	element: ELEM_BODY,
 	mode: SPELL_MODE_BOTH,
 	value: 300,
@@ -147,7 +155,7 @@ SPELLS[SPELL_MIND_BLAST] = new spell({
 	type: SPELL_TYPE_DAMAGE,
 	target: TARGET_SINGLE_MONSTER,
 	cost: 9,
-	element: ELEM_AIR,
+	element: ELEM_MIND,
 	mode: SPELL_MODE_COMBAT,
 	value: 450,
 	damage: 1,
@@ -163,7 +171,7 @@ SPELLS[SPELL_AURA_OF_VALOR] = new spell({
 	school: SCHOOL_PORTENT,
 	type: SPELL_TYPE_BUFF,
 	target: TARGET_PARTY,
-	cost: 5,
+	cost: 4,
 	element: ELEM_SPIRIT,
 	mode: SPELL_MODE_COMBAT,
 	value: 250,
@@ -224,6 +232,22 @@ SPELLS[SPELL_FROSTFALL] = new spell({
 	bonusMultiplier: .25,
 	reqs: [0, 0, 0, 0, 0, 0, 0, 10]
 });
+
+SPELLS[SPELL_WATER_WALKING] = new spell({
+	id: SPELL_WATER_WALKING,
+	name: 'Water Walking',
+	icon: 'water-walking.png',
+	description: 'An enchantment grants the party the ability to walk across the surface of calm water.',
+	school: SCHOOL_SPELL,
+	type: SPELL_TYPE_BUFF,
+	target: TARGET_PARTY,
+	cost: 15,
+	element: ELEM_WATER,
+	mode: SPELL_MODE_NAV,
+	value: 2000,
+	bonusMultiplier: 1,
+	reqs: [0, 0, 0, 0, 0, 0, 0, 16]
+});
 ////////////// EARTH ////////////////
 SPELLS[SPELL_DEADLY_SWARM] = new spell({
 	id: SPELL_DEADLY_SWARM,
@@ -252,7 +276,7 @@ SPELLS[SPELL_FLAMING_WEAPON] = new spell({
 	school: SCHOOL_SPELL,
 	type: SPELL_TYPE_BUFF,
 	target: TARGET_SINGLE_HERO,
-	cost: 8,
+	cost: 11,
 	element: ELEM_FIRE,
 	mode: SPELL_MODE_COMBAT,
 	value: 600,

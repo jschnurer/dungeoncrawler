@@ -8,6 +8,7 @@ function navigator() {
 	
 	var ctx = canvas.getContext('2d');
 	var map;
+	var buffs = [];
 	var partyPosition = {x:0,y:0,facing:'S'};
 	
 	this.backgrounds = [];
@@ -28,6 +29,7 @@ function navigator() {
 	this.tileSets[TILE_GRASS] = $('#IMG_TILE_' + TILE_GRASS)[0];
 	this.tileSets[TILE_PLACE_OF_POWER] = $('#IMG_TILE_' + TILE_PLACE_OF_POWER)[0];
 	this.tileSets[TILE_CHEST] = $('#IMG_TILE_' + TILE_CHEST)[0];
+	this.tileSets[TILE_WHIRLPOOL] = $('#IMG_TILE_' + TILE_WHIRLPOOL)[0];
 	
 	var tileDestWidth = 80 * SCALE;
 	var tileDestHeight = 120 * SCALE;
@@ -38,6 +40,7 @@ function navigator() {
 	this.hardness[TILE_PILLAR] = true;
 	this.hardness[TILE_FOREST] = true;
 	this.hardness[TILE_WATER] = true;
+	this.hardness[TILE_WHIRLPOOL] = true;
 	this.hardness['P'] = true;
 	
 	this.getPartyPosition = function() {
@@ -51,6 +54,7 @@ function navigator() {
 	this.setMap = function(map) {
 		this.map = map;
 		this.setCombatTiles(false);
+		buffs.length = 0;
 	}
 	
 	this.setCombatTiles = function(combatComplete) {
@@ -262,7 +266,9 @@ function navigator() {
 		var otherTile = self.map.tiles[partyPosition.y + yOffset][partyPosition.x + xOffset];
 		var otherTileEventHardness = getEventHardness(partyPosition.x + xOffset, partyPosition.y + yOffset);
 		
-		if((!self.hardness[otherTile.tile] || (otherTile.tile == TILE_FOREST && PARTY.anyConsciousHeroWithSkill(SKILL_PATHFINDING)))
+		if((!self.hardness[otherTile.tile]
+				|| (otherTile.tile == TILE_FOREST && PARTY.anyConsciousHeroWithSkill(SKILL_PATHFINDING))
+				|| (otherTile.tile == TILE_WATER && buffs[SPELL_WATER_WALKING]))
 			&& (otherTile.code != undefined && !self.hardness[otherTile.code])
 			&& !otherTileEventHardness) {
 			partyPosition.y += yOffset;
@@ -446,5 +452,9 @@ function navigator() {
 			eval(nextTilesEventScript);
 			return;
 		}
+	}
+	
+	this.heroCastsAtParty = function (casting, castingHero) {
+		buffs[casting.spellId] = true;
 	}
 }

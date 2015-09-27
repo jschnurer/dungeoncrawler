@@ -444,3 +444,7 @@ canvas {
 	padding: 0px;
 	width: auto;
 }
+
+.ui-tooltip {
+    white-space: pre-line;
+}
