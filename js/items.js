@@ -117,6 +117,7 @@ var ITEM_ROBE = 8;
 var ITEM_STAFF = 9;
 var ITEM_HATCHET = 10;
 var ITEM_HAMMER = 11;
+var ITEM_WHIP = 12;
 
 //// Weapons ////
 // Tier 1 //
@@ -199,6 +200,19 @@ ITEMS[ITEM_HATCHET] = new item ({
 	value: 300,
 	reqs: [2, 7, 0, 0, 0, 0, 0, 0]
 });
+ITEMS[ITEM_WHIP] = new item ({
+	id: ITEM_WHIP,
+	name: 'Whip',
+	icon: 'whip.png',
+	type: ITEM_MELEE,
+	weight: WEAPON_LIGHT,
+	damage: 4,
+	damageType: ELEM_PHYS,
+	accBonus: 5,
+	hands: 1,
+	value: 800,
+	reqs: [0, 15, 0, 0, 0, 0, 0, 0]
+});
 
 // Armors //
 // Tier 1 //
@@ -239,7 +253,7 @@ ITEMS[ITEM_BUCKLER] = new item ({
 	type: ITEM_SHIELD,
 	dodge: 1,
 	classes: [true, true, false, true, true, false],
-	reqs: [4],
+	reqs: [5],
 	value: 75
 });
 

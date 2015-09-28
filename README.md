@@ -23,3 +23,6 @@ The following images are available freely for personal use:
 Map, navigate icon (https://www.iconfinder.com/icons/43361/map_navigate_icon#size=128)
 Book, secret icon (https://www.iconfinder.com/icons/66344/book_secret_icon#size=128)
 Backpack icon (https://www.iconfinder.com/icons/45371/backpack_icon#size=128)
+
+The following images are available in the public domain:
+Fortified city by nicubunu (http://opengameart.org/content/fortified-city)
