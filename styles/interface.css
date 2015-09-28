@@ -276,6 +276,18 @@ canvas {
 	z-index: 10;
 }
 
+#compass {
+	top: 8px;
+	background-position: center right;
+	text-align: left;
+	right: 50%;
+	z-index: 5;
+	width: 22px;
+	margin-right: -11px;
+	display: none;
+	text-align: center;
+}
+
 #essencePanel {
 	top: 8px;
 	background-position: center right;

@@ -322,6 +322,7 @@ function navigator() {
 		}
 		
 		doTouchEventAtTile(partyPosition.x, partyPosition.y);
+		nav.updateCompass();
 		
 		self.draw();
 	}
@@ -458,5 +459,14 @@ function navigator() {
 	
 	this.heroCastsAtParty = function (casting, castingHero) {
 		buffs[casting.spellId] = true;
+	}
+	
+	this.updateCompass = function() {
+		if(PARTY.anyConsciousHeroWithSkill(SKILL_DIRECTION_SENSE)) {
+			$('#compass').show();
+			$('#compass').html(partyPosition.facing);
+		} else {
+			$('#compass').hide();
+		}
 	}
 }
