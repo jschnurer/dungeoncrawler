@@ -6,14 +6,17 @@ function navigator() {
 	canvas.width = 160 * SCALE;
 	canvas.height = 120 * SCALE;
 	
+	var darkAlpha = 200;
 	var ctx = canvas.getContext('2d');
 	var map;
 	var buffs = [];
 	var partyPosition = {x:0,y:0,facing:'S'};
 	
 	this.backgrounds = [];
-	this.backgrounds[0] = $('#IMG_BG_' + BG_NIGHTSKY)[0];
-		
+	this.backgrounds[BG_NIGHTSKY] = $('#IMG_BG_' + BG_NIGHTSKY)[0];
+	this.backgrounds[BG_BLACK] = $('#IMG_BG_' + BG_BLACK)[0];
+	this.currBackground = this.backgrounds[BG_NIGHTSKY];
+	
 	this.tileSets = [];
 	this.tileSets[TILE_WALL] = $('#IMG_TILE_' + TILE_WALL)[0];
 	this.tileSets[TILE_PILLAR] = $('#IMG_TILE_' + TILE_PILLAR)[0];
@@ -31,6 +34,7 @@ function navigator() {
 	this.tileSets[TILE_CHEST] = $('#IMG_TILE_' + TILE_CHEST)[0];
 	this.tileSets[TILE_WHIRLPOOL] = $('#IMG_TILE_' + TILE_WHIRLPOOL)[0];
 	this.tileSets[TILE_TOWN] = $('#IMG_TILE_' + TILE_TOWN)[0];
+	this.tileSets[TILE_MOUNTAIN] = $('#IMG_TILE_' + TILE_MOUNTAIN)[0];
 	
 	var tileDestWidth = 80 * SCALE;
 	var tileDestHeight = 120 * SCALE;
@@ -43,6 +47,7 @@ function navigator() {
 	this.hardness[TILE_WATER] = true;
 	this.hardness[TILE_WHIRLPOOL] = true;
 	this.hardness['P'] = true;
+	this.hardness[TILE_MOUNTAIN] = true;
 	
 	this.getPartyPosition = function() {
 		return partyPosition;
@@ -55,6 +60,8 @@ function navigator() {
 	this.setMap = function(map) {
 		this.map = map;
 		this.setCombatTiles(false);
+		this.currBackground = this.backgrounds[window[map.background]];
+		this.map.isDark = this.map.isDark && this.map.isDark != 'false';
 		buffs.length = 0;
 	}
 	
@@ -124,7 +131,7 @@ function navigator() {
 	this.draw = function () {
 		ctx.fillStyle="#000";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
-		ctx.drawImage(self.backgrounds[0], 0, 0, 160, 120, 0, 0, tileDestWidth * 2, tileDestHeight);
+		ctx.drawImage(self.currBackground, 0, 0, 160, 120, 0, 0, tileDestWidth * 2, tileDestHeight);
 
 		//////////////////////////////////////////////////////////////
 		// BACK ROW
@@ -214,6 +221,17 @@ function navigator() {
 		
 		drawTile(0, 0, 480, 120, 0);
 		drawTile(0, 0, 560, 120, rightSideOffset);
+		
+		if(this.map.isDark && !buffs[SPELL_TORCHLIGHT] && !buffs[SPELL_INNER_LIGHT]) {
+			ctx.fillStyle = 'rgba(0, 0, 0, 0.78)';
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+		} else if(buffs[SPELL_TORCHLIGHT]) {
+			ctx.fillStyle = 'rgba(255, 151, 0, 0.12)';
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+		} else if(buffs[SPELL_INNER_LIGHT]) {
+			ctx.fillStyle = 'rgba(109, 255, 242, 0.12)';
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+		}
 	}
 	
 	this.handleInput = function (key) {
@@ -459,6 +477,7 @@ function navigator() {
 	
 	this.heroCastsAtParty = function (casting, castingHero) {
 		buffs[casting.spellId] = true;
+		self.draw();
 	}
 	
 	this.updateCompass = function() {

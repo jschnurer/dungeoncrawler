@@ -125,6 +125,8 @@ var SPELL_FLAMING_WEAPON = 5;
 var SPELL_MIND_BLAST = 6;
 var SPELL_CHAIN_LIGHTNING = 7;
 var SPELL_WATER_WALKING = 8;
+var SPELL_TORCHLIGHT = 9;
+var SPELL_INNER_LIGHT = 10;
 
 //////////////////////////////////// Portents //////////////////////////////////////////////////////
 ////////////// BODY ////////////////
@@ -178,6 +180,22 @@ SPELLS[SPELL_AURA_OF_VALOR] = new spell({
 	buffAmt: 1,
 	bonusMultiplier: .25,
 	reqs: [0, 0, 0, 0, 0, 0, 4, 0]
+});
+
+SPELLS[SPELL_INNER_LIGHT] = new spell({
+	id: SPELL_INNER_LIGHT,
+	name: 'Inner Light',
+	icon: 'beams-aura.png',
+	description: 'A calming boon soothes the soul and releases your inner light. This aura lights dark places.',
+	school: SCHOOL_PORTENT,
+	type: SPELL_TYPE_BUFF,
+	target: TARGET_PARTY,
+	cost: 2,
+	element: ELEM_SPIRIT,
+	mode: SPELL_MODE_NAV,
+	value: 50,
+	bonusMultiplier: 1,
+	reqs: [0, 0, 0, 0, 0, 0, 0, 3]
 });
 
 //////////////////////////////////// Spells //////////////////////////////////////////////////////
@@ -268,6 +286,22 @@ SPELLS[SPELL_DEADLY_SWARM] = new spell({
 	reqs: [0, 0, 0, 0, 0, 0, 0, 7]
 });
 ////////////// FIRE ////////////////
+SPELLS[SPELL_TORCHLIGHT] = new spell({
+	id: SPELL_TORCHLIGHT,
+	name: 'Torchlight',
+	icon: 'torch.png',
+	description: 'Summon a heatless ball of burning light above the party. This light bobs above you and lights dark places.',
+	school: SCHOOL_SPELL,
+	type: SPELL_TYPE_BUFF,
+	target: TARGET_PARTY,
+	cost: 2,
+	element: ELEM_FIRE,
+	mode: SPELL_MODE_NAV,
+	value: 50,
+	bonusMultiplier: 1,
+	reqs: [0, 0, 0, 0, 0, 0, 0, 3]
+});
+
 SPELLS[SPELL_FLAMING_WEAPON] = new spell({
 	id: SPELL_FLAMING_WEAPON,
 	name: 'Flaming Weapon',

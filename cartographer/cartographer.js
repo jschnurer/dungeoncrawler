@@ -182,6 +182,8 @@ function save() {
 	var map = {};
 	map.name = $('#name').val();
 	map.id = $('#mapId').val();
+	map.background = $('#background').val();
+	map.isDark = $('input[name=isDark]:checked').val();
 	map.tiles = tiles;
 	
 	var encounterGroups = [];
@@ -205,6 +207,8 @@ function loadMap(json) {
 	var map = JSON.parse(json);
 	$('#name').val(map.name);
 	$('#mapId').val(map.id);
+	$('#background').val(map.background);
+	$('input[name=isDark]').val([map.isDark]);
 	
 	$('td').removeClass();
 	
