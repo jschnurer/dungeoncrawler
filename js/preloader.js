@@ -18,6 +18,7 @@ var preloadImages = [{t:'t',k:TILE_WALL,u:'images/tiles/dungeon_wall.png'},
 	{t:'t',k:TILE_WHIRLPOOL,u:'images/tiles/whirlpool.png'},
 	{t:'t',k:TILE_TOWN,u:'images/tiles/city_tile.png'},
 	{t:'t',k:TILE_MOUNTAIN,u:'images/tiles/mountain.png'},
+	{t:'t',k:TILE_MASK_CAVE_ENTRANCE,u:'images/tiles/cave_entrance_mask.png'},
 	{t:'b',k:BG_NIGHTSKY,u:'images/backgrounds/nightsky.png'},
 	{t:'b',k:BG_BLACK,u:'images/backgrounds/black.png'}];
 

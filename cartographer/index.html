@@ -2,6 +2,7 @@
 <head>
 <title>Cartographer</title>
 <script src="../js/jquery-2.1.4.min.js"></script>
+<script src="../js/atlas.js"></script>
 <style>
 #map { border-collapse: separate; border-spacing: 1px;}
 #map td { width: 25px; height: 25px; background-color:#EEE; text-align: center; background-position:center center; background-repeat: no-repeat; color: red; font-size: 1.25em; font-weight: bolder; -webkit-text-fill-color: red; -webkit-text-stroke-width: 2px; -webkit-text-stroke-color: #A00;}
@@ -63,13 +64,13 @@
 			</td>
 		</tr>
 	</table>
+	<p>Map: <select id="ddMap"></select> <button id="load">Load</button></p>
 	<p>Map Name: <input type="text" id="name" /></p>
 	<p>Map Id: <input type="text" id="mapId" /></p>
 	<p>Background: <input type="text" id="background" /></p>
 	<p>Lights: <label><input type="radio" name="isDark" value="false" checked="true" /> Lit</label> <label><input type="radio" name="isDark" value="true" /> Dark</label>
 	<p>Encounter Groups<br />(1 comma-delimited list of monster Ids per line):<br /><textarea id="encounterGroups" cols="50" rows="10"></textarea></p>
 	<p>&nbsp;</p>
-	<p>Load JSON: <input type="text" id="loadFrom" /> <button id="load">Load</button></p>
 	<p><button id="save">Save</button> Saved JSON: <input type="text" id="saveTo" /></p>
 </div>
 <table id="map">

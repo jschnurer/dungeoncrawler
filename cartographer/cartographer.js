@@ -57,7 +57,7 @@ var mapHeight = 32;
 
 var eventPopupOpen = false;
 
-$(function () {
+$(function () {	
 	$('#save').click(save);
 	$('#load').click(load);
 	$('#saveEvent').click(saveEvent);
@@ -69,12 +69,20 @@ $(function () {
 	for(var i = 0; i < mapHeight; i++) {
 		var $row = $('<tr>');
 		for(var j = 0; j < mapWidth; j++) {
-			$row.append('<td>');
+			$row.append('<td data-x="' + j + '" data-y="' + i + '">');
 		}
 		tbl.append($row);
 	}
 	
 	moveCursor(0,0);
+	
+	$('#map tr td').click(function() {
+		setCursor(parseInt($(this).attr('data-x')), parseInt($(this).attr('data-y')));
+	});
+	
+	for(var i = 0; i < atlas.length; i++){
+		$('#ddMap').append($('<option value="' + atlas[i].id + '">' + atlas[i].name + '</option>'));
+	}
 });
 
 $(document).keydown(function(e) {
@@ -154,6 +162,14 @@ function moveCursor(x, y) {
 	$('#currCellDisplay').html(currentCell.x + ', ' + currentCell.y);
 }
 
+function setCursor(x, y) {
+	getCurrentCell().removeClass('selectedCell');
+	currentCell.x = x;
+	currentCell.y = y;
+	getCurrentCell().addClass('selectedCell');
+	$('#currCellDisplay').html(currentCell.x + ', ' + currentCell.y);
+}
+
 function getCurrentCell() {
 	return $('#map tr:nth-child(' + (currentCell.y + 1) + ') td:nth-child(' + (currentCell.x + 1) + ')');
 }
@@ -202,11 +218,13 @@ function save() {
 }
 
 function load() {
-	loadMap($('#loadFrom').val());
+	
+	loadMap(atlas[$('#ddMap').val()]);
 }
 
 function loadMap(json) {
-	var map = JSON.parse(json);
+	//var map = JSON.parse(json);
+	var map = json;
 	$('#name').val(map.name);
 	$('#mapId').val(map.id);
 	$('#background').val(map.background);
@@ -221,6 +239,8 @@ function loadMap(json) {
 		for(var x = 0; x < cellCount; x++) {
 			var tcell = $('#map tr:nth-child(' + (y+1) + ') td:nth-child(' + (x+1) + ')');
 			tcell.removeClass();
+			
+			jQuery.data(tcell[0], 'event', null);
 			
 			var cell = map.tiles[y][x];
 			
