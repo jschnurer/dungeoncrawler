@@ -14,6 +14,7 @@ var SORPIGAL_DUNGEON_CHEST_5 = 11;
 var SORPIGAL_DUNGEON_CHEST_6 = 12;
 var SORPIGAL_DUNGEON_CHEST_7 = 13;
 var SORPIGAL_TREE_CHEST_2 = 14;
+var SORPIGAL_DOLL_QUEST = 15;
 
 function setGameVar(gameVar, value) {
 	GAME_VARS[gameVar] = value;
