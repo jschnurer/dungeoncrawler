@@ -20,7 +20,7 @@ item.prototype.clone = function() {
 	return new item(this);
 }
 
-item.prototype.getTooltip = function() {
+item.prototype.getTooltip = function(isShop) {
 	var tooltip = this.name + '<br />';
 	
 	if(this.type == ITEM_MELEE) {
@@ -66,9 +66,16 @@ item.prototype.getTooltip = function() {
 		var reqString = 'Requires: ';
 		var anyReqs = false;
 		
+		var currHero = INVENTORY.selectedHero;
+		
 		for(var i = 0; i < this.reqs.length; i++) {
 			if(this.reqs[i] > 0) {
-				reqString += this.reqs[i] + ' ' + STAT_NAMES[i] + ', ';
+				if(currHero != null && currHero.getStat(i) < this.reqs[i])
+					reqString += '<span class="badStat">';
+				reqString += this.reqs[i] + ' ' + STAT_NAMES[i];
+				if(currHero != null && currHero.getStat(i) < this.reqs[i])
+					reqString += '</span>';
+				reqString += ', ';
 				anyReqs = true;
 			}
 		}
@@ -78,7 +85,16 @@ item.prototype.getTooltip = function() {
 		}
 	}
 	
-	tooltip += '<br /><br />Value: ' + this.value;
+	if(isShop) {
+		tooltip += '<br /><br />Value: ';
+		if(!PARTY.hasExperience(this.value))
+			tooltip += '<span class="badStat">';
+		tooltip += this.value;
+		if(!PARTY.hasExperience(this.value))
+			tooltip += '</span>';
+	} else {
+		tooltip += '<br /><br />Value: ' + this.value;
+	}
 	
 	return tooltip;
 }
@@ -159,7 +175,7 @@ ITEMS[ITEM_MAUL] = new item ({
 	accBonus: 0,
 	hands: 2,
 	value: 325,
-	reqs: [9, 0, 0, 0, 0, 0, 0, 0]
+	reqs: [12, 0, 0, 0, 0, 0, 0, 0]
 });
 ITEMS[ITEM_HAMMER] = new item ({
 	id: ITEM_HAMMER,
@@ -172,7 +188,7 @@ ITEMS[ITEM_HAMMER] = new item ({
 	accBonus: 0,
 	hands: 1,
 	value: 275,
-	reqs: [5, 0, 0, 0, 0, 0, 0, 0]
+	reqs: [7, 0, 0, 0, 0, 0, 0, 0]
 });
 ITEMS[ITEM_STAFF] = new item ({
 	id: ITEM_STAFF,
@@ -198,7 +214,7 @@ ITEMS[ITEM_HATCHET] = new item ({
 	accBonus: 2,
 	hands: 1,
 	value: 300,
-	reqs: [2, 7, 0, 0, 0, 0, 0, 0]
+	reqs: [4, 11, 0, 0, 0, 0, 0, 0]
 });
 ITEMS[ITEM_WHIP] = new item ({
 	id: ITEM_WHIP,
@@ -253,7 +269,7 @@ ITEMS[ITEM_BUCKLER] = new item ({
 	type: ITEM_SHIELD,
 	dodge: 1,
 	classes: [true, true, false, true, true, false],
-	reqs: [5],
+	reqs: [4],
 	value: 75
 });
 

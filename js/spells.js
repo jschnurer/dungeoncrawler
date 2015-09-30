@@ -41,9 +41,17 @@ spell.prototype.getTooltip = function (isShop) {
 		var reqString = 'Requires: ';
 		var anyReqs = false;
 		
+		var currHero = SPELLBOOK.selectedHero;
+		
 		for(var i = 0; i < this.reqs.length; i++) {
 			if(this.reqs[i] > 0) {
-				reqString += this.reqs[i] + ' ' + STAT_NAMES[i] + ', ';
+				if(currHero != null && currHero.getStat(i) < this.reqs[i])
+					reqString += '<span class="badStat">';
+				reqString += this.reqs[i] + ' ' + STAT_NAMES[i];
+				if(currHero != null && currHero.getStat(i) < this.reqs[i])
+					reqString += '</span>';
+				reqString += ', ';
+				
 				anyReqs = true;
 			}
 		}
@@ -54,7 +62,12 @@ spell.prototype.getTooltip = function (isShop) {
 	}
 	
 	if(isShop) {
-		tt += '<br /><br />Value: ' + this.value;
+		tt += '<br /><br />Value: ';
+		if(!PARTY.hasExperience(this.value))
+			tt += '<span class="badStat">';
+		tt += this.value;
+		if(!PARTY.hasExperience(this.value))
+			tt += '</span>';
 	}
 	
 	return tt;
@@ -195,7 +208,7 @@ SPELLS[SPELL_INNER_LIGHT] = new spell({
 	mode: SPELL_MODE_NAV,
 	value: 50,
 	bonusMultiplier: 1,
-	reqs: [0, 0, 0, 0, 0, 0, 0, 3]
+	reqs: [0, 0, 0, 0, 0, 0, 3, 0]
 });
 
 //////////////////////////////////// Spells //////////////////////////////////////////////////////

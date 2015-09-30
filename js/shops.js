@@ -39,7 +39,7 @@ shop.prototype.open = function(prevGameMode) {
 				track: true,
 				content: function() {
 					if(CURRENT_SHOP.type == SHOP_ITEMS)
-						return ITEMS[$(this).attr('data-itemId')].getTooltip();
+						return ITEMS[$(this).attr('data-itemId')].getTooltip(true);
 					else if(CURRENT_SHOP.type == SHOP_MAGIC)
 						return SPELLS[$(this).attr('data-itemId')].getTooltip(true);
 				}

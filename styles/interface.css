@@ -2,6 +2,10 @@ html {
 	background: #111;
 }
 
+.badStat {
+	color: red;
+}
+
 .interface {
 	position: relative;
 	width: 1035px;
