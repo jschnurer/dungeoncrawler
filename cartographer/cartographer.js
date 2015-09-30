@@ -60,6 +60,7 @@ var eventPopupOpen = false;
 $(function () {	
 	$('#save').click(save);
 	$('#load').click(load);
+	$('#new').click(newMap);
 	$('#saveEvent').click(saveEvent);
 	$('#deleteEvent').click(deleteEvent);
 	$('#cancelEvent').click(cancelEvent);
@@ -217,18 +218,38 @@ function save() {
 	$('#saveTo').val(JSON.stringify(map));
 }
 
-function load() {
+function newMap() {
+	$('#name').val('');
+	$('#mapId').val('');
+	$('#background').val('');
+	$('input[name=isDark]').val([false]);
+	$('#encounterGroups').val('');
 	
+	$('td').removeClass();
+	
+	var rowCount = $('#map tr').length;
+	var cellCount = $('#map tr:first td').length;
+		
+	for(var y = 0; y < rowCount; y++) {		
+		for(var x = 0; x < cellCount; x++) {
+			var tcell = $('#map tr:nth-child(' + (y+1) + ') td:nth-child(' + (x+1) + ')');
+			tcell.removeClass();
+			tcell.html(null);
+			jQuery.data(tcell[0], 'event', null);
+		}
+	}
+}
+
+function load() {
 	loadMap(atlas[$('#ddMap').val()]);
 }
 
-function loadMap(json) {
-	//var map = JSON.parse(json);
-	var map = json;
+function loadMap(map) {
 	$('#name').val(map.name);
 	$('#mapId').val(map.id);
 	$('#background').val(map.background);
 	$('input[name=isDark]').val([map.isDark]);
+	$('#encounterGroups').val('');
 	
 	$('td').removeClass();
 	
@@ -257,8 +278,6 @@ function loadMap(json) {
 			tcell.html(cell.code);
 		}
 	}
-	
-	$('#encounterGroups').val('');
 	
 	if(map.encounterGroups != undefined && map.encounterGroups != null) {
 		for(var i = 0; i < map.encounterGroups.length; i++) {

@@ -106,11 +106,15 @@ function navigator() {
 		}
 		
 		if(mapTile.code == 'P') {
-			ctx.drawImage(self.tileSets[TILE_PLACE_OF_POWER], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
+			ctx.drawImage(self.tileSets[TILE_MASK_PLACE_OF_POWER], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
 		} else if(getEventShowChest(x, y)) {
-			ctx.drawImage(self.tileSets[TILE_CHEST], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
+			ctx.drawImage(self.tileSets[TILE_MASK_CHEST], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
 		} else if(mapTile.code == 'T') {
-			ctx.drawImage(self.tileSets[TILE_TOWN], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
+			ctx.drawImage(self.tileSets[TILE_MASK_TOWN], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
+		} else if(mapTile.code == 'E') {
+			ctx.drawImage(self.tileSets[TILE_MASK_CAVE_ENTRANCE], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
+		} else if(mapTile.code == '1') {
+			ctx.drawImage(self.tileSets[TILE_MASK_TABLE], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
 		}
 	}
 	
@@ -119,10 +123,6 @@ function navigator() {
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		ctx.drawImage(self.currBackground, 0, 0, 160, 120, 0, 0, tileDestWidth * 2, tileDestHeight);
 
-		//////////////////////////////////////////////////////////////
-		// BACK ROW
-		//////////////////////////////////////////////////////////////
-		
 		if(partyPosition.facing == 'N')	{
 			// back tiles
 			drawTile(-2, -2, 0, 0, 0);

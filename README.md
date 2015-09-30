@@ -15,6 +15,7 @@ Fire Icon (https://www.iconfinder.com/icons/173014/fire_icon#size=32)
 Application, config, control, desktop, gear g.. (https://www.iconfinder.com/icons/105234/application_config_control_desktop_gear_gears_options_preferences_settings_system_tool_tools_icon#size=64)
 Misc. monster graphics (Stephen "Redshrike" Challener (Sprites) 5hiroi (concepts) Heather Lee Harvey (concept) (EmeraldActivities.com) www.OpenGameArt.org)
 Spell and item icons (http://game-icons.net)
+Circular Pedestal Table With Legs by ulf (http://opengameart.org/content/circular-pedestal-table-with-legs)
 
 The following images are available freely for commercial use:
 Base, coin, gold, stacks icon (https://www.iconfinder.com/icons/73068/base_coin_gold_stacks_icon#size=32)
