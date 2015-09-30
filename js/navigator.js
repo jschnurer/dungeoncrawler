@@ -13,33 +13,11 @@ function navigator() {
 	var partyPosition = {x:0,y:0,facing:'S'};
 	
 	this.backgrounds = [];
-	//this.backgrounds[BG_NIGHTSKY] = $('#IMG_BG_' + BG_NIGHTSKY)[0];
-	//this.backgrounds[BG_BLACK] = $('#IMG_BG_' + BG_BLACK)[0];
-	//this.currBackground = this.backgrounds[BG_NIGHTSKY];
 	this.setBG = function(bg, imgElement) {
 		this.backgrounds[bg] = imgElement;
 	}
 	
 	this.tileSets = [];
-	/*
-	this.tileSets[TILE_WALL] = $('#IMG_TILE_' + TILE_WALL)[0];
-	this.tileSets[TILE_PILLAR] = $('#IMG_TILE_' + TILE_PILLAR)[0];
-	this.tileSets[TILE_PILLAR_BUTTON] = $('#IMG_TILE_' + TILE_PILLAR_BUTTON)[0];
-	this.tileSets[TILE_FOREST] = $('#IMG_TILE_' + TILE_FOREST)[0];
-	this.tileSets[TILE_FAKE_WALL] = $('#IMG_TILE_' + TILE_FAKE_WALL)[0];
-	this.tileSets[TILE_DOOR] = $('#IMG_TILE_' + TILE_DOOR)[0];
-	this.tileSets[TILE_EVENT_DOOR] = $('#IMG_TILE_' + TILE_EVENT_DOOR)[0];
-	this.tileSets[TILE_DOOR] = $('#IMG_TILE_' + TILE_DOOR)[0];
-	this.tileSets[TILE_WATER] = $('#IMG_TILE_' + TILE_WATER)[0];
-	this.tileSets[TILE_FLOOR] = $('#IMG_TILE_' + TILE_FLOOR)[0];
-	this.tileSets[TILE_CEILING] = $('#IMG_TILE_' + TILE_CEILING)[0];
-	this.tileSets[TILE_GRASS] = $('#IMG_TILE_' + TILE_GRASS)[0];
-	this.tileSets[TILE_PLACE_OF_POWER] = $('#IMG_TILE_' + TILE_PLACE_OF_POWER)[0];
-	this.tileSets[TILE_CHEST] = $('#IMG_TILE_' + TILE_CHEST)[0];
-	this.tileSets[TILE_WHIRLPOOL] = $('#IMG_TILE_' + TILE_WHIRLPOOL)[0];
-	this.tileSets[TILE_TOWN] = $('#IMG_TILE_' + TILE_TOWN)[0];
-	this.tileSets[TILE_MOUNTAIN] = $('#IMG_TILE_' + TILE_MOUNTAIN)[0];
-	*/
 	this.setTile = function(tile, imgElement) {
 		this.tileSets[tile] = imgElement;
 	}
@@ -231,13 +209,13 @@ function navigator() {
 		drawTile(0, 0, 560, 120, rightSideOffset);
 		
 		if(this.map.isDark && !buffs[SPELL_TORCHLIGHT] && !buffs[SPELL_INNER_LIGHT]) {
-			ctx.fillStyle = 'rgba(0, 0, 0, 0.78)';
+			ctx.fillStyle = 'rgba(0, 0, 0, 0.95)';
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 		} else if(buffs[SPELL_TORCHLIGHT]) {
-			ctx.fillStyle = 'rgba(255, 151, 0, 0.12)';
+			ctx.fillStyle = 'rgba(255, 151, 0, 0.10)';
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 		} else if(buffs[SPELL_INNER_LIGHT]) {
-			ctx.fillStyle = 'rgba(109, 255, 242, 0.12)';
+			ctx.fillStyle = 'rgba(109, 255, 242, 0.10)';
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 		}
 	}

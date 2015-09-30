@@ -12,6 +12,7 @@ var preloadImages = [{t:'t',k:TILE_WALL,u:'images/tiles/dungeon_wall.png'},
 	{t:'t',k:TILE_FLOOR,u:'images/tiles/dungeon_floor.png'},
 	{t:'t',k:TILE_CEILING,u:'images/tiles/dungeon_ceiling.png'},
 	{t:'t',k:TILE_GRASS,u:'images/tiles/grass.png'},
+	{t:'t',k:TILE_DIRT,u:'images/tiles/dirt.png'},
 	{t:'t',k:TILE_PLACE_OF_POWER,u:'images/tiles/place_of_power.png'},
 	{t:'t',k:TILE_CHEST,u:'images/tiles/chest.png'},
 	{t:'t',k:TILE_WHIRLPOOL,u:'images/tiles/whirlpool.png'},
@@ -70,12 +71,17 @@ function preload(imgArray) {
 				NAV.setTile(k, $(this)[0]);
 			else if(t == 'b')
 				NAV.setBG(k, $(this)[0]);
-		});		
+		});
 	});
 	
 	calcPercent = setInterval(function() {
 		//loop through the items
-		$percent.text(Math.floor(($progress.width() / $('.loader').width()) * 100) + '%');
+		var p = Math.floor(($progress.width() / $('.loader').width()) * 100);
+		$percent.text(p + '%');
+		if(p >= 60)
+			$('.loaderHolder span').html('Mumbling incantations...');
+		else if(p >= 30)
+			$('.loaderHolder span').html('Etching black geometries...');
 	});
 }
 

@@ -87,7 +87,7 @@ placeOfPower.prototype.open = function() {
 	// reset all combat encounters
 	NAV.setCombatTiles(false);
 	
-	SAVELOADER.save(PARTY, INVENTORY, nav, GAME_VARS);
+	SAVELOADER.save(PARTY, INVENTORY, NAV, GAME_VARS);
 	
 	showChoices('Your deeds have been recorded.[br][br]You commune with this place of power. Your life and magical reserves are replenished but danger surrounds you once more.', [ {
 		text: 'Level up',
@@ -98,7 +98,7 @@ placeOfPower.prototype.open = function() {
 	}, {
 		text: 'Leave',
 		callback: function() {
-			SAVELOADER.save(PARTY, INVENTORY, nav, GAME_VARS);
+			SAVELOADER.save(PARTY, INVENTORY, NAV, GAME_VARS);
 			finishChoice();
 		}
 	}]);

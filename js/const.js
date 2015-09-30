@@ -95,6 +95,7 @@ var TILE_PLACE_OF_POWER = 1;
 var TILE_CHEST = 84;
 var TILE_WHIRLPOOL = 82;
 var TILE_TOWN = 2;
+var TILE_DIRT = 68;
 
 var CLASS_KNIGHT = 0;
 var CLASS_THIEF = 1;
