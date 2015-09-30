@@ -155,7 +155,7 @@ spellbook.prototype.beginCasting = function(spell) {
 				this.close();
 			} else if(this.previousGameMode == MODE_NAV) {
 				this.selectedHero.payForSpell(spell);
-				nav.heroCastsAtParty(spell.getCasting(this.selectedHero), this.selectedHero);
+				NAV.heroCastsAtParty(spell.getCasting(this.selectedHero), this.selectedHero);
 				log(this.selectedHero.name + ' casts ' + spell.name + '.');
 				this.close();
 			}

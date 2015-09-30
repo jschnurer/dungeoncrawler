@@ -38,7 +38,7 @@ saveLoader.prototype.load = function() {
 	INVENTORY = new inventory(items);
 	
 	GAME_VARS = savedGame.gameVars;
-	nav.teleportToMap(savedGame.mapId, savedGame.partyPosition.x, savedGame.partyPosition.y, savedGame.partyPosition.facing);
+	NAV.teleportToMap(savedGame.mapId, savedGame.partyPosition.x, savedGame.partyPosition.y, savedGame.partyPosition.facing);
 }
 
 saveLoader.prototype.save = function(party, inventory, nav, gameVars) {
@@ -51,9 +51,9 @@ saveLoader.prototype.save = function(party, inventory, nav, gameVars) {
 	
 	var savedGame = {
 		party: party,
-		partyPosition: nav.getPartyPosition(),
+		partyPosition: NAV.getPartyPosition(),
 		items: itemsToSave,
-		mapId: nav.getMapId(),
+		mapId: NAV.getMapId(),
 		gameVars: gameVars
 	};
 	

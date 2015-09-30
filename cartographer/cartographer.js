@@ -32,6 +32,7 @@ var KEY_B = 66;
 var KEY_G = 71;
 var KEY_X = 88;
 var KEY_Z = 90;
+var KEY_D = 68;
 
 var arrowKeys = [KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_ARROW_LEFT, KEY_ARROW_RIGHT];
 var tileKeys = [];
@@ -49,6 +50,7 @@ tileKeys[KEY_C] = 'ceiling';
 tileKeys[KEY_B] = 'floor_ceiling';
 tileKeys[KEY_G] = 'grass';
 tileKeys[KEY_R] = 'whirlpool';
+tileKeys[KEY_D] = 'dirt';
 
 var mapWidth = 32;
 var mapHeight = 32;

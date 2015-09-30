@@ -85,7 +85,7 @@ placeOfPower.prototype.open = function() {
 	PARTY.fullHeal();
 	
 	// reset all combat encounters
-	nav.setCombatTiles(false);
+	NAV.setCombatTiles(false);
 	
 	SAVELOADER.save(PARTY, INVENTORY, nav, GAME_VARS);
 	

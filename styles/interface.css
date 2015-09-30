@@ -13,8 +13,9 @@ html {
 
 #continue {
 	color: white;
-	background: black;
+	text-align: center;
 	display: none;
+	margin-top: 75px;
 }
 
 #gameOver {

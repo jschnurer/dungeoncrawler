@@ -1,6 +1,3 @@
-var GAME_MODE = MODE_NAV;
-var SELECTED_HERO = 1;
-
 $(function() {
 	$('#char1').click(function () { selectHero(0); });
 	$('#char2').click(function () { selectHero(1); });
@@ -8,6 +5,9 @@ $(function() {
 	$('#char4').click(function () { selectHero(3); });
 
 	$(document).keydown(function(e) {
+		if(GAME_MODE == MODE_NONE)
+			return;
+		
 		if(GAME_MODE == MODE_MAINMENU) {
 			if(e.which == KEY_C) {
 				$('#continueGame').click();
@@ -88,7 +88,7 @@ $(function() {
 		}
 		
 		if(GAME_MODE == MODE_NAV) {	
-			nav.handleInput(e.which);
+			NAV.handleInput(e.which);
 		} else if(GAME_MODE == MODE_COMBAT) {
 			COMBAT.handleCombatInput(e.which);
 		}

@@ -1,0 +1,62 @@
+/*
+  preloader was obtained from http://codepen.io/MrHill/pen/avKfz
+*/
+.loaderHolder {
+	font-family: Arial, Helvetica, Sans-serif;
+	text-align: center;
+	padding: 5px;
+	margin: 0;
+	color: white;
+}
+
+.loader{
+  margin: 50px auto 10px;
+  width: 300px;
+  height: 25px;
+  border-radius: 14px;
+  border-bottom: 1px solid #fff;
+  border-top: 1px solid #999;
+  background: #ccc;
+  overflow: hidden;
+  position: relative;
+}
+
+.loader.gray{
+  background: #999;
+}
+
+.progress-bar{
+  height: inherit;
+  width: 0%;
+  border-radius: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-stripes{
+  width: inherit;
+  height: inherit;
+  font-size: 180px;
+  font-weight: bold;
+  margin-top: -50px;
+  letter-spacing: -14px;
+}
+
+.percentage{
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* RED */
+.red .progress-bar{
+  background: #e74c3c;
+}
+.red .progress-stripes{
+  color: #c0392b;
+}
+.red .percentage{
+  color: #eee;
+}

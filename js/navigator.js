@@ -13,11 +13,15 @@ function navigator() {
 	var partyPosition = {x:0,y:0,facing:'S'};
 	
 	this.backgrounds = [];
-	this.backgrounds[BG_NIGHTSKY] = $('#IMG_BG_' + BG_NIGHTSKY)[0];
-	this.backgrounds[BG_BLACK] = $('#IMG_BG_' + BG_BLACK)[0];
-	this.currBackground = this.backgrounds[BG_NIGHTSKY];
+	//this.backgrounds[BG_NIGHTSKY] = $('#IMG_BG_' + BG_NIGHTSKY)[0];
+	//this.backgrounds[BG_BLACK] = $('#IMG_BG_' + BG_BLACK)[0];
+	//this.currBackground = this.backgrounds[BG_NIGHTSKY];
+	this.setBG = function(bg, imgElement) {
+		this.backgrounds[bg] = imgElement;
+	}
 	
 	this.tileSets = [];
+	/*
 	this.tileSets[TILE_WALL] = $('#IMG_TILE_' + TILE_WALL)[0];
 	this.tileSets[TILE_PILLAR] = $('#IMG_TILE_' + TILE_PILLAR)[0];
 	this.tileSets[TILE_PILLAR_BUTTON] = $('#IMG_TILE_' + TILE_PILLAR_BUTTON)[0];
@@ -35,6 +39,10 @@ function navigator() {
 	this.tileSets[TILE_WHIRLPOOL] = $('#IMG_TILE_' + TILE_WHIRLPOOL)[0];
 	this.tileSets[TILE_TOWN] = $('#IMG_TILE_' + TILE_TOWN)[0];
 	this.tileSets[TILE_MOUNTAIN] = $('#IMG_TILE_' + TILE_MOUNTAIN)[0];
+	*/
+	this.setTile = function(tile, imgElement) {
+		this.tileSets[tile] = imgElement;
+	}
 	
 	var tileDestWidth = 80 * SCALE;
 	var tileDestHeight = 120 * SCALE;
@@ -340,7 +348,7 @@ function navigator() {
 		}
 		
 		doTouchEventAtTile(partyPosition.x, partyPosition.y);
-		nav.updateCompass();
+		NAV.updateCompass();
 		
 		self.draw();
 	}

@@ -44,6 +44,7 @@ var KEY_Z = 90;
 var GENDERS_MALE = 1;
 var GENDERS_FEMALE = 2;
 
+var MODE_NONE = -1;
 var MODE_GAMEOVER = 0;
 var MODE_NAV = 1;
 var MODE_COMBAT = 2;
@@ -55,6 +56,9 @@ var MODE_INVENTORY = 7;
 var MODE_SPELLBOOK = 8;
 var MODE_SHOP = 9;
 var MODE_MAINMENU = 10;
+
+var GAME_MODE = MODE_NONE;
+var SELECTED_HERO = 1;
 
 var ELEM_PHYS = 0;
 var ELEM_FIRE = 1;
@@ -78,7 +82,6 @@ ELEM_NAMES[ELEM_SPIRIT] = 'spirit';
 var TILE_WALL = 49;
 var TILE_DOOR = 50;
 var TILE_FAKE_WALL = 51;
-var TILE_EVENT_DOOR = 52;
 var TILE_FOREST = 53;
 var TILE_MOUNTAIN = 54;
 var TILE_WATER = 55;

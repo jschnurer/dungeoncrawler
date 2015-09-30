@@ -5,13 +5,17 @@
 <link href="styles/spellbook.css" rel="stylesheet" type="text/css" />
 <link href="styles/shop.css" rel="stylesheet" type="text/css" />
 <link href="styles/jquery-ui.min.css" rel="stylesheet" type="text/css" />
-<script src="js/const.js" language="javascript" type="text/javascript"></script>
-<script src="js/gamevars.js" language="javascript" type="text/javascript"></script>
-<script src="js/monsters.js" language="javascript" type="text/javascript"></script>
-<script src="js/items.js" language="javascript" type="text/javascript"></script>
+<link href="styles/preloader.css" rel="stylesheet" type="text/css" />
+
 <script src="js/jquery-2.1.4.min.js" language="javascript" type="text/javascript"></script>
 <script src="js/jquery-ui.min.js" language="javascript" type="text/javascript"></script>
 <script src="js/jstorage.js" language="javascript" type="text/javascript"></script>
+
+<script src="js/const.js" language="javascript" type="text/javascript"></script>
+<script src="js/preloader.js" language="javascript" type="text/javascript"></script>
+<script src="js/gamevars.js" language="javascript" type="text/javascript"></script>
+<script src="js/monsters.js" language="javascript" type="text/javascript"></script>
+<script src="js/items.js" language="javascript" type="text/javascript"></script>
 <script src="js/hero.js" language="javascript" type="text/javascript"></script>
 <script src="js/atlas.js" language="javascript" type="text/javascript"></script>
 <script src="js/navigator.js" language="javascript" type="text/javascript"></script>
@@ -253,35 +257,41 @@
 	</div>
 </div>
 <div id="preload">
-	<img id="IMG_BG_0" src="images/backgrounds/nightsky.png" width="1" height="1" />
-	<img id="IMG_BG_1" src="images/backgrounds/black.png" width="1" height="1" />
-	<img id="IMG_TILE_49" src = "images/tiles/dungeon_wall.png" width="1" height="1" />
-	<img id="IMG_TILE_80" src = "images/tiles/pillar_interior.png" width="1" height="1" />
-	<img id="IMG_TILE_79" src = "images/tiles/pillar_button_interior.png" width="1" height="1" />
-	<img id="IMG_TILE_53" src = "images/tiles/tree_evergreen.png" width="1" height="1" />
-	<img id="IMG_TILE_51" src = "images/tiles/dungeon_wall.png" width="1" height="1" />
-	<img id="IMG_TILE_50" src = "images/tiles/dungeon_door.png" width="1" height="1" />
-	<img id="IMG_TILE_52" src = "images/tiles/dungeon_door.png" width="1" height="1" />
-	<img id="IMG_TILE_55" src = "images/tiles/water.png" width="1" height="1" />
-	<img id="IMG_TILE_70" src = "images/tiles/dungeon_floor.png" width="1" height="1" />
-	<img id="IMG_TILE_67" src = "images/tiles/dungeon_ceiling.png" width="1" height="1" />
-	<img id="IMG_TILE_71" src = "images/tiles/grass.png" width="1" height="1" />
-	<img id="IMG_TILE_1" src = "images/tiles/place_of_power.png" width="1" height="1" />
-	<img id="IMG_TILE_84" src = "images/tiles/chest.png" width="1" height="1" />
-	<img id="IMG_TILE_82" src = "images/tiles/whirlpool.png" width="1" height="1" />
-	<img id="IMG_TILE_2" src = "images/tiles/city_tile.png" width="1" height="1" />
-	<img id="IMG_TILE_54" src = "images/tiles/mountain.png" width="1" height="1" />
 </div>
 <script>
-var nav = null;
+var NAV = null;
 
 $(function() {
 	$( document ).tooltip({
 		track: true
 	});
 	
-	nav = new navigator();
+	NAV = new navigator();
 	
+	$('#continueGame').click(function () {
+		$('#continue').hide();
+		$('.interface').show();
+		SAVELOADER.load();
+		GAME_MODE = MODE_NAV;
+	});
+	$('#newGame').click(newGame);
+	
+	$progress = $('.progress-bar');
+	$percent = $('.percentage');
+	$stripes = $('.progress-stripes');
+	$stripes.text('////////////////////////');
+	
+	queueItemsForPreload();
+	queueSpellsForPreload();
+	
+	// Call function to load array of images
+	preload(preloadImages);
+
+	// Call function to animate stripes
+	stripesAnimate(); 
+});
+
+function beginGame() {
 	if(SAVELOADER.doesSaveExist()) {
 		GAME_MODE = MODE_MAINMENU;
 		
@@ -293,14 +303,8 @@ $(function() {
 		newGame();
 	}
 	
-	$('#continueGame').click(function () {
-		$('#continue').hide();
-		$('.interface').show();
-		SAVELOADER.load();
-		GAME_MODE = MODE_NAV;
-	});
-	$('#newGame').click(newGame);
-});
+	$('.loaderHolder').hide();
+}
 
 function newGame() {
 	$('#continue').hide();
@@ -350,5 +354,11 @@ function newGame() {
 	GAME_MODE = MODE_NAV;
 }
 </script>
+<div class="loaderHolder">
+<div class="loader red">
+	<div class="progress-bar"><div class="progress-stripes"></div><div class="percentage">0%</div></div>
+</div>
+<span class="red">Mumbling incantations...</span>
+</div>
 </body>
 </html>
