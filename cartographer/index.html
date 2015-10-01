@@ -24,19 +24,31 @@
 .dirt { background-image: url(dirt.png); }
 
 .eventCell { outline: 1px black dashed; }
-
 .selectedCell { background-color: yellow !important; }
-
 #eventPopup { display: none; position: absolute; width: 650px; top: 100px; left: 100px; background: white; border: 1px black solid; padding: 0px 10px;}
+#tileManual {
+-webkit-column-count: 2;
+   -moz-column-count: 2;
+        column-count: 2;
+		margin: 0px;
+		padding: 0px;
+-webkit-column-gap: 0px; /* Chrome, Safari, Opera */
+	-moz-column-gap: 0px; /* Firefox */
+		column-gap: 0px;
+}
 </style>
 <script language="javascript" type="text/javascript" src="cartographer.js"></script>
 </head>
 <body>
 <div style="float: right;">
 	<table>
+	<tr>
+		<td>Tiles</td>
+		<td>Codes</td>
+	</tr>
 		<tr>
 			<td valign="top">
-				<ul>
+				<ul id="tileManual">
 					<li>1 - <span class="tile wall"></span> (wall)</li>
 					<li>2 - <span class="tile door"></span> (door)</li>
 					<li>3 - <span class="tile fake"></span> (fake wall)</li>
@@ -46,21 +58,22 @@
 					<li>7 - <span class="tile water"></span> (water)</li>
 					<li>P - <span class="tile pillar"></span> (pillar)</li>
 					<li>O - <span class="tile pillar_button"></span> (pillar w/ button)</li>
-				</ul>
-			</td>
-			<td valign="top">
-				<ul>
-					
 					<li>F - <span class="tile floor"></span> (floor)</li>
 					<li>C - <span class="tile ceiling"></span> (ceiling)</li>
 					<li>B - <span class="tile floor_ceiling"></span> (floor+ceiling)</li>
 					<li>G - <span class="tile grass"></span> (grass)</li>
-					<li>"P" - Place of Power</li>
-					<li>"X" - 100% Monster Encounter</li>
-					<li>"Z" - 10% Monster Encounter</li>
-					<li>ALT - Type letter into cell</li>
-					<li>Arrows - Move cursor</li>
 				</ul>
+			</td>
+			<td valign="top">
+				<ul>
+					<li>1 - Table (Mask)</li>
+					<li>T - Town/City (Mask)</li>
+					<li>E - Cave Entrance (Mask)</li>
+					<li>P - Place of Power (Mask)</li>
+					<li>X - 100% Monster Encounter</li>
+					<li>Z - 10% Monster Encounter</li>
+				</ul>
+				<i>Hold ALT and press a<br />key to enter a code into a cell</i>
 			</td>
 		</tr>
 	</table>
