@@ -253,14 +253,14 @@ canvas {
 	margin-left: 20px;
 }
 
-.systemPanel #map {
-	background-image: url('../images/ui/map.png');
+.systemPanel #stats {
+	background-image: url('../images/ui/stats.png');
 	margin-top: 5px;
 	margin-left: 5px;
 }
 
-.systemPanel #config {
-	background-image: url('../images/ui/config.png');
+.systemPanel #quests {
+	background-image: url('../images/ui/quests.png');
 	margin-top: 5px;
 	margin-left: 20px;
 }

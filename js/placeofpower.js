@@ -1,3 +1,13 @@
+$(function() {
+	$('#stats').click(function() {
+		if(GAME_MODE == MODE_NAV) {
+			PLACEOFPOWER.open(true);
+		} else if(GAME_MODE == MODE_SPELLBOOK) {
+			this.closeLevelUpMenu();
+		}
+	});
+});
+
 function placeOfPower () {
 	this.statsOnly = false;
 	this.setup();
@@ -132,7 +142,7 @@ placeOfPower.prototype.handleInput = function(e) {
 	} else if(e.which == KEY_4) {
 		this.selectHero(3);
 		e.preventDefault();
-	} else if(e.which == KEY_5 || (this.statsOnly && e.which == KEY_T)) {
+	} else if(e.which == KEY_5 || (this.statsOnly && (e.which == KEY_T || e.which == KEY_ESC))) {
 		this.closeLevelUpMenu();
 		e.preventDefault();
 	}

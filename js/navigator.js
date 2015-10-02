@@ -238,7 +238,7 @@ function navigator() {
 		} else if(key == KEY_SPACE) {
 			clearText();
 			doActivate();
-		} else if(key == KEY_I) {
+		} else if(key == KEY_I || key == KEY_E) {
 			INVENTORY.open(0);
 		} else if(key == KEY_C) {
 			SPELLBOOK.open(0, MODE_NAV);
