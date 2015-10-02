@@ -431,18 +431,20 @@ function combat() {
 	
 	this.addMonsters = function (monsters) {
 		for(var i = 0; i < monsters.length; i++) {
+			var m = MONSTERS[monsters[i]].clone();
+			
 			// assign a number to the monster
-			monsters[i].num = ++monsterNum;
+			m.num = ++monsterNum;
 			
 			// roll the monster's init
 			combatants.push({
 				init: 0,
 				isHero: false,
 				num: monsterNum,
-				combatant: monsters[i]
+				combatant: m
 			});
 			
-			var $monsterBlock = $getMonsterBlock(monsters[i], monsterNum);
+			var $monsterBlock = $getMonsterBlock(m, monsterNum);
 			$monsterBlock.click(self.monsterClicked);
 			$monsterList.append($monsterBlock);
 		}

@@ -179,7 +179,13 @@ SHOPS[SHOP_SORPIGAL_BLACKSMITH] = new shop({
 		ITEM_MAUL,
 		null,
 		ITEM_CLOTHES,
-		ITEM_LEATHERARMOR
+		ITEM_LEATHERARMOR,
+		null,
+		null,
+		null,
+		null,
+		null,
+		ITEM_TORCH
 	]
 });
 

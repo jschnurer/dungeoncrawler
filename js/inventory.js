@@ -92,6 +92,11 @@ inventory.prototype.close = function () {
 	$('#partyInventory').hide();
 	if(!this.storeMode)
 		GAME_MODE = MODE_NAV;
+	
+	// the only time this will ever matter is if the hero is in a dark map
+	// and they do not have a light buff active and they just equipped or
+	// unequipped a torch.
+	NAV.draw();
 }
 inventory.prototype.open = function (heroIx, storeMode) {
 	this.storeMode = storeMode;

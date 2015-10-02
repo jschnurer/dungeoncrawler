@@ -71,4 +71,14 @@ party.prototype.clearHeroCombatBuffs = function () {
 	});
 }
 
+party.prototype.anyHeroCarryingTorch = function () {
+	var torchFound = false;
+	this.heroes.forEach(function(hero) {
+		var shield = hero.getEquipment(ITEM_SHIELD);
+		if(shield != null && shield != undefined && shield.id == ITEM_TORCH)
+			torchFound = true;
+	});
+	return torchFound;
+}
+
 var PARTY = null;

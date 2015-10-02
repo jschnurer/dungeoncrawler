@@ -210,15 +210,17 @@ function navigator() {
 		drawTile(0, 0, 480, 120, 0);
 		drawTile(0, 0, 560, 120, rightSideOffset);
 		
-		if(this.map.isDark && !buffs[SPELL_TORCHLIGHT] && !buffs[SPELL_INNER_LIGHT]) {
-			ctx.fillStyle = 'rgba(0, 0, 0, 0.95)';
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
-		} else if(buffs[SPELL_TORCHLIGHT]) {
-			ctx.fillStyle = 'rgba(255, 151, 0, 0.10)';
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
-		} else if(buffs[SPELL_INNER_LIGHT]) {
-			ctx.fillStyle = 'rgba(109, 255, 242, 0.10)';
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
+		if(this.map.isDark) {
+			if(buffs[SPELL_TORCHLIGHT] || PARTY.anyHeroCarryingTorch()) {
+				ctx.fillStyle = 'rgba(255, 151, 0, 0.10)';
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+			} else if(buffs[SPELL_INNER_LIGHT]) {
+				ctx.fillStyle = 'rgba(109, 255, 242, 0.10)';
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+			} else {
+				ctx.fillStyle = 'rgba(0, 0, 0, 0.95)';
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+			}
 		}
 	}
 	

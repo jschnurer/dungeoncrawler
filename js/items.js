@@ -106,6 +106,7 @@ var ITEM_ARMOR = 2;
 var ITEM_ACCESSORY = 3;
 var ITEM_SHIELD = 4;
 var ITEM_RANGED = 5;
+var ITEM_USABLE = 6;
 
 var WEAPON_HEAVY = 1;
 var WEAPON_LIGHT = 2;
@@ -134,6 +135,7 @@ var ITEM_STAFF = 9;
 var ITEM_HATCHET = 10;
 var ITEM_HAMMER = 11;
 var ITEM_WHIP = 12;
+var ITEM_TORCH = 13;
 
 //// Weapons ////
 // Tier 1 //
@@ -268,9 +270,16 @@ ITEMS[ITEM_BUCKLER] = new item ({
 	icon: 'round-shield.png',
 	type: ITEM_SHIELD,
 	dodge: 1,
-	classes: [true, true, false, true, true, false],
 	reqs: [4],
 	value: 75
+});
+ITEMS[ITEM_TORCH] = new item ({
+	id: ITEM_TORCH,
+	name: 'Torch',
+	icon: 'torch.png',
+	type: ITEM_SHIELD,
+	dodge: 0,
+	value: 50
 });
 
 // Accessories //

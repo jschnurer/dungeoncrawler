@@ -129,7 +129,7 @@ MONSTERS[0] = new monster({
 	randomLife: 8,
 	image: 'gnasher.png',
 	resistances: [0, 0, 0, 0, 0, 0, 0],
-	experience: 50,
+	experience: 80,
 	dodge: 6,
 	treasureClass: 1,
 	speed: 7,
@@ -157,11 +157,11 @@ MONSTERS[1] = new monster({
 		var monsterCount = COMBAT.getMonsterCount();
 		// 40% chance to spawn a monster if <6 monsters
 		if(monsterCount < 6 && rand(1, 100) >= 60) {
-			COMBAT.addMonsters([cloneMonster(MONSTERS[0])]);
+			COMBAT.addMonsters(0);
 			
 			// another 60% chance to spawn another one if there's still room
 			if(monsterCount+1 < 6 && rand(1, 100) >= 40) {
-				COMBAT.addMonsters([cloneMonster(MONSTERS[0])]);
+				COMBAT.addMonsters(0);
 			}
 			
 			this.charged = false;
@@ -184,8 +184,8 @@ MONSTERS[2] = new monster({
 	randomLife: 10,
 	image: 'murk_dweller.png',
 	resistances: [33, 10, 10, 10, -25, -25, -25],
-	experience: 75,
-	dodge: 8,
+	experience: 125,
+	dodge: 6,
 	treasureClass: 1,
 	speed: 5,
 	initBonus: 1,
