@@ -100,8 +100,8 @@ function combat() {
 			
 			// check to see if everyone is dead
 			if(PARTY.tpk()) {
-				self.combatants.length = 0;
-				self.endCombat();
+				combatants.length = 0;
+				this.endCombat();
 				gameOver();
 				return;
 			}

@@ -81,4 +81,13 @@ party.prototype.anyHeroCarryingTorch = function () {
 	return torchFound;
 }
 
+party.prototype.tpk = function () {
+	var canAct = false;
+	this.heroes.forEach(function(hero) {
+		if(hero.canAct())
+			canAct = true;
+	});
+	return !canAct;
+}
+
 var PARTY = null;
