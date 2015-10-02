@@ -1,5 +1,14 @@
 function spellbook(){ };
 
+$(function() {
+	$('#spellbook').click(function() {
+		if(GAME_MODE == MODE_NAV) {
+			SPELLBOOK.open(0, MODE_NAV, false);
+		} else if(GAME_MODE == MODE_SPELLBOOK) {
+			SPELLBOOK.close();
+		}
+	});
+})
 var SPELLMODE_SELECT_SPELL = 0;
 var SPELLMODE_SELECT_TARGET = 1;
 

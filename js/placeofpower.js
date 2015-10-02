@@ -1,4 +1,5 @@
 function placeOfPower () {
+	this.statsOnly = false;
 	this.setup();
 }
 
@@ -11,7 +12,7 @@ placeOfPower.prototype.setup = function () {
 	this.$lChar2.click(function () { PLACEOFPOWER.selectHero(1); });
 	this.$lChar3.click(function () { PLACEOFPOWER.selectHero(2); });
 	this.$lChar4.click(function () { PLACEOFPOWER.selectHero(3); });
-	$('#levelNone').click(function() { PLACEOFPOWER.close(); });
+	$('#levelNone').click(function() { PLACEOFPOWER.closeLevelUpMenu(); });
 	
 	$('#levelUpConfirm').click(function() { PLACEOFPOWER.confirmAllotment(); });
 	$('#levelUpCancel').click(function() { PLACEOFPOWER.cancelAllotment(); });
@@ -81,27 +82,41 @@ placeOfPower.prototype.reduceStat = function(statId) {
 	PARTY.gainExperience(this.costsPaid.pop());
 }
 
-placeOfPower.prototype.open = function() {
-	PARTY.fullHeal();
+placeOfPower.prototype.open = function(statsOnly) {
+	this.statsOnly = statsOnly;
 	
-	// reset all combat encounters
-	NAV.setCombatTiles(false);
+	if(!this.statsOnly) {
+		PARTY.fullHeal();
 	
-	SAVELOADER.save(PARTY, INVENTORY, NAV, GAME_VARS);
-	
-	showChoices('Your deeds have been recorded.[br][br]You commune with this place of power. Your life and magical reserves are replenished but danger surrounds you once more.', [ {
-		text: 'Level up',
-		callback: function() {
-			GAME_MODE = MODE_LEVEL_UP;
-			PLACEOFPOWER.openLevelUpMenu();
-		}
-	}, {
-		text: 'Leave',
-		callback: function() {
-			SAVELOADER.save(PARTY, INVENTORY, NAV, GAME_VARS);
-			finishChoice();
-		}
-	}]);
+		// reset all combat encounters
+		NAV.setCombatTiles(false);
+		
+		SAVELOADER.save(PARTY, INVENTORY, NAV, GAME_VARS);
+		
+		this.showAdvancement();
+		$('#levelUpConfirm').show();
+		$('#levelUpCancel').show();
+		
+		showChoices('Your deeds have been recorded.[br][br]You commune with this place of power. Your life and magical reserves are replenished but danger surrounds you once more.', [ {
+			text: 'Level up',
+			callback: function() {
+				GAME_MODE = MODE_LEVEL_UP;
+				PLACEOFPOWER.openLevelUpMenu();
+			}
+		}, {
+			text: 'Leave',
+			callback: function() {
+				SAVELOADER.save(PARTY, INVENTORY, NAV, GAME_VARS);
+				finishChoice();
+			}
+		}]);
+	} else {
+		GAME_MODE = MODE_LEVEL_UP;
+		PLACEOFPOWER.openLevelUpMenu();
+		this.hideAdvancement();
+		$('#levelUpConfirm').hide();
+		$('#levelUpCancel').hide();
+	}
 }
 
 placeOfPower.prototype.handleInput = function(e) {
@@ -117,7 +132,7 @@ placeOfPower.prototype.handleInput = function(e) {
 	} else if(e.which == KEY_4) {
 		this.selectHero(3);
 		e.preventDefault();
-	} else if(e.which == KEY_5) {
+	} else if(e.which == KEY_5 || (this.statsOnly && e.which == KEY_T)) {
 		this.closeLevelUpMenu();
 		e.preventDefault();
 	}
@@ -132,11 +147,17 @@ placeOfPower.prototype.openLevelUpMenu = function() {
 	this.$lChar2.html(PARTY.heroes[1].name);
 	this.$lChar3.html(PARTY.heroes[2].name);
 	this.$lChar4.html(PARTY.heroes[3].name);
+	this.selectHero(0);
 }
 
 placeOfPower.prototype.closeLevelUpMenu = function() {
-	GAME_MODE = MODE_CHOICE;
 	$('#levelUpPanel').hide();
+	
+	if(!this.statsOnly) {
+		GAME_MODE = MODE_CHOICE;
+	} else {
+		GAME_MODE = MODE_NAV;
+	}
 }
 
 placeOfPower.prototype.selectHero = function(heroIx) {

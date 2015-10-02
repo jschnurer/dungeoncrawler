@@ -328,7 +328,7 @@ function newGame() {
 			charClass: CLASS_CLERIC,
 			portrait: 'images/portraits/female_3.png',
 			stats: [4,4,7,8,5,8,10,3],
-			spells: [SPELLS[0].clone()]
+			spells: [SPELL_MEND_MINOR_WOUNDS]
 		}),
 		new hero({
 			num:3,
@@ -345,20 +345,35 @@ function newGame() {
 			charClass: CLASS_SORCERER,
 			portrait: 'images/portraits/female_2.png',
 			stats: [2,3,6,8,8,8,3,10],
-			spells: [SPELLS[1].clone()]
+			spells: [SPELL_STATIC_JOLT]
 		})]
 	});
+	
+	for(var i = 0; i < PARTY.heroes.length; i++) {
+		PARTY.heroes[i].equipItem(ITEMS[ITEM_CLUB]);
+		PARTY.heroes[i].equipItem(ITEMS[ITEM_CLOTHES]);
+	}
 
 	NAV.setMap(atlas[MAP_SORPIGAL]);
 	NAV.teleportParty(9, 4, 'W');
 	GAME_MODE = MODE_NAV;
+	
+	showText('This is a place of power. Resting at it will restore you and record your deeds.[br][br]'
+		+ 'Arrows/WASD - Move and turn the party[br]'
+		+ 'Spacebar - Interact with objects[br]'
+		+ '1-4 - Select a hero if the inventory, spellbook, place of power or shop is open.[br]'
+		+ 'C - Open spellbook to cast a spell[br]'
+		+ 'I - Open the party\'s inventory[br][br]'
+		+ 'When presented with a series of choices, you can press the number corresponding to a choice or you can click on it.[br][br]'
+		+ 'In combat, a letter in each choice will be in parentheses. This is the key on your keyboard you can press instead of clicking on that option. The A key will attack the first monster in the list. The C key will open the current hero\'s spellbook to cast a spell. The D key will have the current hero dodge incoming attacks for a round.[br]'
+		+ '[br]Good luck.');
 }
 </script>
 <div class="loaderHolder">
 <div class="loader red">
 	<div class="progress-bar"><div class="progress-stripes"></div><div class="percentage">0%</div></div>
 </div>
-<span class="red">Preparing rites...</span>
+<span id="loadedMessage" class="red">Preparing rites...</span>
 </div>
 </body>
 </html>

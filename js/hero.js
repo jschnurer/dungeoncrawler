@@ -144,11 +144,22 @@ function hero (values) {
 	
 	// Equipment
 	self.equipment = [];
-	self.equipment[ITEM_MELEE] = ITEMS[0].clone();
+	self.equipment[ITEM_MELEE] = null;
 	self.equipment[ITEM_SHIELD] = null;
-	self.equipment[ITEM_ARMOR] = ITEMS[1].clone();
+	self.equipment[ITEM_ARMOR] = null;
 	self.equipment[ITEM_RANGED] = null;
 	self.equipment[ITEM_ACCESSORY] = null;
+	
+	if(values.equipment && values.equipment[ITEM_MELEE] != undefined && values.equipment[ITEM_MELEE] != null)
+		self.equipment[ITEM_MELEE] = ITEMS[values.equipment[ITEM_MELEE]].clone();
+	if(values.equipment && values.equipment[ITEM_SHIELD] != undefined && values.equipment[ITEM_SHIELD] != null)
+		self.equipment[ITEM_SHIELD] = ITEMS[values.equipment[ITEM_SHIELD]].clone();
+	if(values.equipment && values.equipment[ITEM_ARMOR] != undefined && values.equipment[ITEM_ARMOR] != null)
+		self.equipment[ITEM_ARMOR] = ITEMS[values.equipment[ITEM_ARMOR]].clone();
+	if(values.equipment && values.equipment[ITEM_RANGED] != undefined && values.equipment[ITEM_RANGED] != null)
+		self.equipment[ITEM_RANGED] = ITEMS[values.equipment[ITEM_RANGED]].clone();
+	if(values.equipment && values.equipment[ITEM_ACCESSORY] != undefined && values.equipment[ITEM_ACCESSORY] != null)
+		self.equipment[ITEM_ACCESSORY] = ITEMS[values.equipment[ITEM_ACCESSORY]].clone();
 	
 	this.updateForEquipBonuses = function (item, equipping) {
 		var bonusMod = equipping ? 1 : -1;
@@ -228,7 +239,13 @@ function hero (values) {
 	}
 	
 	// Spells
-	this.spells = values.spells || [];
+	this.spells = [];
+	if(values.spells) {
+		for(var i = 0; i < values.spells.length; i++) {
+			if(values.spells[i] != null && values.spells[i] != undefined)
+				this.spells[i] = SPELLS[values.spells[i]];
+		}
+	}
 	
 	this.canLearnSpell = function(spell) {
 		if(spell.reqs != undefined && spell.reqs != null) {

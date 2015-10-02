@@ -115,6 +115,8 @@ function navigator() {
 			ctx.drawImage(self.tileSets[TILE_MASK_CAVE_ENTRANCE], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
 		} else if(mapTile.code == '1') {
 			ctx.drawImage(self.tileSets[TILE_MASK_TABLE], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
+		} else if(mapTile.code == 'B') {
+			ctx.drawImage(self.tileSets[TILE_MASK_DUNGEON_BUTTON], srcX, srcY, 80, 120, xOffset, 0, tileDestWidth, tileDestHeight);
 		}
 	}
 	
@@ -240,6 +242,8 @@ function navigator() {
 			INVENTORY.open(0);
 		} else if(key == KEY_C) {
 			SPELLBOOK.open(0, MODE_NAV);
+		} else if(key == KEY_T) {
+			PLACEOFPOWER.open(true);
 		}
 	}
 	
@@ -446,7 +450,7 @@ function navigator() {
 				return;
 			nextTilesEventScript = getEventScriptAtTile(x, y+1, 'activate');
 		} else if(partyPosition.facing == 'E') {
-			if(handleChestActivateAtTile(x, x+1))
+			if(handleChestActivateAtTile(x+1, y))
 				return;
 			nextTilesEventScript = getEventScriptAtTile(x+1, y, 'activate');
 		} else if(partyPosition.facing == 'W') {

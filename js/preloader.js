@@ -4,7 +4,7 @@
 
 var preloadImages = [{t:'t',k:TILE_WALL,u:'images/tiles/dungeon_wall.png'},
 	{t:'t',k:TILE_PILLAR,u:'images/tiles/pillar_interior.png'},
-	{t:'t',k:TILE_PILLAR_BUTTON,u:'images/tiles/pillar_button_interior.png'},
+	{t:'t',k:TILE_MASK_DUNGEON_BUTTON,u:'images/tiles/dungeon_button_mask.png'},
 	{t:'t',k:TILE_FOREST,u:'images/tiles/tree_evergreen.png'},
 	{t:'t',k:TILE_FAKE_WALL,u:'images/tiles/dungeon_wall.png'},
 	{t:'t',k:TILE_DOOR,u:'images/tiles/dungeon_door.png'},
@@ -45,7 +45,7 @@ $(window).load(function() {
 	$progress.animate({
 		width: "100%"
 	}, 100, function() {
-		$('span').text('Loaded!').addClass('loaded');
+		$('#loadedMessage').text('Loaded!').addClass('loaded');
 		$percent.text('100%');
 		clearInterval(calcPercent);
 		clearInterval(stripesAnim);
@@ -81,9 +81,9 @@ function preload(imgArray) {
 		var p = Math.floor(($progress.width() / $('.loader').width()) * 100);
 		$percent.text(p + '%');
 		if(p >= 60)
-			$('.loaderHolder span').html('Mumbling incantations...');
+			$('#loadedMessage').html('Mumbling incantations...');
 		else if(p >= 30)
-			$('.loaderHolder span').html('Etching black geometries...');
+			$('#loadedMessage').html('Etching black geometries...');
 	});
 }
 
@@ -101,5 +101,5 @@ function animating() {
 
 function setSkin(skin){
 	$('.loader').attr('class', 'loader '+skin);
-	$('span').hasClass('loaded') ? $('span').attr('class', 'loaded '+skin) : $('span').attr('class', skin);
+	$('#loadedMessage').hasClass('loaded') ? $('#loadedMessage').attr('class', 'loaded '+skin) : $('#loadedMessage').attr('class', skin);
 }

@@ -231,8 +231,6 @@ function combat() {
 					dmgTooltip += dmgData[i] + ' ' + ELEM_NAMES[i];
 				}
 			}
-
-			console.log(dmgTooltip);
 			
 			if(monster.life <= 0) {
 				

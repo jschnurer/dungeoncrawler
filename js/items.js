@@ -172,7 +172,7 @@ ITEMS[ITEM_MAUL] = new item ({
 	weight: WEAPON_HEAVY,
 	damage: 8,
 	damageType: ELEM_PHYS,
-	accBonus: 0,
+	accBonus: 1,
 	hands: 2,
 	value: 325,
 	reqs: [12, 0, 0, 0, 0, 0, 0, 0]
@@ -185,7 +185,7 @@ ITEMS[ITEM_HAMMER] = new item ({
 	weight: WEAPON_HEAVY,
 	damage: 5,
 	damageType: ELEM_PHYS,
-	accBonus: 0,
+	accBonus: 2,
 	hands: 1,
 	value: 275,
 	reqs: [7, 0, 0, 0, 0, 0, 0, 0]
@@ -198,7 +198,7 @@ ITEMS[ITEM_STAFF] = new item ({
 	weight: WEAPON_HEAVY,
 	damage: 3,
 	damageType: ELEM_PHYS,
-	accBonus: 0,
+	accBonus: 1,
 	hands: 2,
 	value: 175,
 	reqs: [2, 0, 0, 0, 0, 0, 0, 0]
@@ -211,7 +211,7 @@ ITEMS[ITEM_HATCHET] = new item ({
 	weight: WEAPON_LIGHT,
 	damage: 3,
 	damageType: ELEM_PHYS,
-	accBonus: 2,
+	accBonus: 3,
 	hands: 1,
 	value: 300,
 	reqs: [4, 11, 0, 0, 0, 0, 0, 0]
@@ -224,7 +224,7 @@ ITEMS[ITEM_WHIP] = new item ({
 	weight: WEAPON_LIGHT,
 	damage: 4,
 	damageType: ELEM_PHYS,
-	accBonus: 5,
+	accBonus: 10,
 	hands: 1,
 	value: 800,
 	reqs: [0, 15, 0, 0, 0, 0, 0, 0]
