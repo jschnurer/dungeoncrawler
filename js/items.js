@@ -14,6 +14,7 @@ function item (data) {
 	this.maxLifeBonus = data.maxLifeBonus;
 	this.hands = data.hands;
 	this.value = data.value;
+	this.spell = data.spell;
 }
 
 item.prototype.clone = function() {
@@ -21,6 +22,8 @@ item.prototype.clone = function() {
 }
 
 item.prototype.getTooltip = function(isShop) {
+	var currHero = INVENTORY.selectedHero;
+	
 	var tooltip = this.name + '<br />';
 	
 	if(this.type == ITEM_MELEE) {
@@ -66,8 +69,6 @@ item.prototype.getTooltip = function(isShop) {
 		var reqString = 'Requires: ';
 		var anyReqs = false;
 		
-		var currHero = INVENTORY.selectedHero;
-		
 		for(var i = 0; i < this.reqs.length; i++) {
 			if(this.reqs[i] > 0) {
 				if(currHero != null && currHero.getStat(i) < this.reqs[i])
@@ -85,57 +86,24 @@ item.prototype.getTooltip = function(isShop) {
 		}
 	}
 	
-	if(isShop) {
-		tooltip += '<br /><br />Value: ';
-		if(!PARTY.hasExperience(this.value))
-			tooltip += '<span class="badStat">';
-		tooltip += this.value;
-		if(!PARTY.hasExperience(this.value))
-			tooltip += '</span>';
+	if(this.type == ITEM_TOME) {
+		tooltip += '<br/><br/>' + SPELLS[this.spell].getTooltip(isShop, currHero);
 	} else {
-		tooltip += '<br /><br />Value: ' + this.value;
+		if(isShop) {
+			tooltip += '<br /><br />Value: ';
+			if(!PARTY.hasExperience(this.value))
+				tooltip += '<span class="badStat">';
+			tooltip += this.value;
+			if(!PARTY.hasExperience(this.value))
+				tooltip += '</span>';
+		} else {
+			tooltip += '<br /><br />Value: ' + this.value;
+		}
 	}
-	
 	return tooltip;
 }
 
 var ITEMS = [];
-
-var ITEM_MELEE = 1;
-var ITEM_ARMOR = 2;
-var ITEM_ACCESSORY = 3;
-var ITEM_SHIELD = 4;
-var ITEM_RANGED = 5;
-var ITEM_USABLE = 6;
-
-var WEAPON_HEAVY = 1;
-var WEAPON_LIGHT = 2;
-
-var ITEM_TYPE_NAMES = [];
-ITEM_TYPE_NAMES[ITEM_MELEE] = 'Melee Weapon';
-ITEM_TYPE_NAMES[ITEM_ARMOR] = 'Armor';
-ITEM_TYPE_NAMES[ITEM_ACCESSORY] = 'Accessory';
-ITEM_TYPE_NAMES[ITEM_SHIELD] = 'Shield';
-ITEM_TYPE_NAMES[ITEM_RANGED] = 'Ranged Weapon';
-
-var WEAPON_WEIGHT_NAMES = [];
-WEAPON_WEIGHT_NAMES[WEAPON_HEAVY] = 'Heavy';
-WEAPON_WEIGHT_NAMES[WEAPON_LIGHT] = 'Light';
-
-var ITEM_CLUB = 0;
-var ITEM_CLOTHES = 1;
-var ITEM_LEATHERARMOR = 2;
-var ITEM_DAGGER = 3;
-var ITEM_FANGNECKLACE = 4;
-var ITEM_GEMSTONEBROACH = 5;
-var ITEM_MAUL = 6;
-var ITEM_BUCKLER = 7;
-var ITEM_ROBE = 8;
-var ITEM_STAFF = 9;
-var ITEM_HATCHET = 10;
-var ITEM_HAMMER = 11;
-var ITEM_WHIP = 12;
-var ITEM_TORCH = 13;
 
 //// Weapons ////
 // Tier 1 //
@@ -299,4 +267,25 @@ ITEMS[ITEM_GEMSTONEBROACH] = new item ({
 	type: ITEM_ACCESSORY,
 	maxLifeBonus: 12,
 	value: 600
+});
+
+// Scrolls //
+ITEMS[ITEM_SCROLL_MEND_MINOR_WOUNDS] = new item ({
+	id: ITEM_SCROLL_MEND_MINOR_WOUNDS,
+	name: 'Scroll of Mend Minor Wounds',
+	icon: 'scroll-unfurled.png',
+	type: ITEM_SCROLL,
+	castStat: STAT_PIE,
+	castPower: 8,
+	spell: SPELL_MEND_MINOR_WOUNDS,
+	value: 100
+});
+
+// Tomes //
+ITEMS[ITEM_TOME_TORCHLIGHT] = new item ({
+	id: ITEM_TOME_TORCHLIGHT,
+	name: 'Tome of Torchlight',
+	icon: 'black-book.png',
+	type: ITEM_TOME,
+	spell: SPELL_TORCHLIGHT
 });

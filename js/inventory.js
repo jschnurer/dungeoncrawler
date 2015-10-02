@@ -93,6 +93,9 @@ inventory.prototype.close = function () {
 	if(!this.storeMode)
 		GAME_MODE = MODE_NAV;
 	
+	if(PARTY.anyConsciousHeroWithSkill(SKILL_DIRECTION_SENSE))
+		$('#compass').show();
+	
 	// the only time this will ever matter is if the hero is in a dark map
 	// and they do not have a light buff active and they just equipped or
 	// unequipped a torch.
@@ -100,6 +103,8 @@ inventory.prototype.close = function () {
 }
 inventory.prototype.open = function (heroIx, storeMode) {
 	this.storeMode = storeMode;
+	
+	$('#compass').hide();
 	
 	if(!this.storeMode)
 		GAME_MODE = MODE_INVENTORY;
@@ -129,6 +134,40 @@ inventory.prototype.createElementInSlot = function (item, slotIx) {
 	});
 	
 	$itemImg.draggable({ helper: 'clone' });
+	$itemImg.click(function() { INVENTORY.useItem($(this)); });
+}
+
+inventory.prototype.useItem = function($itemElement) {
+	var itemId = $itemElement.attr('data-item');
+	var item = ITEMS[itemId];
+	if(item.type != ITEM_SCROLL && item.type != ITEM_TOME)
+		return;
+	
+	var spell = SPELLS[item.spell];
+	
+	if(item.type == ITEM_SCROLL) {
+		// TODO: use the item
+		//log(this.selectedHero.name + ' uses ' + item.name);
+		log('CASTING FROM SCROLLS IS NOT YET IMPLEMENTED.');
+	} else if(item.type == ITEM_TOME) {		
+		if(!this.selectedHero.canLearnSpell(spell)) {
+			log(this.selectedHero.name + ' does not meet the requirements to learn ' + spell.name + '.');
+			return;
+		}
+		
+		if(this.selectedHero.knowsSpell(spell)) {
+			log(this.selectedHero.name + ' already knows ' + spell.name + '.');
+			return;
+		}
+		
+		this.selectedHero.learnSpell(spell);
+		log(this.selectedHero.name + ' learns ' + spell.name + '.');
+		
+		// destroy the item
+		var itemPos = parseInt($itemElement.attr('data-pos'));
+		destroyedItem = INVENTORY.emptyPosition(itemPos);
+		$itemElement.remove();
+	}
 }
 
 inventory.prototype.loadEquipment = function() {

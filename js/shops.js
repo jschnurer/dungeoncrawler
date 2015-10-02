@@ -4,6 +4,7 @@ function shop (data){
 	this.type = data.type;
 	this.itemIds = data.itemIds;
 	this.sellMultiplier = data.sellMultiplier;
+	this.canSellTo = data.canSellTo;
 }
 
 shop.prototype.open = function(prevGameMode) {
@@ -15,6 +16,11 @@ shop.prototype.open = function(prevGameMode) {
 	
 	$('#shopPanel').show();
 	$('#shopPanel .items span').html(this.name);
+	
+	if(this.canSellTo)
+		$('#sellMessage').show();
+	else
+		$('#sellMessage').hide();
 	
 	this.previousGameMode = prevGameMode == undefined ? MODE_NAV : prevGameMode;
 	GAME_MODE = MODE_SHOP;
@@ -169,6 +175,7 @@ SHOPS[SHOP_SORPIGAL_BLACKSMITH] = new shop({
 	id: SHOP_SORPIGAL_BLACKSMITH,
 	name: 'J&J Blacksmithing',
 	type: SHOP_ITEMS,
+	canSellTo: true,
 	sellMultiplier: .5,
 	itemIds: [
 		ITEM_CLUB,
@@ -193,6 +200,7 @@ SHOPS[SHOP_SORPIGAL_GUILD] = new shop({
 	id: SHOP_SORPIGAL_GUILD,
 	name: '&thorn;',
 	type: SHOP_MAGIC,
+	canSellTo: false,
 	itemIds: [
 		SPELL_MEND_MINOR_WOUNDS,
 		SPELL_MIND_BLAST,

@@ -24,7 +24,7 @@ spell.prototype.clone = function() {
 	return new spell(this);
 }
 
-spell.prototype.getTooltip = function (isShop) {
+spell.prototype.getTooltip = function (isShop, hero) {
 	var tt = this.name + '<br />'
 		+ SCHOOL_NAMES[this.school] + ' - ' + ELEM_NAMES[this.element] + ' magic<br />'
 		+ this.description + '<br /><br />'
@@ -41,7 +41,11 @@ spell.prototype.getTooltip = function (isShop) {
 		var reqString = 'Requires: ';
 		var anyReqs = false;
 		
-		var currHero = SPELLBOOK.selectedHero;
+		var currHero = null;
+		if(hero)
+			currHero = hero;
+		else
+			currHero = SPELLBOOK.selectedHero;
 		
 		for(var i = 0; i < this.reqs.length; i++) {
 			if(this.reqs[i] > 0) {
@@ -106,40 +110,6 @@ spell.prototype.getCasting = function(castingHero, targetMonster) {
 }
 
 var SPELLS = [];
-
-var SPELL_TYPE_HEAL = 0;
-var SPELL_TYPE_DAMAGE = 1;
-var SPELL_TYPE_CURE = 2;
-var SPELL_TYPE_BUFF = 3;
-var SPELL_TYPE_DEBUFF = 4;
-
-var DEBUFF_DODGE = 0;
-
-var DEBUFF_NAMES = [];
-DEBUFF_NAMES[DEBUFF_DODGE] = 'off balance';
-
-var DEBUFF_APPLIED_STRINGS = [];
-DEBUFF_APPLIED_STRINGS[DEBUFF_DODGE] = 'knocked off balance';
-
-var SCHOOL_PORTENT = 0;
-var SCHOOL_SPELL = 1;
-
-var SCHOOL_NAMES = [];
-SCHOOL_NAMES[SCHOOL_PORTENT] = 'Portent';
-SCHOOL_NAMES[SCHOOL_SPELL] = 'Spell';
-
-// [KNIGHT, THIEF, SORCERER, CLERIC, PALADIN, DRUID]
-var SPELL_MEND_MINOR_WOUNDS = 0;
-var SPELL_STATIC_JOLT = 1;
-var SPELL_FROSTFALL = 2;
-var SPELL_AURA_OF_VALOR = 3;
-var SPELL_DEADLY_SWARM = 4;
-var SPELL_FLAMING_WEAPON = 5;
-var SPELL_MIND_BLAST = 6;
-var SPELL_CHAIN_LIGHTNING = 7;
-var SPELL_WATER_WALKING = 8;
-var SPELL_TORCHLIGHT = 9;
-var SPELL_INNER_LIGHT = 10;
 
 //////////////////////////////////// Portents //////////////////////////////////////////////////////
 ////////////// BODY ////////////////
