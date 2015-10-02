@@ -302,14 +302,6 @@ canvas {
 	z-index: 30;
 }
 
-#goldPanel {
-	display: none;
-	background-position: center left;
-	text-align: right;
-	left: 190px;
-	background-image: url(../images/ui/gold.png);
-}
-
 #preload {
 	display: none;
 }
