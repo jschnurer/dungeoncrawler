@@ -8,16 +8,32 @@ function inventory(items) {
 }
 
 inventory.prototype.handleInput = function (e) {
-	if(e.which == KEY_I || e.which == KEY_ESC) {
-		this.close();
-	} else if(e.which == KEY_1 && this.selectedHero.num != 1) {
-		this.selectHero(0);
-	} else if(e.which == KEY_2 && this.selectedHero.num != 2) {
-		this.selectHero(1);
-	} else if(e.which == KEY_3 && this.selectedHero.num != 3) {
-		this.selectHero(2);
-	} else if(e.which == KEY_4 && this.selectedHero.num != 4) {
-		this.selectHero(3);
+	if(this.castingScroll) {
+		if(e.which == KEY_ESC) {
+			this.castingScroll = false;
+			this.$castingScrollElement = null;
+			$('#scrollTargeting').hide();
+		} else if(e.which == KEY_1) {
+			this.castScroll(PARTY.heroes[0]);
+		} else if(e.which == KEY_2) {
+			this.castScroll(PARTY.heroes[1]);
+		} else if(e.which == KEY_3) {
+			this.castScroll(PARTY.heroes[2]);
+		} else if(e.which == KEY_4) {
+			this.castScroll(PARTY.heroes[3]);
+		}
+	} else {
+		if(e.which == KEY_I || e.which == KEY_ESC) {
+			this.close();
+		} else if(e.which == KEY_1 && this.selectedHero.num != 1) {
+			this.selectHero(0);
+		} else if(e.which == KEY_2 && this.selectedHero.num != 2) {
+			this.selectHero(1);
+		} else if(e.which == KEY_3 && this.selectedHero.num != 3) {
+			this.selectHero(2);
+		} else if(e.which == KEY_4 && this.selectedHero.num != 4) {
+			this.selectHero(3);
+		}
 	}
 }
 inventory.prototype.maxLength = 45;
@@ -101,8 +117,9 @@ inventory.prototype.close = function () {
 	// unequipped a torch.
 	NAV.draw();
 }
-inventory.prototype.open = function (heroIx, storeMode) {
+inventory.prototype.open = function (heroIx, storeMode, isCombat) {
 	this.storeMode = storeMode;
+	this.isCombat = isCombat;
 	
 	$('#compass').hide();
 	
@@ -137,6 +154,31 @@ inventory.prototype.createElementInSlot = function (item, slotIx) {
 	$itemImg.click(function() { INVENTORY.useItem($(this)); });
 }
 
+inventory.prototype.castScroll = function(targetHero, targetMonster) {
+	if(!this.castingScroll)
+		return;
+	
+	// destroy the item
+	var itemPos = parseInt(this.$castingScrollElement.attr('data-pos'));
+	destroyedItem = INVENTORY.emptyPosition(itemPos);
+	this.$castingScrollElement.remove();
+	
+	var spell = SPELLS[destroyedItem.spell];
+	var casting = spell.getCasting(null, null, destroyedItem.castPower, this.selectedHero.num);
+	
+	log(this.selectedHero.name + ' casts ' + spell.name);
+	
+	if(targetHero) {
+		targetHero.receiveCasting(casting);
+	} else if(targetMonster) {
+		// TODO: cast at monsters?
+	}
+	
+	this.castingScroll = false;
+	$('#scrollTargeting').hide();
+	this.close();
+}
+
 inventory.prototype.useItem = function($itemElement) {
 	var itemId = $itemElement.attr('data-item');
 	var item = ITEMS[itemId];
@@ -146,9 +188,24 @@ inventory.prototype.useItem = function($itemElement) {
 	var spell = SPELLS[item.spell];
 	
 	if(item.type == ITEM_SCROLL) {
-		// TODO: use the item
-		//log(this.selectedHero.name + ' uses ' + item.name);
-		log('CASTING FROM SCROLLS IS NOT YET IMPLEMENTED.');
+		if(spell.mode == SPELL_MODE_COMBAT && !this.isCombat) {
+			log(spell.name + ' can only be cast in combat!');
+			return;
+		} else if(spell.mode == SPELL_MODE_NAV && this.isCombat) {
+			log(spell.name + ' cannot be cast in combat!');
+			return;
+		}
+		
+		// todo: implement other target types?
+		if(spell.target == TARGET_PARTY) {
+			log(this.selectedHero.name + ' casts ' + spell.name);
+			NAV.heroCastsAtParty(spell.getCasting(null, null, item.castPower, this.selectedHero.num), this.selectedHero);
+		} else if(spell.target == TARGET_SINGLE_HERO) {
+			$('#scrollTargeting').html('Cast ' + spell.name + ' on which hero? (1-4 or ESC to cancel)');
+			$('#scrollTargeting').show();
+			this.castingScroll = true;
+			this.$castingScrollElement = $itemElement;
+		}
 	} else if(item.type == ITEM_TOME) {		
 		if(!this.selectedHero.canLearnSpell(spell)) {
 			log(this.selectedHero.name + ' does not meet the requirements to learn ' + spell.name + '.');
@@ -219,6 +276,11 @@ inventory.prototype.loadEquipment = function() {
 }
 
 inventory.prototype.selectHero = function(heroIx) {
+	if(this.castingScroll) {
+		this.castScroll(PARTY.heroes[heroIx]);
+		return;
+	}
+		
 	this.selectedHero = PARTY.heroes[heroIx];
 	this.loadEquipment();
 }

@@ -15,13 +15,15 @@ function item (data) {
 	this.hands = data.hands;
 	this.value = data.value;
 	this.spell = data.spell;
+	this.castStat = data.castStat;
+	this.castPower = data.castPower;
 }
 
 item.prototype.clone = function() {
 	return new item(this);
 }
 
-item.prototype.getTooltip = function(isShop) {
+item.prototype.getTooltip = function(isShop) {	
 	var currHero = INVENTORY.selectedHero;
 	
 	var tooltip = this.name + '<br />';
@@ -87,7 +89,9 @@ item.prototype.getTooltip = function(isShop) {
 	}
 	
 	if(this.type == ITEM_TOME) {
-		tooltip += '<br/><br/>' + SPELLS[this.spell].getTooltip(isShop, currHero);
+		tooltip += '<br/>' + SPELLS[this.spell].getTooltip(isShop, currHero);
+	} else if(this.type == ITEM_SCROLL) {
+		tooltip += '<br />' + SPELLS[this.spell].getScrollTooltip(this.castPower, this.castStat);
 	} else {
 		if(isShop) {
 			tooltip += '<br /><br />Value: ';

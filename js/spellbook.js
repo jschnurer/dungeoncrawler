@@ -176,7 +176,7 @@ spellbook.prototype.beginCasting = function(spell) {
 			this.castAt(null, COMBAT.getAllMonsterNums());
 		} else {
 			if(spell.target == TARGET_SINGLE_HERO) {
-				$('#spellTargeting').html('Cast ' + spell.name + ' on which hero? (Or ESC to cancel)');
+				$('#spellTargeting').html('Cast ' + spell.name + ' on which hero? (1-4 or ESC to cancel)');
 				$('#spellTargeting').show();
 				this.castingSpell = spell;
 				this.spellMode = SPELLMODE_SELECT_TARGET;

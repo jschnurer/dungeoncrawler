@@ -24,6 +24,23 @@ spell.prototype.clone = function() {
 	return new spell(this);
 }
 
+spell.prototype.getScrollTooltip = function (castPower, castStat) {
+	var tt = this.name + '<br />'
+		+ SCHOOL_NAMES[this.school] + ' - ' + ELEM_NAMES[this.element] + ' magic<br />'
+		+ this.description + '<br /><br />'
+		+ (this.bonusMultiplier * 100) + '% ' + SCHOOL_NAMES[this.school] + ' multiplier';
+		
+	if(this.type == SPELL_TYPE_HEAL) {
+		tt += '<br />Restores ' + this.heal + ' life.';
+	} else if(this.type == SPELL_TYPE_DAMAGE) {
+		tt += '<br />Deals ' + this.damage + ' ' + ELEM_NAMES[this.element] + ' damage.';
+	}
+	
+	tt += '<br /><br />Casts at ' + castPower + ' ' + STAT_NAMES[castStat];
+	
+	return tt;
+}
+
 spell.prototype.getTooltip = function (isShop, hero) {
 	var tt = this.name + '<br />'
 		+ SCHOOL_NAMES[this.school] + ' - ' + ELEM_NAMES[this.element] + ' magic<br />'
@@ -77,14 +94,14 @@ spell.prototype.getTooltip = function (isShop, hero) {
 	return tt;
 }
 
-spell.prototype.getCasting = function(castingHero, targetMonster) {
+spell.prototype.getCasting = function(castingHero, targetMonster, castPower, casterNum) {
 	var casting = {
 		spellId: this.id,
 		spellName: this.name,
 		type: this.type,
 		element: this.element,
 		school: this.school,
-		casterNum: castingHero.num,
+		casterNum: castingHero ? castingHero.num : casterNum,
 		debuff: this.debuff,
 		debuffChance: this.debuffChance
 	};
@@ -98,10 +115,14 @@ spell.prototype.getCasting = function(castingHero, targetMonster) {
 		casting.value = this.buffAmt;
 	}
 	
-	if(this.school == SCHOOL_PORTENT) {
-		casting.value += (castingHero.getPortentDamageBonus() * this.bonusMultiplier);
-	} else if(this.school == SCHOOL_SPELL) {
-		casting.value += (castingHero.getSpellDamageBonus() * this.bonusMultiplier);
+	if(castingHero) {
+		if(this.school == SCHOOL_PORTENT) {
+			casting.value += (castingHero.getPortentDamageBonus() * this.bonusMultiplier);
+		} else if(this.school == SCHOOL_SPELL) {
+			casting.value += (castingHero.getSpellDamageBonus() * this.bonusMultiplier);
+		}
+	} else {
+		casting.value += castPower * this.bonusMultiplier;
 	}
 	
 	casting.value = Math.floor(casting.value);
