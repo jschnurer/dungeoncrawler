@@ -35,7 +35,17 @@ function continueMessageQueue() {
 	}
 }
 
+function showTextWithCallback(message, continueFunction) {
+	getCommandPanel().html('<p>' + message.replace(/\[br\]/g, '<br />') + '</p>');
+	var continueLink = $('<a class="spaceToContinue">Press [SPACE] to continue</a>');
+	continueLink.click(continueFunction);
+	getCommandPanel().append(continueLink);
+	GAME_MODE = MODE_CONTINUE;
+	continueCallback = continueFunction;
+}
+
 function showText(message, resumeGameMode, blocking) {
+	continueCallback = null;
 	getCommandPanel().html('<p>' + message.replace(/\[br\]/g, '<br />') + '</p>');
 	if(blocking == undefined || blocking == true) {
 		var continueLink = $('<a class="spaceToContinue" data-resume-game-mode="'+(resumeGameMode == undefined ? MODE_NAV : resumeGameMode)+'">Press [SPACE] to continue</a>');
