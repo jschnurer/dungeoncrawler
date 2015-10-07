@@ -128,6 +128,11 @@ function hero (values) {
 		self.resistances = [0,0,0,0,0,0,0,0];
 	}
 	
+	this.addResistances = function (types, amount) {
+		for(var i = 0; i < types.length; i++)
+			self.resistances[types[i]] += amount;
+	}
+	
 	this.getResistance = function (type) {
 		var resistanceVal = self.resistances[type];
 		for(var i = 0; i < self.equipment.length; i++)
