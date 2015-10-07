@@ -21,9 +21,9 @@ saveLoader.prototype.load = function() {
 	var items = [];
 	for(var i = 0; i < INVENTORY.maxLength; i++) {
 		if(savedGame.inventory[i] != undefined && savedGame.inventory[i] != null)
-			inventory[i] = ITEMS[savedGame.inventory[i]].clone();
+			items[i] = ITEMS[savedGame.inventory[i]].clone();
 		else
-			inventory[i] = null;
+			items[i] = null;
 	}
 	INVENTORY = new inventory(items);
 	

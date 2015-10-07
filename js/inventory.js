@@ -106,7 +106,7 @@ inventory.prototype.isEmpty = function (ix) {
 inventory.prototype.close = function () {
 	$('#partyInventory label img').remove();
 	$('#partyInventory').hide();
-	if(!this.storeMode)
+	if(!this.storeMode && !this.isCombat)
 		GAME_MODE = MODE_NAV;
 	
 	if(PARTY.anyConsciousHeroWithSkill(SKILL_DIRECTION_SENSE))
@@ -170,6 +170,9 @@ inventory.prototype.castScroll = function(targetHero, targetMonster) {
 	
 	if(targetHero) {
 		targetHero.receiveCasting(casting);
+		if(this.isCombat) {
+			COMBAT.finishTurn();
+		}
 	} else if(targetMonster) {
 		// TODO: cast at monsters?
 	}

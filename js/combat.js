@@ -119,10 +119,16 @@ function combat() {
 		var atkCall = function() { if(combatAwaitingInput) { clearText(); self.heroAttacks(); } };
 		var castCall = function() { if(combatAwaitingInput) { SPELLBOOK.open(currCombatant.num - 1, MODE_COMBAT); } };
 		var dodgeCall = function() { if(combatAwaitingInput) { clearText(); self.heroBlocks(); } };
-		
+		var useItemCall = function() { if(combatAwaitingInput) { INVENTORY.open(currCombatant.num - 1, false, true); } };
+				
 		currKeyboardInputOptions[KEY_A] = atkCall;
+		currKeyboardInputOptions[KEY_1] = atkCall;
 		currKeyboardInputOptions[KEY_D] = dodgeCall;
+		currKeyboardInputOptions[KEY_2] = dodgeCall;
 		currKeyboardInputOptions[KEY_C] = castCall;
+		currKeyboardInputOptions[KEY_3] = castCall;
+		currKeyboardInputOptions[KEY_U] = useItemCall;
+		currKeyboardInputOptions[KEY_4] = useItemCall;
 		
 		showChoices(currCombatant.name + '\'s up! What will ' + currCombatant.pronoun + ' do?', [{
 				text: '[A]ttack first target',
@@ -130,6 +136,9 @@ function combat() {
 			}, {
 				text: '[C]ast a spell',
 				callback: castCall
+			}, {
+				text: '[U]se item',
+				callback: useItemCall
 			}, {
 				text: '[D]odge',
 				callback: dodgeCall
@@ -249,6 +258,10 @@ function combat() {
 			}
 		}
 		
+		self.finishTurn();
+	}
+	
+	this.finishTurn = function() {
 		self.finishTurn();
 	}
 	
