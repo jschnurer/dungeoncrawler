@@ -31,7 +31,7 @@ saveLoader.prototype.load = function() {
 	NAV.teleportToMap(savedGame.mapId, savedGame.partyPosition.x, savedGame.partyPosition.y, savedGame.partyPosition.facing);
 }
 
-saveLoader.prototype.save = function(party, inventory, nav, gameVars) {
+saveLoader.prototype.save = function() {
 	var itemsToSave = [];
 	for(var i = 0; i < INVENTORY.maxLength; i++) {
 		if(INVENTORY.getItemInPosition(i) != undefined && INVENTORY.getItemInPosition(i) != null)
@@ -64,6 +64,7 @@ saveLoader.prototype.save = function(party, inventory, nav, gameVars) {
 			charClass: hero.charClass,
 			level: hero.level,
 			stats: hero.stats,
+			equipStatBonuses: hero.equipStatBonuses,
 			mana: hero.mana,
 			maxMana: hero.maxMana,
 			life: hero.life,
@@ -81,7 +82,7 @@ saveLoader.prototype.save = function(party, inventory, nav, gameVars) {
 		partyPosition: NAV.getPartyPosition(),
 		inventory: itemsToSave,
 		mapId: NAV.getMapId(),
-		gameVars: gameVars
+		gameVars: GAME_VARS
 	};
 	
 	$.jStorage.set('saveGame', savedGame);

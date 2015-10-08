@@ -22,10 +22,28 @@ function hero (values) {
 	// stat block
 	self.level = values.level || 1;
 	self.stats = values.stats;
+	self.equipStatBonuses = values.equipStatBonuses;
+	if(!self.equipStatBonuses)
+		self.equipStatBonuses = [0,0,0,0,0,0,0,0];
+	
+	this.addStatFromEquipment = function(statId, amount) {
+		self.equipStatBonuses[statId] += amount;
+		this.updateDerivedStat(statId, amount);
+	}
+	
+	this.getEquipStatBonus = function (statId) {
+		if(self.equipStatBonuses == undefined)
+			return 0;
+		
+		if(self.equipStatBonuses[statId] == undefined)
+			return 0;
+		
+		return self.equipStatBonuses[statId];
+	}
 	
 	this.getStat = function(statId) {
 		if(statId < 8) {
-			return self.stats[statId];
+			return self.stats[statId] + this.getEquipStatBonus(statId);
 		} else {
 			switch (statId) {
 				case STAT_LIFE: return this.maxLife;
@@ -47,7 +65,10 @@ function hero (values) {
 	this.advanceStat = function(statId, amount) {
 		self.level += amount;
 		self.stats[statId] += amount;
-		
+		this.updateDerivedStat(statId, amount);
+	}
+	
+	this.updateDerivedStat = function (statId, amount) {
 		switch (statId) {
 			case STAT_TGH:
 				self.maxLife += (amount * tghToLife[self.charClass]);
@@ -92,13 +113,21 @@ function hero (values) {
 	
 	self.mightMinDamageBonusRatio = .25;
 	self.mightMaxDamageBonusRatio = 1;
-	self.getMightDamageBonusString = function () { return Math.floor(self.getStat(STAT_MGHT) * self.mightMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_MGHT) * self.mightMaxDamageBonusRatio); };
-	self.getMightDamageBonus = function() { return Math.floor(rand(self.getStat(STAT_MGHT)*self.mightMinDamageBonusRatio, self.getStat(STAT_MGHT)*self.mightMaxDamageBonusRatio)); }
+	self.getMightDamageBonusString = function () {
+		return Math.floor(self.getStat(STAT_MGHT) * self.mightMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_MGHT) * self.mightMaxDamageBonusRatio);
+	}
+	self.getMightDamageBonus = function() {
+		return Math.floor(rand(self.getStat(STAT_MGHT)*self.mightMinDamageBonusRatio, self.getStat(STAT_MGHT)*self.mightMaxDamageBonusRatio));
+	}
 	
 	self.dexMinDamageBonusRatio = .25;
 	self.dexMaxDamageBonusRatio = 1;
-	self.getDexDamageBonusString = function () { return Math.floor(self.getStat(STAT_DEX) * self.dexMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_DEX) * self.dexMaxDamageBonusRatio); };
-	self.getDexDamageBonus = function() { return Math.floor(rand(self.getStat(STAT_DEX)*self.dexMinDamageBonusRatio, self.getStat(STAT_DEX)*self.dexMaxDamageBonusRatio)); }
+	self.getDexDamageBonusString = function () {
+		return Math.floor(self.getStat(STAT_DEX) * self.dexMinDamageBonusRatio) + ' - ' + Math.round(self.getStat(STAT_DEX) * self.dexMaxDamageBonusRatio);
+	}
+	self.getDexDamageBonus = function() {
+		return Math.floor(rand(self.getStat(STAT_DEX)*self.dexMinDamageBonusRatio, self.getStat(STAT_DEX)*self.dexMaxDamageBonusRatio));
+	}
 	
 	self.getDodge = function() {
 		return Math.round(self.getStat(STAT_SPD) / 3);
@@ -174,7 +203,12 @@ function hero (values) {
 			this.updateBars();			
 		}
 		
-		// TODO: handle other possible bonuses
+		if(item.statBonuses) {
+			for(var i = 0; i < item.statBonuses.length; i++) {
+				this.addStatFromEquipment(i, item.statBonuses[i] * bonusMod);
+			}
+			this.updateBars();	
+		}
 	}
 	
 	this.getEquipmentResistance = function (item, resistanceType) {

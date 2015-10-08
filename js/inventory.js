@@ -339,6 +339,13 @@ $(function() {
 				if(isEquipped == 'true') {
 					// unequip and destroy
 					var equipSlot = $(ui.draggable.context).attr('data-equipSlot');
+					
+					var itemToDestroy = INVENTORY.selectedHero.getEquipment(equipSlot);
+					if(itemToDestroy.type == ITEM_QUEST) {
+						log('That doesn\'t seem like a good idea...');
+						return;
+					}
+					
 					destroyedItem = INVENTORY.selectedHero.removeEquipment(equipSlot);
 					
 					if(destroyedItem.id == ITEM_CLOTHES) {
@@ -348,6 +355,13 @@ $(function() {
 				} else {
 					// get the item position in inventory
 					var itemPos = parseInt($(ui.draggable.context).attr('data-pos'));
+					
+					var itemToDestroy = INVENTORY.getItemInPosition(itemPos);
+					if(itemToDestroy.type == ITEM_QUEST) {
+						log('That doesn\'t seem like a good idea...');
+						return;
+					}
+					
 					destroyedItem = INVENTORY.emptyPosition(itemPos);
 				}
 				

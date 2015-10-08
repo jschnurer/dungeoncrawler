@@ -44,6 +44,10 @@ function showTextWithCallback(message, continueFunction) {
 	continueCallback = continueFunction;
 }
 
+function showQuickNavText(message) {
+	showText(message, MODE_NAV, false);
+}
+
 function showText(message, resumeGameMode, blocking) {
 	continueCallback = null;
 	getCommandPanel().html('<p>' + message.replace(/\[br\]/g, '<br />') + '</p>');

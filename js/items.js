@@ -17,6 +17,7 @@ function item (data) {
 	this.spell = data.spell;
 	this.castStat = data.castStat;
 	this.castPower = data.castPower;
+	this.notes = data.notes;
 }
 
 item.prototype.clone = function() {
@@ -34,6 +35,11 @@ item.prototype.getTooltip = function(isShop) {
 		tooltip += this.damage + ' ' + ELEM_NAMES[this.damageType] + ' damage';
 	} else {
 		tooltip += ITEM_TYPE_NAMES[this.type] + '<br />';
+	}
+	
+	if(this.type == ITEM_QUEST) {
+		tooltip += '<br>' + this.notes;
+		return tooltip;
 	}
 	
 	if(this.accBonus) {
@@ -177,6 +183,45 @@ ITEMS[ITEM_STAFF] = new item ({
 	value: 175,
 	reqs: [2, 0, 0, 0, 0, 0, 0, 0]
 });
+ITEMS[ITEM_ORB_WAND] = new item ({
+	id: ITEM_ORB_WAND,
+	name: 'Orb Wand',
+	icon: 'orb-wand.png',
+	type: ITEM_MELEE,
+	weight: WEAPON_LIGHT,
+	damage: 5,
+	damageType: ELEM_FIRE,
+	accBonus: 3,
+	hands: 1,
+	value: 600,
+	reqs: [0, 2, 0, 0, 0, 0, 0, 10]
+});
+ITEMS[ITEM_CRYSTAL_WAND] = new item ({
+	id: ITEM_CRYSTAL_WAND,
+	name: 'Crystal Wand',
+	icon: 'crystal-wand.png',
+	type: ITEM_MELEE,
+	weight: WEAPON_LIGHT,
+	damage: 8,
+	damageType: ELEM_WATER,
+	accBonus: 5,
+	hands: 1,
+	value: 2500,
+	reqs: [0, 2, 0, 0, 0, 0, 0, 15]
+});
+ITEMS[ITEM_LUNAR_WAND] = new item ({
+	id: ITEM_LUNAR_WAND,
+	name: 'Lunar Wand',
+	icon: 'lunar-wand.png',
+	type: ITEM_MELEE,
+	weight: WEAPON_LIGHT,
+	damage: 10,
+	damageType: ELEM_AIR,
+	accBonus: 6,
+	hands: 1,
+	value: 7500,
+	reqs: [0, 2, 0, 0, 0, 0, 0, 22]
+});
 ITEMS[ITEM_HATCHET] = new item ({
 	id: ITEM_HATCHET,
 	name: 'Hatchet',
@@ -245,6 +290,35 @@ ITEMS[ITEM_BUCKLER] = new item ({
 	reqs: [4],
 	value: 75
 });
+ITEMS[ITEM_ROUND_SHIELD] = new item ({
+	id: ITEM_ROUND_SHIELD,
+	name: 'Round Shield',
+	icon: 'viking-shield.png',
+	type: ITEM_SHIELD,
+	dodge: 5,
+	reqs: [8],
+	value: 600
+});
+ITEMS[ITEM_PAINTED_SHIELD] = new item ({
+	id: ITEM_PAINTED_SHIELD,
+	name: 'Painted Shield',
+	icon: 'checked-shield.png',
+	type: ITEM_SHIELD,
+	dodge: 9,
+	reqs: [14],
+	resistances: [0, 2, 5, 2, 2, 0, 0, 0],
+	value: 1200
+});
+ITEMS[ITEM_FORTRESS_SHIELD] = new item ({
+	id: ITEM_FORTRESS_SHIELD,
+	name: 'Fortress Shield',
+	icon: 'crenulated-shield.png',
+	type: ITEM_SHIELD,
+	dodge: 13,
+	reqs: [20],
+	resistances: [2, 5, 8, 5, 5, 3, 3, 3],
+	value: 5000
+});
 ITEMS[ITEM_TORCH] = new item ({
 	id: ITEM_TORCH,
 	name: 'Torch',
@@ -273,6 +347,15 @@ ITEMS[ITEM_GEMSTONEBROACH] = new item ({
 	value: 600
 });
 
+ITEMS[ITEM_RING_OF_THOUGHT] = new item ({
+	id: ITEM_RING_OF_THOUGHT,
+	name: 'Ring of Thought',
+	icon: 'ring.png',
+	type: ITEM_ACCESSORY,
+	statBonuses: [0, 0, 0, 0, 0, 2, 1, 1],
+	value: 800
+});
+
 // Scrolls //
 ITEMS[ITEM_SCROLL_MEND_MINOR_WOUNDS] = new item ({
 	id: ITEM_SCROLL_MEND_MINOR_WOUNDS,
@@ -292,4 +375,21 @@ ITEMS[ITEM_TOME_TORCHLIGHT] = new item ({
 	icon: 'black-book.png',
 	type: ITEM_TOME,
 	spell: SPELL_TORCHLIGHT
+});
+
+// Quest //
+ITEMS[ITEM_SWORD_CLAW_KEY] = new item({
+	id: ITEM_SWORD_CLAW_KEY,
+	name: 'Sword &amp; Claw Key',
+	icon: 'key.png',
+	type: ITEM_QUEST,
+	notes: 'This golden key is in the shape of a sword and a claw locked together in battle.'
+});
+
+ITEMS[ITEM_CRYSTAL_KEY] = new item({
+	id: ITEM_CRYSTAL_KEY,
+	name: 'Crystal Key',
+	icon: 'crystal-key.png',
+	type: ITEM_QUEST,
+	notes: 'This is the legendary Crystal Key that opens the ancient Black Tower once owned by Lord Xagoth.'
 });
