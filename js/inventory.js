@@ -141,7 +141,7 @@ inventory.prototype.open = function (heroIx, storeMode, isCombat) {
 }
 
 inventory.prototype.createElementInSlot = function (item, slotIx) {
-	var $itemImg = $('<img src="images/items/' + item.icon + '" title="" data-pos="' + slotIx + '" data-isEquipped="false" data-equipSlot="' + item.type + '" data-item="' + item.id + '" />');
+	var $itemImg = $('<img class="' + item.icon + '" title="" data-pos="' + slotIx + '" data-isEquipped="false" data-equipSlot="' + item.type + '" data-item="' + item.id + '" />');
 	$('#invItems label:nth-child(' + (slotIx + 1) + ')').append($itemImg);
 	$itemImg.tooltip({
 		track: true,
@@ -261,7 +261,7 @@ inventory.prototype.loadEquipment = function() {
 	for(var i = 0; i < equipSlots.length; i++) {
 		var item = this.selectedHero.getEquipment(equipSlots[i]);
 		if(item != null) {
-			var $itemImg = $('<img src="images/items/' + item.icon + '" title="" data-pos="-1" data-isEquipped="true" data-equipSlot="'
+			var $itemImg = $('<img class="' + item.icon + '" title="" data-pos="-1" data-isEquipped="true" data-equipSlot="'
 				+ equipSlots[i] + '" data-item="' + item.id + '" />');
 			
 			slotHolders[equipSlots[i]].append($itemImg);

@@ -120,7 +120,7 @@ var ITEMS = [];
 ITEMS[ITEM_CLUB] = new item ({
 	id: ITEM_CLUB,
 	name: 'Club',
-	icon: 'club.png',
+	icon: 'club',
 	type: ITEM_MELEE,
 	weight: WEAPON_HEAVY,
 	damage: 1,
@@ -133,7 +133,7 @@ ITEMS[ITEM_CLUB] = new item ({
 ITEMS[ITEM_DAGGER] = new item ({
 	id: ITEM_DAGGER,
 	name: 'Dagger',
-	icon: 'dagger.png',
+	icon: 'dagger',
 	type: ITEM_MELEE,
 	weight: WEAPON_LIGHT,
 	damage: 1,
@@ -147,7 +147,7 @@ ITEMS[ITEM_DAGGER] = new item ({
 ITEMS[ITEM_MAUL] = new item ({
 	id: ITEM_MAUL,
 	name: 'Maul',
-	icon: 'flat-hammer.png',
+	icon: 'flat-hammer',
 	type: ITEM_MELEE,
 	weight: WEAPON_HEAVY,
 	damage: 8,
@@ -160,7 +160,7 @@ ITEMS[ITEM_MAUL] = new item ({
 ITEMS[ITEM_HAMMER] = new item ({
 	id: ITEM_HAMMER,
 	name: 'Hammer',
-	icon: 'gavel.png',
+	icon: 'gavel',
 	type: ITEM_MELEE,
 	weight: WEAPON_HEAVY,
 	damage: 5,
@@ -173,7 +173,7 @@ ITEMS[ITEM_HAMMER] = new item ({
 ITEMS[ITEM_STAFF] = new item ({
 	id: ITEM_STAFF,
 	name: 'Staff',
-	icon: 'wizard-staff.png',
+	icon: 'wizard-staff',
 	type: ITEM_MELEE,
 	weight: WEAPON_HEAVY,
 	damage: 3,
@@ -186,7 +186,7 @@ ITEMS[ITEM_STAFF] = new item ({
 ITEMS[ITEM_ORB_WAND] = new item ({
 	id: ITEM_ORB_WAND,
 	name: 'Orb Wand',
-	icon: 'orb-wand.png',
+	icon: 'orb-wand',
 	type: ITEM_MELEE,
 	weight: WEAPON_LIGHT,
 	damage: 5,
@@ -199,7 +199,7 @@ ITEMS[ITEM_ORB_WAND] = new item ({
 ITEMS[ITEM_CRYSTAL_WAND] = new item ({
 	id: ITEM_CRYSTAL_WAND,
 	name: 'Crystal Wand',
-	icon: 'crystal-wand.png',
+	icon: 'crystal-wand',
 	type: ITEM_MELEE,
 	weight: WEAPON_LIGHT,
 	damage: 8,
@@ -212,7 +212,7 @@ ITEMS[ITEM_CRYSTAL_WAND] = new item ({
 ITEMS[ITEM_LUNAR_WAND] = new item ({
 	id: ITEM_LUNAR_WAND,
 	name: 'Lunar Wand',
-	icon: 'lunar-wand.png',
+	icon: 'lunar-wand',
 	type: ITEM_MELEE,
 	weight: WEAPON_LIGHT,
 	damage: 10,
@@ -225,7 +225,7 @@ ITEMS[ITEM_LUNAR_WAND] = new item ({
 ITEMS[ITEM_HATCHET] = new item ({
 	id: ITEM_HATCHET,
 	name: 'Hatchet',
-	icon: 'wood-axe.png',
+	icon: 'wood-axe',
 	type: ITEM_MELEE,
 	weight: WEAPON_LIGHT,
 	damage: 3,
@@ -238,7 +238,7 @@ ITEMS[ITEM_HATCHET] = new item ({
 ITEMS[ITEM_WHIP] = new item ({
 	id: ITEM_WHIP,
 	name: 'Whip',
-	icon: 'whip.png',
+	icon: 'whip',
 	type: ITEM_MELEE,
 	weight: WEAPON_LIGHT,
 	damage: 4,
@@ -254,7 +254,7 @@ ITEMS[ITEM_WHIP] = new item ({
 ITEMS[ITEM_CLOTHES] = new item ({
 	id: ITEM_CLOTHES,
 	name: 'Clothing',
-	icon: 'clothes.png',
+	icon: 'clothes',
 	type: ITEM_ARMOR,
 	dodge: 1,
 	value: 50
@@ -263,7 +263,7 @@ ITEMS[ITEM_CLOTHES] = new item ({
 ITEMS[ITEM_LEATHERARMOR] = new item ({
 	id: ITEM_LEATHERARMOR,
 	name: 'Leather Armor',
-	icon: 'leather.png',
+	icon: 'leather',
 	type: ITEM_ARMOR,
 	dodge: 3,
 	resistances: [2, 0, 0, 0, 0, 0, 0, 0],
@@ -273,7 +273,7 @@ ITEMS[ITEM_LEATHERARMOR] = new item ({
 ITEMS[ITEM_ROBE] = new item ({
 	id: ITEM_ROBE,
 	name: 'Robe',
-	icon: 'robe.png',
+	icon: 'robe',
 	type: ITEM_ARMOR,
 	dodge: 2,
 	resistances: [0, 1, 1, 1, 1, 1, 1, 1],
@@ -284,7 +284,7 @@ ITEMS[ITEM_ROBE] = new item ({
 ITEMS[ITEM_BUCKLER] = new item ({
 	id: ITEM_BUCKLER,
 	name: 'Buckler',
-	icon: 'round-shield.png',
+	icon: 'round-shield',
 	type: ITEM_SHIELD,
 	dodge: 1,
 	reqs: [4],
@@ -293,7 +293,7 @@ ITEMS[ITEM_BUCKLER] = new item ({
 ITEMS[ITEM_ROUND_SHIELD] = new item ({
 	id: ITEM_ROUND_SHIELD,
 	name: 'Round Shield',
-	icon: 'viking-shield.png',
+	icon: 'viking-shield',
 	type: ITEM_SHIELD,
 	dodge: 5,
 	reqs: [8],
@@ -302,7 +302,7 @@ ITEMS[ITEM_ROUND_SHIELD] = new item ({
 ITEMS[ITEM_PAINTED_SHIELD] = new item ({
 	id: ITEM_PAINTED_SHIELD,
 	name: 'Painted Shield',
-	icon: 'checked-shield.png',
+	icon: 'checked-shield',
 	type: ITEM_SHIELD,
 	dodge: 9,
 	reqs: [14],
@@ -312,7 +312,7 @@ ITEMS[ITEM_PAINTED_SHIELD] = new item ({
 ITEMS[ITEM_FORTRESS_SHIELD] = new item ({
 	id: ITEM_FORTRESS_SHIELD,
 	name: 'Fortress Shield',
-	icon: 'crenulated-shield.png',
+	icon: 'crenulated-shield',
 	type: ITEM_SHIELD,
 	dodge: 13,
 	reqs: [20],
@@ -322,7 +322,7 @@ ITEMS[ITEM_FORTRESS_SHIELD] = new item ({
 ITEMS[ITEM_TORCH] = new item ({
 	id: ITEM_TORCH,
 	name: 'Torch',
-	icon: 'torch.png',
+	icon: 'torch',
 	type: ITEM_SHIELD,
 	dodge: 0,
 	value: 50
@@ -332,7 +332,7 @@ ITEMS[ITEM_TORCH] = new item ({
 ITEMS[ITEM_FANGNECKLACE] = new item ({
 	id: ITEM_FANGNECKLACE,
 	name: 'Fang Necklace',
-	icon: 'fang_necklace.png',
+	icon: 'fang_necklace',
 	type: ITEM_ACCESSORY,
 	statBonuses: [2, 1, 0, 0, 0, 0, 0, 0],
 	value: 750
@@ -341,7 +341,7 @@ ITEMS[ITEM_FANGNECKLACE] = new item ({
 ITEMS[ITEM_GEMSTONEBROACH] = new item ({
 	id: ITEM_GEMSTONEBROACH,
 	name: 'Gemstone Broach',
-	icon: 'gemstone_broach.png',
+	icon: 'gemstone_broach',
 	type: ITEM_ACCESSORY,
 	maxLifeBonus: 12,
 	value: 600
@@ -350,7 +350,7 @@ ITEMS[ITEM_GEMSTONEBROACH] = new item ({
 ITEMS[ITEM_RING_OF_THOUGHT] = new item ({
 	id: ITEM_RING_OF_THOUGHT,
 	name: 'Ring of Thought',
-	icon: 'ring.png',
+	icon: 'ring',
 	type: ITEM_ACCESSORY,
 	statBonuses: [0, 0, 0, 0, 0, 2, 1, 1],
 	value: 800
@@ -360,7 +360,7 @@ ITEMS[ITEM_RING_OF_THOUGHT] = new item ({
 ITEMS[ITEM_SCROLL_MEND_MINOR_WOUNDS] = new item ({
 	id: ITEM_SCROLL_MEND_MINOR_WOUNDS,
 	name: 'Scroll of Mend Minor Wounds',
-	icon: 'scroll-unfurled.png',
+	icon: 'scroll-unfurled',
 	type: ITEM_SCROLL,
 	castStat: STAT_PIE,
 	castPower: 8,
@@ -372,7 +372,7 @@ ITEMS[ITEM_SCROLL_MEND_MINOR_WOUNDS] = new item ({
 ITEMS[ITEM_TOME_TORCHLIGHT] = new item ({
 	id: ITEM_TOME_TORCHLIGHT,
 	name: 'Tome of Torchlight',
-	icon: 'black-book.png',
+	icon: 'black-book',
 	type: ITEM_TOME,
 	spell: SPELL_TORCHLIGHT
 });
@@ -381,7 +381,7 @@ ITEMS[ITEM_TOME_TORCHLIGHT] = new item ({
 ITEMS[ITEM_SWORD_CLAW_KEY] = new item({
 	id: ITEM_SWORD_CLAW_KEY,
 	name: 'Sword &amp; Claw Key',
-	icon: 'key.png',
+	icon: 'key',
 	type: ITEM_QUEST,
 	notes: 'This golden key is in the shape of a sword and a claw locked together in battle.'
 });
@@ -389,7 +389,7 @@ ITEMS[ITEM_SWORD_CLAW_KEY] = new item({
 ITEMS[ITEM_CRYSTAL_KEY] = new item({
 	id: ITEM_CRYSTAL_KEY,
 	name: 'Crystal Key',
-	icon: 'crystal-key.png',
+	icon: 'crystal-key',
 	type: ITEM_QUEST,
 	notes: 'This is the legendary Crystal Key that opens the ancient Black Tower once owned by Lord Xagoth.'
 });

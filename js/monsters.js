@@ -107,7 +107,8 @@ monster.prototype.getAttack = function() {
 }
 
 monster.prototype.$getMonsterBlock = function(num) {
-	return $('<div class="monster' + (this.turbo ? ' turbo' : '') + '" data-num="' + num + '"><span>' + this.name + '</span><img src="images/monsters/' + this.image + '" /></div>');
+	return $('<div class="monster' + (this.turbo ? ' turbo' : '') + '" data-num="' + num + '"><span>'
+		+ this.name + '</span><div class="' + this.image + '"></div></div>');
 }
 
 function getXMonsters(monster, count) {
@@ -127,7 +128,7 @@ MONSTERS[0] = new monster({
 	attackIsDodgeable: true,
 	life: 8,
 	randomLife: 8,
-	image: 'gnasher.png',
+	image: 'gnasher',
 	resistances: [0, 0, 0, 0, 0, 0, 0],
 	experience: 80,
 	dodge: 6,
@@ -145,7 +146,7 @@ MONSTERS[1] = new monster({
 	attackIsDodgeable: true,
 	life: 60,
 	randomLife: 40,
-	image: 'gnasher_nest.png',
+	image: 'gnasher_nest',
 	resistances: [0, 0, 0, 0, 0, 0, 0],
 	experience: 2000,
 	dodge: 4,
@@ -182,7 +183,7 @@ MONSTERS[2] = new monster({
 	attackIsDodgeable: true,
 	life: 12,
 	randomLife: 10,
-	image: 'murk_dweller.png',
+	image: 'murk_dweller',
 	resistances: [33, 10, 10, 10, -25, -25, -25],
 	experience: 125,
 	dodge: 6,

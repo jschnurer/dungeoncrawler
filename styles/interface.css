@@ -199,7 +199,7 @@ canvas {
 	text-align: center;
 }
 
-#combatView .monster {
+#monsterList > .monster {
 	margin: 15px;
 	float: left;
 	border: 1px white solid;
@@ -209,7 +209,7 @@ canvas {
 }
 
 #combatView .turbo {
-	background-image: url('../images/monsters/crowned-explosion.png');
+	background-image: url('../images/crowned-explosion.png');
 	background-repeat: no-repeat;
 	background-position: center bottom;
 }

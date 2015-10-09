@@ -133,7 +133,7 @@ spellbook.prototype.loadHeroSpells = function() {
 }
 
 spellbook.prototype.createElement = function(spell, ix) {
-	var $img = $('<img src="images/spells/' + spell.icon
+	var $img = $('<img class="' + spell.icon
 				+ '" title="" data-pos="' + ix + '" data-item="' + spell.id + '" />');
 	$('#spellPanel div label:nth-child(' + (ix + 1) + ')').append($img);
 	$img.tooltip({

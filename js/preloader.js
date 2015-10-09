@@ -21,20 +21,11 @@ var preloadImages = [{t:'t',k:TILE_WALL,u:'images/tiles/dungeon_wall.png'},
 	{t:'t',k:TILE_MOUNTAIN,u:'images/tiles/mountain.png'},
 	{t:'t',k:TILE_MASK_CAVE_ENTRANCE,u:'images/tiles/cave_entrance_mask.png'},
 	{t:'b',k:BG_NIGHTSKY,u:'images/backgrounds/nightsky.png'},
-	{t:'b',k:BG_BLACK,u:'images/backgrounds/black.png'}];
+	{t:'b',k:BG_BLACK,u:'images/backgrounds/black.png'},
+	{t: 'i',u:'styles/items.png'},
+	{t: 's',u:'styles/spells.png'},
+	{t: 'm',u:'styles/monsters.png'}];
 
-function queueItemsForPreload() {
-	for(var i = 0; i < ITEMS.length; i++) {
-		preloadImages.push({t:'i',k:ITEMS[i].id,u:'images/items/'+ITEMS[i].icon});
-	}
-}
-
-function queueSpellsForPreload() {
-	for(var i = 0; i < SPELLS.length; i++) {
-		preloadImages.push({t:'i',k:SPELLS[i].id,u:'images/spells/'+SPELLS[i].icon});
-	}
-}
-	
 // Stripes interval
 var stripesAnim;
 var calcPercent;

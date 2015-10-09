@@ -33,13 +33,11 @@ shop.prototype.open = function(prevGameMode) {
 			var basePath = '';
 			if(this.type == SHOP_ITEMS){
 				item = ITEMS[this.itemIds[i]];
-				basePath = 'images/items/';
 			} else if(this.type == SHOP_MAGIC) {
 				item = SPELLS[this.itemIds[i]];
-				basePath = 'images/spells/';
 			}
 			
-			var $itemImg = $('<img src="' + basePath + item.icon + '" title="" data-itemId="' + item.id + '" />');
+			var $itemImg = $('<img class="' + item.icon + '" title="" data-itemId="' + item.id + '" />');
 			$('#shopPanel .items label:nth-child(' + (i + 1) + ')').append($itemImg);
 			$itemImg.tooltip({
 				track: true,

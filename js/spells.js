@@ -137,7 +137,7 @@ var SPELLS = [];
 SPELLS[SPELL_MEND_MINOR_WOUNDS] = new spell({
 	id: SPELL_MEND_MINOR_WOUNDS,
 	name: 'Mend Minor Wounds',
-	icon: 'bandage-roll.png',
+	icon: 'bandage-roll',
 	description: 'Soothing energy radiates from your fingers and mends the wounds of the hero you touch.',
 	school: SCHOOL_PORTENT,
 	type: SPELL_TYPE_HEAL,
@@ -155,7 +155,7 @@ SPELLS[SPELL_MEND_MINOR_WOUNDS] = new spell({
 SPELLS[SPELL_MIND_BLAST] = new spell({
 	id: SPELL_MIND_BLAST,
 	name: 'Mind Blast',
-	icon: 'psychic-waves.png',
+	icon: 'psychic-waves',
 	description: 'A blast of pure, psychic energy assails a foe.',
 	school: SCHOOL_PORTENT,
 	type: SPELL_TYPE_DAMAGE,
@@ -172,7 +172,7 @@ SPELLS[SPELL_MIND_BLAST] = new spell({
 SPELLS[SPELL_AURA_OF_VALOR] = new spell({
 	id: SPELL_AURA_OF_VALOR,
 	name: 'Aura of Valor',
-	icon: 'sparkling-sabre.png',
+	icon: 'sparkling-sabre',
 	description: 'An aura of valor surrounds the party, invigorating them and granting an increased chance of hitting foes for the duration of the battle.',
 	school: SCHOOL_PORTENT,
 	type: SPELL_TYPE_BUFF,
@@ -189,7 +189,7 @@ SPELLS[SPELL_AURA_OF_VALOR] = new spell({
 SPELLS[SPELL_INNER_LIGHT] = new spell({
 	id: SPELL_INNER_LIGHT,
 	name: 'Inner Light',
-	icon: 'beams-aura.png',
+	icon: 'beams-aura',
 	description: 'A calming boon soothes the soul and releases your inner light. This aura lights dark places.',
 	school: SCHOOL_PORTENT,
 	type: SPELL_TYPE_BUFF,
@@ -207,7 +207,7 @@ SPELLS[SPELL_INNER_LIGHT] = new spell({
 SPELLS[SPELL_STATIC_JOLT] = new spell({
 	id: SPELL_STATIC_JOLT,
 	name: 'Static Jolt',
-	icon: 'lightning-frequency.png',
+	icon: 'lightning-frequency',
 	description: 'A jolt of static energy jumps from your outstretched finger and zaps a monster of your choosing.',
 	school: SCHOOL_SPELL,
 	type: SPELL_TYPE_DAMAGE,
@@ -224,7 +224,7 @@ SPELLS[SPELL_STATIC_JOLT] = new spell({
 SPELLS[SPELL_CHAIN_LIGHTNING] = new spell({
 	id: SPELL_CHAIN_LIGHTNING,
 	name: 'Chain Lightning',
-	icon: 'chain-lightning.png',
+	icon: 'chain-lightning',
 	description: 'From your palms you cast outward a thundering bolt of lightning. Upon striking a foe, the bolt will leap to another, and another, and another.',
 	school: SCHOOL_SPELL,
 	type: SPELL_TYPE_DAMAGE,
@@ -241,7 +241,7 @@ SPELLS[SPELL_CHAIN_LIGHTNING] = new spell({
 SPELLS[SPELL_FROSTFALL] = new spell({
 	id: SPELL_FROSTFALL,
 	name: 'Frostfall',
-	icon: 'snowing.png',
+	icon: 'snowing',
 	description: 'A damaging frost settles over the area, chilling all monsters to the bone.',
 	school: SCHOOL_SPELL,
 	type: SPELL_TYPE_DAMAGE,
@@ -258,7 +258,7 @@ SPELLS[SPELL_FROSTFALL] = new spell({
 SPELLS[SPELL_WATER_WALKING] = new spell({
 	id: SPELL_WATER_WALKING,
 	name: 'Water Walking',
-	icon: 'water-walking.png',
+	icon: 'water-walking',
 	description: 'An enchantment grants the party the ability to walk across the surface of calm water.',
 	school: SCHOOL_SPELL,
 	type: SPELL_TYPE_BUFF,
@@ -274,7 +274,7 @@ SPELLS[SPELL_WATER_WALKING] = new spell({
 SPELLS[SPELL_DEADLY_SWARM] = new spell({
 	id: SPELL_DEADLY_SWARM,
 	name: 'Deadly Swarm',
-	icon: 'wasp-sting.png',
+	icon: 'wasp-sting',
 	description: 'A wave of the hand spawns a deadly swarm of stinging insects that surround an enemy, damaging them and possibly lowering their ability to dodge attacks.',
 	school: SCHOOL_SPELL,
 	type: SPELL_TYPE_DAMAGE,
@@ -293,7 +293,7 @@ SPELLS[SPELL_DEADLY_SWARM] = new spell({
 SPELLS[SPELL_TORCHLIGHT] = new spell({
 	id: SPELL_TORCHLIGHT,
 	name: 'Torchlight',
-	icon: 'torch.png',
+	icon: 'torch',
 	description: 'Summon a heatless ball of burning light above the party. This light bobs above you and lights dark places.',
 	school: SCHOOL_SPELL,
 	type: SPELL_TYPE_BUFF,
@@ -309,7 +309,7 @@ SPELLS[SPELL_TORCHLIGHT] = new spell({
 SPELLS[SPELL_FLAMING_WEAPON] = new spell({
 	id: SPELL_FLAMING_WEAPON,
 	name: 'Flaming Weapon',
-	icon: 'flaming-trident.png',
+	icon: 'flaming-trident',
 	description: 'An aura of burning energy envelopes the weapon of an ally, causing their attacks to do additional fire damage.',
 	school: SCHOOL_SPELL,
 	type: SPELL_TYPE_BUFF,
