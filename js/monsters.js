@@ -78,22 +78,20 @@ monster.prototype.getDodge = function () {
 }
 
 monster.prototype.receiveAttack = function(attack) {
-	if(attack.dodgeable && rollStat(this.getDodge()) > attack.accuracy) {
-		return { dodged: true };
-	} else {
-		var dmgData = [0,0,0,0,0,0,0,0];
-		var totalDamageDealt = 0;
-		for(var i = 0; i < attack.damages.length; i++) {
-			var thisDamage = this.takeDamage(attack.damages[i], this);
-			totalDamageDealt += thisDamage;
-			dmgData[attack.damages[i].type] += thisDamage;
-		}
-		return { dodged: false, totalDamageDealt: totalDamageDealt, damageData: dmgData };
+	var glancing = attack.dodgeable && rollStat(this.getDodge()) > attack.accuracy;
+
+	var dmgData = [0,0,0,0,0,0,0,0];
+	var totalDamageDealt = 0;
+	for(var i = 0; i < attack.damages.length; i++) {
+		var thisDamage = this.takeDamage(attack.damages[i], glancing);
+		totalDamageDealt += thisDamage;
+		dmgData[attack.damages[i].type] += thisDamage;
 	}
+	return { glancing: glancing, totalDamageDealt: totalDamageDealt, damageData: dmgData };
 }
 
-monster.prototype.takeDamage = function(damage) {		
-	var damageTaken = computeDamage(damage.damage, this.resistances[damage.type]);
+monster.prototype.takeDamage = function(damage, glancing) {		
+	var damageTaken = computeDamage(Math.floor(damage.damage * (glancing ? .33 : 1)), this.resistances[damage.type]);
 	this.life -= damageTaken;
 	return damageTaken;
 }
@@ -177,18 +175,18 @@ MONSTERS[1] = new monster({
 
 MONSTERS[2] = new monster({
 	name: 'Murk Dweller',
-	accuracy: 6,
+	accuracy: 8,
 	damage: {min: 4, max: 7, type: ELEM_PHYS},
 	target: TARGET_RANDOM_HERO,
 	attackIsDodgeable: true,
-	life: 12,
+	life: 15,
 	randomLife: 10,
 	image: 'murk_dweller',
-	resistances: [33, 10, 10, 10, -25, -25, -25],
-	experience: 125,
-	dodge: 6,
+	resistances: [10, 10, 10, 10, -25, -25, -25],
+	experience: 160,
+	dodge: 8,
 	treasureClass: 1,
-	speed: 5,
-	initBonus: 1,
+	speed: 6,
+	initBonus: 0,
 	turboable: true
 });

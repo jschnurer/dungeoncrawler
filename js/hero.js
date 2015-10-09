@@ -423,30 +423,34 @@ function hero (values) {
 		
 	this.takeAttack = function (attack) {
 		if(self.status == STATUS_DEAD) {
-			return { dodged: false, totalDamageDealt: 0, effectWorked: false };
+			return { glancing: false, totalDamageDealt: 0, effectWorked: false };
 		}
 		
-		if(attack.dodgeable && rollStat(self.getDodge()) > attack.accuracy) {
-			return { dodged: true };
-		} else {
-			var totalDamageDealt = 0;
-			
-			for(var i = 0; i < attack.damages.length; i++) {
-				totalDamageDealt += self.takeDamage(attack.damages[i]);
-			}
-			
-			var effectWorked = false;
-			
-			if(attack.effect != null) {
-				effectWorked = self.takeEffect(attack.effect);
-			}
-			
-			return { dodged: false, totalDamageDealt: totalDamageDealt, effectWorked: effectWorked };
+		var glancing = attack.dodgeable && rollStat(self.getDodge()) > attack.accuracy;
+		var totalDamageDealt = 0;
+		
+		for(var i = 0; i < attack.damages.length; i++) {
+			totalDamageDealt += self.takeDamage(attack.damages[i], glancing);
 		}
+		
+		var effectWorked = false;
+		
+		if(attack.effect != null) {
+			effectWorked = self.takeEffect(attack.effect);
+		}
+		
+		return { glancing: glancing, totalDamageDealt: totalDamageDealt, effectWorked: effectWorked };
 	}
 	
-	this.takeDamage = function (damage) {
-		var damageTaken = computeDamage(damage.damage, self.resistances[damage.type]);
+	var takeGlancingTexts = ['nimbly dodges suffering',
+							'gracefully sidesteps, suffering',
+							'agilely backsteps, suffering',
+							'skillfully deflects the blow and suffers',
+							'deftly turns the blow aside'];
+	var takeDmgTexts = [];
+	
+	this.takeDamage = function (damage, glancing) {
+		var damageTaken = computeDamage(Math.floor(damage.damage * (glancing ? .33 : 1)), self.resistances[damage.type]);
 		
 		if(damageTaken < 0) {
 			if(self.life < self.maxLife) {
@@ -460,6 +464,8 @@ function hero (values) {
 		
 		self.life -= damageTaken;
 		this.updateBars();
+		
+		
 		
 		log(self.name + ' suffers ' + damageTaken + ' ' + ELEM_NAMES[damage.type] + ' damage.');
 		

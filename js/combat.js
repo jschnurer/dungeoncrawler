@@ -227,38 +227,57 @@ function combat() {
 		var atk = self.addBuffsToHeroAttack(hero.getMeleeAttack());
 		
 		var atkResult = monster.receiveAttack(atk);
-		if(atkResult.dodged) {
-			log(hero.name + ' attacks ' + monster.name + ' but misses.');
-		} else {
-			
-			var dmgData = atkResult.damageData;
-			var dmgTooltip = '';
-			for(var i = 0; i < dmgData.length; i++) {
-				if(dmgData[i] > 0) {
-					if(dmgTooltip != '')
-						dmgTooltip += '\n';
-					dmgTooltip += dmgData[i] + ' ' + ELEM_NAMES[i];
-				}
-			}
-			
-			if(monster.life <= 0) {
-				
-				log(hero.name + ' attacks and deals <i title="' + dmgTooltip + '">' + atkResult.totalDamageDealt + '</i> damage, slaying the ' + monster.name + '!');
-				log('The party gains ' + monster.experience + ' essence.');
-				PARTY.gainExperience(monster.experience);
-				
-				if(monster.onDeath != undefined && monster.onDeath != null)
-					monster.onDeath();
-				
-				if(!self.removeMonsterFromCombat(monsterNum))
-					return true;
-			} else {
-				log(hero.name + ' attacks and deals <i title="' + dmgTooltip + '">' + atkResult.totalDamageDealt + '</i> damage to the ' + monster.name + '.');
-				self.updateMonsterBlock(monsterNum);
+	
+		var dmgData = atkResult.damageData;
+		var dmgTooltip = '';
+		for(var i = 0; i < dmgData.length; i++) {
+			if(dmgData[i] > 0) {
+				if(dmgTooltip != '')
+					dmgTooltip += '\n';
+				dmgTooltip += dmgData[i] + ' ' + ELEM_NAMES[i];
 			}
 		}
 		
+		var attackDescription = atkResult.glancing
+			? 'lands a glancing blow, dealing only'
+			: 'attacks and deals';
+		
+		if(monster.life <= 0) {
+			
+			log(hero.name + ' ' + attackDescription + ' <i title="' + dmgTooltip + '">' + atkResult.totalDamageDealt + '</i> damage, slaying the ' + monster.name + '!');
+			log('The party gains ' + monster.experience + ' essence.');
+			PARTY.gainExperience(monster.experience);
+			
+			if(monster.onDeath != undefined && monster.onDeath != null)
+				monster.onDeath();
+			
+			if(!self.removeMonsterFromCombat(monsterNum))
+				return true;
+		} else {
+			log(hero.name + ' ' + attackDescription + ' <i title="' + dmgTooltip + '">' + atkResult.totalDamageDealt + '</i> damage to the ' + monster.name + '.');
+			self.updateMonsterBlock(monsterNum);
+		}
+		
 		self.finishTurn();
+	}
+	
+	var glancingTexts = ['lands a glancing blow, dealing only',
+						'connects awkwardly, only dealing',
+						'swings off-balance, dealing a mere',
+						'attacks clumsily, nearly misses, and deals only',
+						'fumbles the strike, dealing only',
+						'strikes gracelessly, only dealing'];
+	var hitTexts = ['attacks and deals',
+					'strikes dealing',
+					'slashes and deals',
+					'smashes and deals',
+					'bashes dealing'];
+	function getAttackLogDescriptionChunk(glancing) {
+		if(glancing) {
+			return getRandomItem(glancingTexts);
+		} else {
+			return getRandomItem(hitTexts);
+		}
 	}
 	
 	this.finishTurn = function() {
