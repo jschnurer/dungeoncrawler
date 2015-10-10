@@ -1,24 +1,20 @@
-.death_speaker{top:0px;left:0px;
-width:160px;height:120px;background: url("monsters.png") no-repeat -160px -0px;}
-.druid{top:0px;left:0px;
-width:160px;height:120px;background: url("monsters.png") no-repeat -0px -360px;}
-.gnasher{top:0px;left:0px;
-width:160px;height:120px;background: url("monsters.png") no-repeat -0px -240px;}
-.gnasher_nest{top:0px;left:0px;
-width:160px;height:120px;background: url("monsters.png") no-repeat -0px -120px;}
-.imp{top:0px;left:0px;
-width:160px;height:120px;background: url("monsters.png") no-repeat -0px -0px;}
-.mimic{top:0px;left:0px;
-width:160px;height:120px;background: url("monsters.png") no-repeat -160px -120px;}
-.murk_dweller{top:0px;left:0px;
-width:160px;height:120px;background: url("monsters.png") no-repeat -320px -240px;}
-.serpentina{top:0px;left:0px;
+.air_imp{top:0px;left:0px;
 width:160px;height:120px;background: url("monsters.png") no-repeat -320px -120px;}
-.shadow_soul{top:0px;left:0px;
+.earth_imp{top:0px;left:0px;
+width:160px;height:120px;background: url("monsters.png") no-repeat -0px -360px;}
+.fire_imp{top:0px;left:0px;
+width:160px;height:120px;background: url("monsters.png") no-repeat -0px -240px;}
+.gnasher{top:0px;left:0px;
+width:160px;height:120px;background: url("monsters.png") no-repeat -0px -120px;}
+.gnasher_nest{top:0px;left:0px;
+width:160px;height:120px;background: url("monsters.png") no-repeat -0px -0px;}
+.murk_dweller{top:0px;left:0px;
+width:160px;height:120px;background: url("monsters.png") no-repeat -160px -0px;}
+.serpent_woman{top:0px;left:0px;
 width:160px;height:120px;background: url("monsters.png") no-repeat -320px -0px;}
-.shadow_tendrils{top:0px;left:0px;
-width:160px;height:120px;background: url("monsters.png") no-repeat -160px -360px;}
 .skeleton{top:0px;left:0px;
+width:160px;height:120px;background: url("monsters.png") no-repeat -160px -360px;}
+.water_imp{top:0px;left:0px;
 width:160px;height:120px;background: url("monsters.png") no-repeat -160px -240px;}
 .zombie{top:0px;left:0px;
-width:160px;height:120px;background: url("monsters.png") no-repeat -320px -360px;}
+width:160px;height:120px;background: url("monsters.png") no-repeat -160px -120px;}

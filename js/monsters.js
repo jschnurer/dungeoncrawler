@@ -121,7 +121,7 @@ var MONSTERS = [];
 MONSTERS[0] = new monster({
 	name: 'Gnasher',
 	accuracy: 4,
-	damage: {min: 2, max: 3, type: ELEM_PHYS},
+	damage: {min: 1, max: 4, type: ELEM_PHYS},
 	target: TARGET_RANDOM_HERO,
 	attackIsDodgeable: true,
 	life: 8,
@@ -139,7 +139,7 @@ MONSTERS[0] = new monster({
 MONSTERS[1] = new monster({
 	name: 'Gnasher Nest',
 	accuracy: 9,
-	damage: {min: 6, max: 10, type: ELEM_PHYS},
+	damage: {min: 2, max: 12, type: ELEM_PHYS},
 	target: TARGET_RANDOM_HERO,
 	attackIsDodgeable: true,
 	life: 60,
@@ -154,13 +154,18 @@ MONSTERS[1] = new monster({
 	turboable: true,
 	tactics: function() {
 		var monsterCount = COMBAT.getMonsterCount();
-		// 40% chance to spawn a monster if <6 monsters
-		if(monsterCount < 6 && rand(1, 100) >= 60) {
+		
+		if(monsterCount == 1) { // all alone
 			COMBAT.addMonsters(0);
+			log(this.name + ' spawns a ' + MONSTERS[0].name + '!');
+		} else if(monsterCount < 6 && rand(1, 100) >= 60) { // 40% chance to spawn a monster if <6 monsters
+			COMBAT.addMonsters(0);
+			log(this.name + ' spawns a ' + MONSTERS[0].name + '!');
 			
 			// another 60% chance to spawn another one if there's still room
 			if(monsterCount+1 < 6 && rand(1, 100) >= 40) {
 				COMBAT.addMonsters(0);
+				log(this.name + ' spawns a ' + MONSTERS[0].name + '!');
 			}
 			
 			this.charged = false;
@@ -175,18 +180,90 @@ MONSTERS[1] = new monster({
 
 MONSTERS[2] = new monster({
 	name: 'Murk Dweller',
-	accuracy: 8,
-	damage: {min: 4, max: 7, type: ELEM_PHYS},
+	accuracy: 7,
+	damage: {min: 3, max: 9, type: ELEM_EARTH},
 	target: TARGET_RANDOM_HERO,
 	attackIsDodgeable: true,
-	life: 15,
+	life: 16,
 	randomLife: 10,
 	image: 'murk_dweller',
-	resistances: [10, 10, 10, 10, -25, -25, -25],
+	resistances: [15, 25, 25, 75, 25, -25, -25, -25],
 	experience: 160,
-	dodge: 8,
+	dodge: 6,
 	treasureClass: 1,
 	speed: 6,
+	initBonus: 0,
+	turboable: true
+});
+
+MONSTERS[3] = new monster({
+	name: 'Cinder Imp',
+	accuracy: 10,
+	damage: {min: 4, max: 8, type: ELEM_FIRE},
+	target: TARGET_RANDOM_HERO,
+	attackIsDodgeable: true,
+	life: 10,
+	randomLife: 16,
+	image: 'fire_imp',
+	resistances: [0, 80, 0, 0, 0, 0, 0, 0],
+	experience: 250,
+	dodge: 8,
+	treasureClass: 1,
+	speed: 9,
+	initBonus: 1,
+	turboable: true
+});
+
+MONSTERS[4] = new monster({
+	name: 'Sky Imp',
+	accuracy: 10,
+	damage: {min: 1, max: 12, type: ELEM_AIR},
+	target: TARGET_RANDOM_HERO,
+	attackIsDodgeable: true,
+	life: 10,
+	randomLife: 8,
+	image: 'air_imp',
+	resistances: [0, 0, 0, 0, 80, 0, 0, 0],
+	experience: 250,
+	dodge: 16,
+	treasureClass: 1,
+	speed: 10,
+	initBonus: 6,
+	turboable: true
+});
+
+MONSTERS[5] = new monster({
+	name: 'Stone Imp',
+	accuracy: 10,
+	damage: {min: 6, max: 6, type: ELEM_EARTH},
+	target: TARGET_RANDOM_HERO,
+	attackIsDodgeable: true,
+	life: 22,
+	randomLife: 10,
+	image: 'earth_imp',
+	resistances: [0, 0, 0, 80, 0, 0, 0, 0],
+	experience: 250,
+	dodge: 4,
+	treasureClass: 1,
+	speed: 4,
+	initBonus: 3,
+	turboable: true
+});
+
+MONSTERS[6] = new monster({
+	name: 'River Imp',
+	accuracy: 10,
+	damage: {min: 5, max: 10, type: ELEM_WATER},
+	target: TARGET_RANDOM_HERO,
+	attackIsDodgeable: true,
+	life: 5,
+	randomLife: 35,
+	image: 'water_imp',
+	resistances: [0, 0, 80, 0, 0, 0, 0, 0],
+	experience: 250,
+	dodge: 7,
+	treasureClass: 1,
+	speed: 10,
 	initBonus: 0,
 	turboable: true
 });
